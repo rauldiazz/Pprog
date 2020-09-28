@@ -6,5 +6,5 @@
 int main(){
 
     printf("Esto es una prueba\n");
-    HOLA
+    HOLAPABLO
 }
