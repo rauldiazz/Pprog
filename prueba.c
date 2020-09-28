@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*Esto es un comentario jejej */
 
 int main(){
 
