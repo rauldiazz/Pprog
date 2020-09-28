@@ -3,5 +3,5 @@
 
 
 int main(){
-    printf("Esto es una prieba\n);
+    printf("Esto es una prueba\n");
 }
