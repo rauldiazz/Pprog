@@ -28,8 +28,8 @@ typedef unsigned long long U64;
 #define START_FEN  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 enum { EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK  };
-enum { FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NONE };
-enum { RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NONE };
+enum { FILA_A, FILA_B, FILA_C, FILA_D, FILA_E, FILA_F, FILA_G, FILA_H, FILA_NONE };
+enum { COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7, COL_8, COL_NONE };
 
 enum { WHITE, BLACK, BOTH };
 
@@ -61,18 +61,18 @@ typedef struct {
 typedef struct {
 
 	int pieces[BRD_SQ_NUM];
-	U64 pawns[3];
+//	U64 pawns[3];
 		
-	int KingSq[2];
+//	int KingSq[2];
 	
 	int side;
-	int enPas;
+	int AlPaso;
 	int fiftyMove;
 	
-	int ply;
-	int hisPly;
+	int jugadas_ind;
+	int jugadas;
 	
-	int castlePerm;
+	int enroque;
 	
 	U64 posKey;
 	
