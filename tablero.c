@@ -24,7 +24,7 @@ int CheckBoard(const S_BOARD *pos) {
 			ASSERT(pos->pieces[sq120]==t_piece);
 		}	
 	}
-	
+
 	// check piece count and other counters	
 	for(sq64 = 0; sq64 < 64; ++sq64) {
 		sq120 = SQ120(sq64);
