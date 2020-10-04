@@ -62,14 +62,15 @@ typedef struct {
 	int pieces[BRD_SQ_NUM];
 //	U64 pawns[3];
 		
-//	int KingSq[2];
+	int KingSq[2];
 	
 	int side;
 	int AlPaso;
 	int fiftyMove;
 	
-	int jugadas_ind;
-	int jugadas;
+
+	int j_im; 
+	int j_real;
 	
 	int enroque;
 	
