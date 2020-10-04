@@ -20,7 +20,6 @@ exit(1);}
 
 typedef unsigned long long U64;
 
-#define NAME "Vice 1.0"
 #define BRD_SQ_NUM 120
 
 #define MAXGAMEMOVES 2048
@@ -49,10 +48,10 @@ enum { FALSE, TRUE };
 enum { WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8 };
 
 typedef struct {
-	
-	int move;
-	int castlePerm;
-	int enPas;
+
+	int jugada;
+	int enroque;
+	int AlPaso;
 	int fiftyMove;
 	U64 posKey;
 
@@ -87,7 +86,7 @@ typedef struct {
 	// piece list
 	int pList[13][10];	
 	
-} S_BOARD;
+} TABLERO;
 
 /* MACROS */
 
@@ -133,13 +132,13 @@ extern int PopBit(U64 *bb);
 extern int CountBits(U64 b);
 
 // hashkeys.c
-extern U64 GeneratePosKey(const S_BOARD *pos);
+extern U64 GeneratePosKey(const TABLERO *pos);
 
 // board.c
-extern void ResetBoard(S_BOARD *pos);
-extern int ParseFen(char *fen, S_BOARD *pos);
-extern void PrintBoard(const S_BOARD *pos);
-extern void UpdateListsMaterial(S_BOARD *pos);
-extern int CheckBoard(const S_BOARD *pos);
+extern void ResetBoard(TABLERO *pos);
+extern int ParseFen(char *fen, TABLERO *pos);
+extern void PrintBoard(const TABLERO *pos);
+extern void UpdateListsMaterial(TABLERO *pos);
+extern int CheckBoard(const TABLERO *pos);
 
 #endif
