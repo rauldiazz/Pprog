@@ -20,7 +20,7 @@ exit(1);}
 
 typedef unsigned long long U64;
 
-#define BRD_SQ_NUM 120
+#define NUM_CASILLAS 120
 
 #define MAXGAMEMOVES 2048
 
@@ -59,7 +59,7 @@ typedef struct {
 
 typedef struct {
 
-	int pieces[BRD_SQ_NUM];
+	int pieces[NUM_CASILLAS];
 //	U64 pawns[3];
 		
 	int KingSq[2];
@@ -91,17 +91,17 @@ typedef struct {
 
 /* MACROS */
 
-#define FR2SQ(f,r) ( (21 + (f) ) + ( (r) * 10 ) ) 
+#define FCCAS(f,r) ( (21 + (f) ) + ( (r) * 10 ) ) 
 //#define SQ64(sq120) (Sq120ToSq64[(sq120)])
 //#define SQ120(sq64) (Sq64ToSq120[(sq64)])
-#define POP(b) PopBit(b)
-#define CNT(b) CountBits(b)
-#define CLRBIT(bb,sq) ((bb) &= ClearMask[(sq)])
-#define SETBIT(bb,sq) ((bb) |= SetMask[(sq)])
+//#define POP(b) PopBit(b)
+//#define CNT(b) CountBits(b)
+//#define CLRBIT(bb,sq) ((bb) &= ClearMask[(sq)])
+//#define SETBIT(bb,sq) ((bb) |= SetMask[(sq)])
 
 /* GLOBALS */
 
-//extern int Sq120ToSq64[BRD_SQ_NUM];
+//extern int Sq120ToSq64[NUM_CASILLAS];
 //extern int Sq64ToSq120[64];
 extern U64 SetMask[64];
 extern U64 ClearMask[64];
@@ -119,8 +119,8 @@ extern int PieceMin[13];
 extern int PieceVal[13];
 extern int PieceCol[13];
 
-extern int FilesBrd[BRD_SQ_NUM];
-extern int RanksBrd[BRD_SQ_NUM];
+extern int FilesBrd[NUM_CASILLAS];
+extern int RanksBrd[NUM_CASILLAS];
 
 /* FUNCTIONS */
 
@@ -128,9 +128,9 @@ extern int RanksBrd[BRD_SQ_NUM];
 extern void AllInit();
 
 // bitboards.c
-extern void PrintBitBoard(U64 bb);
+/*extern void PrintBitBoard(U64 bb);
 extern int PopBit(U64 *bb);
-extern int CountBits(U64 b);
+extern int CountBits(U64 b);*/
 
 // hashkeys.c
 extern U64 GeneratePosKey(const TABLERO *pos);

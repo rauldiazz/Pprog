@@ -8,7 +8,7 @@
 					(U64)rand() << 45 | \
 					((U64)rand() & 0xf) << 60 )  
 					
-int Sq120ToSq64[BRD_SQ_NUM];
+int Sq120ToSq64[NUM_CASILLAS];
 int Sq64ToSq120[64];
 
 U64 SetMask[64];
@@ -18,8 +18,8 @@ U64 PieceKeys[13][120];
 U64 SideKey;
 U64 CastleKeys[16];
 
-int FILAsBrd[BRD_SQ_NUM];
-int COLsBrd[BRD_SQ_NUM];
+int FILAsBrd[NUM_CASILLAS];
+int COLsBrd[NUM_CASILLAS];
 
 void InitFILAsCOLsBrd() {
 	
@@ -29,14 +29,14 @@ void InitFILAsCOLsBrd() {
 	int sq = A1;
 	int sq64 = 0;
 	
-	for(index = 0; index < BRD_SQ_NUM; ++index) {
+	for(index = 0; index < NUM_CASILLAS; ++index) {
 		FILAsBrd[index] = OFFBOARD;
 		COLsBrd[index] = OFFBOARD;
 	}
 	
 	for(columna = COL_1; columna <= COL_8; ++columna) {
 		for(fila = FILA_A; fila <= FILA_H; ++fila) {
-			sq = FR2SQ(fila,columna);
+			sq = FCCAS(fila,columna);
 			FILAsBrd[sq] = fila;
 			COLsBrd[sq] = columna;
 		}
@@ -80,7 +80,7 @@ void InitBitMasks() {
 	int columna= COL_1;
 	int sq = A1;
 	int sq64 = 0;
-	for(index = 0; index < BRD_SQ_NUM; ++index) {
+	for(index = 0; index < NUM_CASILLAS; ++index) {
 		Sq120ToSq64[index] = 65;
 	}
 	
@@ -90,7 +90,7 @@ void InitBitMasks() {
 	
 	for(columna = COL_1; columna <= COL_8; ++columna) {
 		for(fila = FILA_A; fila <= FILA_H; ++fila) {
-			sq = FR2SQ(fila,columna);
+			sq = FCCAS(fila,columna);
 			Sq64ToSq120[sq64] = sq;
 			Sq120ToSq64[sq] = sq64;
 			sq64++;

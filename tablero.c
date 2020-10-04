@@ -15,7 +15,7 @@ int C64a120 (int c64){
 int C120a64 (int c120){
 	int resta, resto, cociente;
 	resta = c120- 21;
-	if(resta<0 || resta >77 || (resta % 10) >= 8) return NO_SQ;
+	if(resta<0 || resta >77 || (resta % 10) >= 8) return OFFBOARD;
 	resto = resta % 10;
 	cociente = (resta-resto)/10;
 	return cociente*8 + resto;
@@ -47,7 +47,7 @@ int CheckBoard(const TABLERO *pos) {
 
 	// check piece count and other counters	
 	for(sq64 = 0; sq64 < 64; ++sq64) {
-		sq120 = SQ120(sq64);
+		sq120 = C64a120(sq64);
 		t_piece = pos->pieces[sq120];
 		t_pceNum[t_piece]++;
 		colour = PieceCol[t_piece];
@@ -107,7 +107,7 @@ void UpdateListsMaterial(TABLERO *pos) {
 	
 	int piece,sq,index,colour;
 	
-	for(index = 0; index < BRD_SQ_NUM; ++index) {
+	for(index = 0; index < NUM_CASILLAS; ++index) {
 		sq = index;
 		piece = pos->pieces[index];
 		if(piece!=OFFBOARD && piece!= EMPTY) {
@@ -141,13 +141,8 @@ int ParseFen(char *fen, TABLERO *pos) {
 	ASSERT(fen!=NULL);
 	ASSERT(pos!=NULL);
 	
-	int  col = COL_8;
-    int  fila = FILA_A;
-    int  piece = 0;
-    int  count = 0;
-    int  i = 0; 
-	int  sq64 = 0; 
-	int  sq120 = 0;
+	int  col = COL_8, fila = FILA_A, piece = 0, count = 0, i = 0,  c64 = 0, c120 = 0;
+	short flag =0;
 	
 	ResetBoard(pos);
 	
@@ -184,7 +179,7 @@ int ParseFen(char *fen, TABLERO *pos) {
                 col--;
                 fila = FILA_A;
                 fen++;
-                continue;              
+                break;              
 
             default:
                 printf("FEN error \n");
@@ -192,10 +187,10 @@ int ParseFen(char *fen, TABLERO *pos) {
         }		
 		
 		for (i = 0; i < count; i++) {			
-            sq64 = col * 8 + fila;
-			sq120 = SQ120(sq64);
+            c64 = col * 8 + fila;
+			c120 = C64a120(c64);
             if (piece != EMPTY) {
-                pos->pieces[sq120] = piece;
+                pos->pieces[c120] = piece;
             }
 			fila++;
         }
@@ -204,19 +199,19 @@ int ParseFen(char *fen, TABLERO *pos) {
 	
 	ASSERT(*fen == 'w' || *fen == 'b');
 	
-	pos->side = (*fen == 'w') ? WHITE : BLACK;
+	if(*fen == 'w') pos->side = WHITE;
+	else pos->side = BLACK;
 	fen += 2;
 	
-	for (i = 0; i < 4; i++) {
-        if (*fen == ' ') {
-            break;
-        }		
+	pos->enroque = 0;
+	for (i = 0, flag = 1; i < 4 && flag == 1; i++) {
+        //if (*fen == ' ') flag = 0;	
 		switch(*fen) {
-			case 'K': pos->enroque |= WKCA; break;
-			case 'Q': pos->enroque |= WQCA; break;
-			case 'k': pos->enroque |= BKCA; break;
-			case 'q': pos->enroque |= BQCA; break;
-			default:	     break;
+			case 'K': pos->enroque += WKCA; break;
+			case 'Q': pos->enroque += WQCA; break;
+			case 'k': pos->enroque += BKCA; break;
+			case 'q': pos->enroque += BQCA; break;
+			default: flag = 0;
         }
 		fen++;
 	}
@@ -231,9 +226,36 @@ int ParseFen(char *fen, TABLERO *pos) {
 		ASSERT(fila>=FILA_A && fila <= FILA_H);
 		ASSERT(col>=COL_1 && col <= COL_8);
 		
-		pos->AlPaso = FR2SQ(fila,col);		
+		pos->AlPaso = FCCAS(fila,col);
+		fen++;	
     }
-	
+	fen += 2;
+
+	if(fen[1] == ' '){
+		pos->fiftyMove = fen[0] - '0';
+	}
+	else{
+		pos->fiftyMove = (fen[0] - '0')*10 + (fen[1] - '0');
+		fen++;
+	}
+	fen+=2;
+
+	if(fen[1] == '\0'){
+		pos->j_real = 2*(fen[0]-'0') + pos->side;
+	}
+	else if(fen[2] == '\0'){
+		pos->j_real = 2*((fen[1]-'0')*10 + (fen[0]-'0')) + pos->side;
+	}
+	else if(fen[3] == '\0'){
+		pos->j_real = 2*((fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side;
+	}
+	else if (fen[4] == '\0'){
+		pos->j_real = 2*((fen[3]-'0')*1000 + (fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side;
+	}
+	else return -1;
+	pos->j_im = pos->j_real;
+
+
 	pos->posKey = GeneratePosKey(pos); 
 	
 	UpdateListsMaterial(pos);
@@ -243,27 +265,16 @@ int ParseFen(char *fen, TABLERO *pos) {
 
 void ResetBoard(TABLERO *pos) {
 
-	int index = 0;
-	
-	for(index = 0; index < BRD_SQ_NUM; ++index) {
-		pos->pieces[index] = OFFBOARD;
+	int i = 0;
+
+	for(i = 0; i < NUM_CASILLAS; ++i) {
+		pos->pieces[i] = OFFBOARD;
 	}
-	
-	for(index = 0; index < 64; ++index) {
-		pos->pieces[SQ120(index)] = EMPTY;
+
+	for(i = 0; i < 64; ++i) {
+		pos->pieces[C64a120(i)] = EMPTY;
 	}
-	
-	for(index = 0; index < 3; ++index) {
-		pos->bigPce[index] = 0;
-		pos->majPce[index] = 0;
-		pos->minPce[index] = 0;
-	//	pos->pawns[index] = 0ULL;
-	}
-	
-	for(index = 0; index < 13; ++index) {
-		pos->pceNum[index] = 0;
-	}
-	
+
 	pos->KingSq[WHITE] = pos->KingSq[BLACK] = NO_SQ;
 	
 	pos->side = BOTH;
@@ -276,6 +287,18 @@ void ResetBoard(TABLERO *pos) {
 	pos->enroque = 0;
 	
 	pos->posKey = 0ULL;
+
+	for(i = 0; i < 3; ++i) {
+		pos->bigPce[i] = 0;
+		pos->majPce[i] = 0;
+		pos->minPce[i] = 0;
+	//	pos->pawns[i] = 0ULL;
+	}
+	
+	for(i = 0; i < 13; ++i) {
+		pos->pceNum[i] = 0;
+	}
+	//Falta piece list ya veremos que hacemos con eso más tarde
 	
 }
 void PrintBoard(const TABLERO *pos) {
@@ -287,7 +310,7 @@ void PrintBoard(const TABLERO *pos) {
 	for(col = COL_8; col >= COL_1; col--) {
 		printf("%d  ",col+1);
 		for(fila = FILA_A; fila <= FILA_H; fila++) {
-			sq = FR2SQ(fila,col);
+			sq = FCCAS(fila,col);
 			piece = pos->pieces[sq];
 			printf("%3c",PceChar[piece]);
 		}
