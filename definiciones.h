@@ -92,8 +92,8 @@ typedef struct {
 /* MACROS */
 
 #define FR2SQ(f,r) ( (21 + (f) ) + ( (r) * 10 ) ) 
-#define SQ64(sq120) (Sq120ToSq64[(sq120)])
-#define SQ120(sq64) (Sq64ToSq120[(sq64)])
+//#define SQ64(sq120) (Sq120ToSq64[(sq120)])
+//#define SQ120(sq64) (Sq64ToSq120[(sq64)])
 #define POP(b) PopBit(b)
 #define CNT(b) CountBits(b)
 #define CLRBIT(bb,sq) ((bb) &= ClearMask[(sq)])
@@ -101,8 +101,8 @@ typedef struct {
 
 /* GLOBALS */
 
-extern int Sq120ToSq64[BRD_SQ_NUM];
-extern int Sq64ToSq120[64];
+//extern int Sq120ToSq64[BRD_SQ_NUM];
+//extern int Sq64ToSq120[64];
 extern U64 SetMask[64];
 extern U64 ClearMask[64];
 extern U64 PieceKeys[13][120];
@@ -141,5 +141,7 @@ extern int ParseFen(char *fen, TABLERO *pos);
 extern void PrintBoard(const TABLERO *pos);
 extern void UpdateListsMaterial(TABLERO *pos);
 extern int CheckBoard(const TABLERO *pos);
+extern int C120a64(int c120);
+extern int C64a120(int c64);
 
 #endif

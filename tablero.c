@@ -4,7 +4,27 @@
 #include "stdio.h"
 #include "definiciones.h"
 
-int CheckBoard(const TABLERO *pos) {   
+
+int C64a120 (int c64){
+	int resto;
+	int cociente;
+
+	resto = c64 % 8;
+	cociente = (c64-resto)/8;
+	return (cociente*10 + resto + 21);
+}
+
+
+int C120a64 (int c120){
+	int resta, resto, cociente;
+	resta = c120- 21;
+	if(resta<0 || resta >77 || (resta % 10) >= 8) return NO_SQ;
+	resto = resta % 10;
+	cociente = (resta-resto)/10;
+	return cociente*8 + resto;
+}
+
+int CheckBoard(const S_BOARD *pos) {   
  
 	int t_pceNum[13] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	int t_bigPce[2] = { 0, 0};
@@ -14,11 +34,11 @@ int CheckBoard(const TABLERO *pos) {
 	
 	int sq64,t_piece,t_pce_num,sq120,colour,pcount;
 	
-	//U64 t_pawns[3] = {0ULL, 0ULL, 0ULL};
+	U64 t_pawns[3] = {0ULL, 0ULL, 0ULL};
 	
-	//t_pawns[WHITE] = pos->pawns[WHITE];
-	//t_pawns[BLACK] = pos->pawns[BLACK];
-	//t_pawns[BOTH] = pos->pawns[BOTH];
+	t_pawns[WHITE] = pos->pawns[WHITE];
+	t_pawns[BLACK] = pos->pawns[BLACK];
+	t_pawns[BOTH] = pos->pawns[BOTH];
 	
 	// check piece lists
 	for(t_piece = wP; t_piece <= bK; ++t_piece) {
@@ -46,15 +66,15 @@ int CheckBoard(const TABLERO *pos) {
 	}
 	
 	// check bitboards count
-	/*pcount = CNT(t_pawns[WHITE]);
+	pcount = CNT(t_pawns[WHITE]);
 	ASSERT(pcount == pos->pceNum[wP]);
 	pcount = CNT(t_pawns[BLACK]);
 	ASSERT(pcount == pos->pceNum[bP]);
 	pcount = CNT(t_pawns[BOTH]);
-	ASSERT(pcount == (pos->pceNum[bP] + pos->pceNum[wP]));*/
+	ASSERT(pcount == (pos->pceNum[bP] + pos->pceNum[wP]));
 	
 	// check bitboards squares
-	/*while(t_pawns[WHITE]) {
+	while(t_pawns[WHITE]) {
 		sq64 = POP(&t_pawns[WHITE]);
 		ASSERT(pos->pieces[SQ120(sq64)] == wP);
 	}
@@ -67,7 +87,7 @@ int CheckBoard(const TABLERO *pos) {
 	while(t_pawns[BOTH]) {
 		sq64 = POP(&t_pawns[BOTH]);
 		ASSERT( (pos->pieces[SQ120(sq64)] == bP) || (pos->pieces[SQ120(sq64)] == wP) );
-	}*/
+	}
 	
 	ASSERT(t_material[WHITE]==pos->material[WHITE] && t_material[BLACK]==pos->material[BLACK]);
 	ASSERT(t_minPce[WHITE]==pos->minPce[WHITE] && t_minPce[BLACK]==pos->minPce[BLACK]);
@@ -77,8 +97,8 @@ int CheckBoard(const TABLERO *pos) {
 	ASSERT(pos->side==WHITE || pos->side==BLACK);
 	ASSERT(GeneratePosKey(pos)==pos->posKey);
 	
-	ASSERT(pos->AlPaso==NO_SQ || ( RanksBrd[pos->AlPaso]==COL_6 && pos->side == WHITE)
-		 || ( RanksBrd[pos->AlPaso]==COL_3 && pos->side == BLACK));
+	ASSERT(pos->enPas==NO_SQ || ( RanksBrd[pos->enPas]==RANK_6 && pos->side == WHITE)
+		 || ( RanksBrd[pos->enPas]==RANK_3 && pos->side == BLACK));
 	
 	ASSERT(pos->pieces[pos->KingSq[WHITE]] == wK);
 	ASSERT(pos->pieces[pos->KingSq[BLACK]] == bK);
@@ -86,7 +106,7 @@ int CheckBoard(const TABLERO *pos) {
 	return TRUE;	
 }
 
-void UpdateListsMaterial(TABLERO *pos) {	
+void UpdateListsMaterial(S_BOARD *pos) {	
 	
 	int piece,sq,index,colour;
 	
@@ -108,24 +128,24 @@ void UpdateListsMaterial(TABLERO *pos) {
 			if(piece==wK) pos->KingSq[WHITE] = sq;
 			if(piece==bK) pos->KingSq[BLACK] = sq;	
 			
-	/*		if(piece==wP) {
+			if(piece==wP) {
 				SETBIT(pos->pawns[WHITE],SQ64(sq));
 				SETBIT(pos->pawns[BOTH],SQ64(sq));
 			} else if(piece==bP) {
 				SETBIT(pos->pawns[BLACK],SQ64(sq));
 				SETBIT(pos->pawns[BOTH],SQ64(sq));
-			}*/
+			}
 		}
 	}
 }
 
-int ParseFen(char *fen, TABLERO *pos) {
+int ParseFen(char *fen, S_BOARD *pos) {
 	
 	ASSERT(fen!=NULL);
 	ASSERT(pos!=NULL);
 	
-	int  col = COL_8;
-    int  fila = FILA_A;
+	int  rank = RANK_8;
+    int  file = FILE_A;
     int  piece = 0;
     int  count = 0;
     int  i = 0; 
@@ -134,7 +154,7 @@ int ParseFen(char *fen, TABLERO *pos) {
 	
 	ResetBoard(pos);
 	
-	while ((col >= COL_1) && *fen) {
+	while ((rank >= RANK_1) && *fen) {
 	    count = 1;
 		switch (*fen) {
             case 'p': piece = bP; break;
@@ -164,8 +184,8 @@ int ParseFen(char *fen, TABLERO *pos) {
 
             case '/':
             case ' ':
-                col--;
-                fila = FILA_A;
+                rank--;
+                file = FILE_A;
                 fen++;
                 continue;              
 
@@ -175,12 +195,12 @@ int ParseFen(char *fen, TABLERO *pos) {
         }		
 		
 		for (i = 0; i < count; i++) {			
-            sq64 = col * 8 + fila;
+            sq64 = rank * 8 + file;
 			sq120 = SQ120(sq64);
             if (piece != EMPTY) {
                 pos->pieces[sq120] = piece;
             }
-			fila++;
+			file++;
         }
 		fen++;
 	}
@@ -195,26 +215,26 @@ int ParseFen(char *fen, TABLERO *pos) {
             break;
         }		
 		switch(*fen) {
-			case 'K': pos->enroque |= WKCA; break;
-			case 'Q': pos->enroque |= WQCA; break;
-			case 'k': pos->enroque |= BKCA; break;
-			case 'q': pos->enroque |= BQCA; break;
+			case 'K': pos->castlePerm |= WKCA; break;
+			case 'Q': pos->castlePerm |= WQCA; break;
+			case 'k': pos->castlePerm |= BKCA; break;
+			case 'q': pos->castlePerm |= BQCA; break;
 			default:	     break;
         }
 		fen++;
 	}
 	fen++;
 	
-	ASSERT(pos->enroque>=0 && pos->enroque <= 15);
+	ASSERT(pos->castlePerm>=0 && pos->castlePerm <= 15);
 	
 	if (*fen != '-') {        
-		fila = fen[0] - 'a';
-		col = fen[1] - '1';
+		file = fen[0] - 'a';
+		rank = fen[1] - '1';
 		
-		ASSERT(fila>=FILA_A && fila <= FILA_H);
-		ASSERT(col>=COL_1 && col <= COL_8);
+		ASSERT(file>=FILE_A && file <= FILE_H);
+		ASSERT(rank>=RANK_1 && rank <= RANK_8);
 		
-		pos->AlPaso = FR2SQ(fila,col);		
+		pos->enPas = FR2SQ(file,rank);		
     }
 	
 	pos->posKey = GeneratePosKey(pos); 
@@ -224,7 +244,7 @@ int ParseFen(char *fen, TABLERO *pos) {
 	return 0;
 }
 
-void ResetBoard(TABLERO *pos) {
+void ResetBoard(S_BOARD *pos) {
 
 	int index = 0;
 	
@@ -240,7 +260,7 @@ void ResetBoard(TABLERO *pos) {
 		pos->bigPce[index] = 0;
 		pos->majPce[index] = 0;
 		pos->minPce[index] = 0;
-	//	pos->pawns[index] = 0ULL;
+		pos->pawns[index] = 0ULL;
 	}
 	
 	for(index = 0; index < 13; ++index) {
@@ -250,27 +270,27 @@ void ResetBoard(TABLERO *pos) {
 	pos->KingSq[WHITE] = pos->KingSq[BLACK] = NO_SQ;
 	
 	pos->side = BOTH;
-	pos->AlPaso = NO_SQ;
+	pos->enPas = NO_SQ;
 	pos->fiftyMove = 0;
 	
-	pos->j_im = 0;
-	pos->j_real = 0;
+	pos->ply = 0;
+	pos->hisPly = 0;
 	
-	pos->enroque = 0;
+	pos->castlePerm = 0;
 	
 	pos->posKey = 0ULL;
 	
 }
-void PrintBoard(const TABLERO *pos) {
+void PrintBoard(const S_BOARD *pos) {
 	
-	int sq,fila,col,piece;
+	int sq,file,rank,piece;
 
 	printf("\nGame Board:\n\n");
 	
-	for(col = COL_8; col >= COL_1; col--) {
-		printf("%d  ",col+1);
-		for(fila = FILA_A; fila <= FILA_H; fila++) {
-			sq = FR2SQ(fila,col);
+	for(rank = RANK_8; rank >= RANK_1; rank--) {
+		printf("%d  ",rank+1);
+		for(file = FILE_A; file <= FILE_H; file++) {
+			sq = FR2SQ(file,rank);
 			piece = pos->pieces[sq];
 			printf("%3c",PceChar[piece]);
 		}
@@ -278,17 +298,17 @@ void PrintBoard(const TABLERO *pos) {
 	}
 	
 	printf("\n   ");
-	for(fila = FILA_A; fila <= FILA_H; fila++) {
-		printf("%3c",'a'+fila);	
+	for(file = FILE_A; file <= FILE_H; file++) {
+		printf("%3c",'a'+file);	
 	}
 	printf("\n");
 	printf("side:%c\n",SideChar[pos->side]);
-	printf("AlPaso:%d\n",pos->AlPaso);
+	printf("enPas:%d\n",pos->enPas);
 	printf("castle:%c%c%c%c\n",
-			pos->enroque & WKCA ? 'K' : '-',
-			pos->enroque & WQCA ? 'Q' : '-',
-			pos->enroque & BKCA ? 'k' : '-',
-			pos->enroque & BQCA ? 'q' : '-'	
+			pos->castlePerm & WKCA ? 'K' : '-',
+			pos->castlePerm & WQCA ? 'Q' : '-',
+			pos->castlePerm & BKCA ? 'k' : '-',
+			pos->castlePerm & BQCA ? 'q' : '-'	
 			);
 	printf("PosKey:%llX\n",pos->posKey);
 }
