@@ -19,26 +19,26 @@ U64 SideKey;
 U64 CastleKeys[16];
 
 int FILAsBrd[BRD_SQ_NUM];
-int COLUMNAsBrd[BRD_SQ_NUM];
+int COLsBrd[BRD_SQ_NUM];
 
-void InitFILAsCOLUMNAsBrd() {
+void InitFILAsCOLsBrd() {
 	
 	int index = 0;
-	int FILA = FILA_A;
-	int COLUMNA = COLUMNA_1;
+	int fila = FILA_A;
+	int columna = COL_1;
 	int sq = A1;
 	int sq64 = 0;
 	
 	for(index = 0; index < BRD_SQ_NUM; ++index) {
 		FILAsBrd[index] = OFFBOARD;
-		COLUMNAsBrd[index] = OFFBOARD;
+		COLsBrd[index] = OFFBOARD;
 	}
 	
-	for(COLUMNA = COLUMNA_1; COLUMNA <= COLUMNA_8; ++COLUMNA) {
-		for(FILA = FILA_A; FILA <= FILA_H; ++FILA) {
-			sq = FR2SQ(FILA,COLUMNA);
-			FILAsBrd[sq] = FILA;
-			COLUMNAsBrd[sq] = COLUMNA;
+	for(columna = COL_1; columna <= COL_8; ++columna) {
+		for(fila = FILA_A; fila <= FILA_H; ++fila) {
+			sq = FR2SQ(fila,columna);
+			FILAsBrd[sq] = fila;
+			COLsBrd[sq] = columna;
 		}
 	}
 }
@@ -77,7 +77,7 @@ void InitSq120To64() {
 
 	int index = 0;
 	int fila = FILA_A;
-	int columna= COLUMNA_1;
+	int columna= COL_1;
 	int sq = A1;
 	int sq64 = 0;
 	for(index = 0; index < BRD_SQ_NUM; ++index) {
@@ -88,9 +88,9 @@ void InitSq120To64() {
 		Sq64ToSq120[index] = 120;
 	}
 	
-	for(COLUMNA = COLUMNA_1; COLUMNA <= COLUMNA_8; ++COLUMNA) {
-		for(FILA = FILA_A; FILA <= FILA_H; ++FILA) {
-			sq = FR2SQ(FILA,COLUMNA);
+	for(columna = COL_1; columna <= COL_8; ++columna) {
+		for(fila = FILA_A; fila <= FILA_H; ++fila) {
+			sq = FR2SQ(fila,columna);
 			Sq64ToSq120[sq64] = sq;
 			Sq120ToSq64[sq] = sq64;
 			sq64++;
@@ -102,5 +102,5 @@ void AllInit() {
 	InitSq120To64();	
 	InitBitMasks();
 	InitHashKeys();	
-    InitFILAsCOLUMNAsBrd();
+    InitFILAsCOLsBrd();
 }
