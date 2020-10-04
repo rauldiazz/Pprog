@@ -73,7 +73,7 @@ void InitBitMasks() {
 	}
 }
 
-void InitSq120To64() {
+/*void InitSq120To64() {
 
 	int index = 0;
 	int fila = FILA_A;
@@ -96,10 +96,10 @@ void InitSq120To64() {
 			sq64++;
 		}
 	}
-}
+}*/
 
 void AllInit() {
-	InitSq120To64();	
+	//InitSq120To64();	
 	InitBitMasks();
 	InitHashKeys();	
     InitFILAsCOLsBrd();

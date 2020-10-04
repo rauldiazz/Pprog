@@ -2,6 +2,25 @@
 #include "stdio.h"
 #include "definiciones.h"
 
+int C64a120 (int c64){
+	int resto;
+	int cociente;
+
+	resto = c64 % 8;
+	cociente = (c64-resto)/8;
+	return (cociente*10 + resto + 21);
+}
+
+
+int C120a64 (int c120){
+	int resta, resto, cociente;
+	resta = c120- 21;
+	if(resta<0 || resta >77 || (resta % 10) >= 8) return NO_SQ;
+	resto = resta % 10;
+	cociente = (resta-resto)/10;
+	return cociente*8 + resto;
+}
+
 int CheckBoard(const TABLERO *pos) {   
  
 	int t_pceNum[13] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
