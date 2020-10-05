@@ -141,7 +141,7 @@ int LeerFen(char *fen, TABLERO *pos) {
 	ASSERT(fen!=NULL);
 	ASSERT(pos!=NULL);
 	
-	int  fila = FILA_8, cod = COL_A, piece = 0, count = 0, i = 0,  c64 = 0, c120 = 0;
+	int  fila = FILA_8, col = COL_A, piece = 0, count = 0, i = 0,  c64 = 0, c120 = 0;
 	short flag =0;
 	
 	ResetBoard(pos);
