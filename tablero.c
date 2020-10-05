@@ -136,7 +136,7 @@ void UpdateListsMaterial(TABLERO *pos) {
 	}
 }
 
-int ParseFen(char *fen, TABLERO *pos) {
+int LeerFen(char *fen, TABLERO *pos) {
 	
 	ASSERT(fen!=NULL);
 	ASSERT(pos!=NULL);

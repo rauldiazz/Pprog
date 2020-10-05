@@ -137,7 +137,7 @@ extern U64 GeneratePosKey(const TABLERO *pos);
 
 // board.c
 extern void ResetBoard(TABLERO *pos);
-extern int ParseFen(char *fen, TABLERO *pos);
+extern int LeerFen(char *fen, TABLERO *pos);
 extern void PrintBoard(const TABLERO *pos);
 extern void UpdateListsMaterial(TABLERO *pos);
 extern int CheckBoard(const TABLERO *pos);
