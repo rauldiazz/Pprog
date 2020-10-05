@@ -27,8 +27,8 @@ typedef unsigned long long U64;
 #define START_FEN  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 enum { EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK  };
-enum { FILA_A, FILA_B, FILA_C, FILA_D, FILA_E, FILA_F, FILA_G, FILA_H, FILA_NONE };
-enum { COL_1, COL_2, COL_3, COL_4, COL_5, COL_6, COL_7, COL_8, COL_NONE };
+enum { COL_A, COL_B, COL_C, COL_D, COL_E, COL_F, COL_G, COL_H, COL_NONE };
+enum { FILA_1, FILA_2, FILA_3, FILA_4, FILA_5, FILA_6, FILA_7, FILA_8, FILA_NONE };
 
 enum { WHITE, BLACK, BOTH };
 
