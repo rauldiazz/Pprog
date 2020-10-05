@@ -241,16 +241,16 @@ int LeerFen(char *fen, TABLERO *pos) {
 	fen+=2;
 
 	if(fen[1] == '\0'){
-		pos->j_real = 2*(fen[0]-'0') + pos->side;
+		pos->j_real = 2*(fen[0]-'0') + pos->side-1;
 	}
 	else if(fen[2] == '\0'){
-		pos->j_real = 2*((fen[1]-'0')*10 + (fen[0]-'0')) + pos->side;
+		pos->j_real = 2*((fen[1]-'0')*10 + (fen[0]-'0')) + pos->side-1;
 	}
 	else if(fen[3] == '\0'){
-		pos->j_real = 2*((fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side;
+		pos->j_real = 2*((fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side-1;
 	}
 	else if (fen[4] == '\0'){
-		pos->j_real = 2*((fen[3]-'0')*1000 + (fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side;
+		pos->j_real = 2*((fen[3]-'0')*1000 + (fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side -1;
 	}
 	else return -1;
 	pos->j_im = pos->j_real;
