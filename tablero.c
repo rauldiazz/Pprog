@@ -178,7 +178,7 @@ int ParseFen(char *fen, TABLERO *pos) {
             case ' ':
                 col--;
                 fila = FILA_A;
-                fen++;
+                count=0;
                 break;              
 
             default:
