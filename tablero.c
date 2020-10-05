@@ -92,10 +92,10 @@ int CheckBoard(const TABLERO *pos) {
 	ASSERT(t_bigPce[WHITE]==pos->bigPce[WHITE] && t_bigPce[BLACK]==pos->bigPce[BLACK]);	
 	
 	ASSERT(pos->side==WHITE || pos->side==BLACK);
-	ASSERT(GeneratePosKey(pos)==pos->posKey);
+	//ASSERT(GeneratePosKey(pos)==pos->posKey);
 	
-	ASSERT(pos->AlPaso==NO_SQ || ( RanksBrd[pos->AlPaso]==COL_6 && pos->side == WHITE)
-		 || ( RanksBrd[pos->AlPaso]==COL_3 && pos->side == BLACK));
+	ASSERT(pos->AlPaso==NO_SQ || ( RanksBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
+		 || ( RanksBrd[pos->AlPaso]==FILA_3 && pos->side == BLACK));
 	
 	ASSERT(pos->pieces[pos->KingSq[WHITE]] == wK);
 	ASSERT(pos->pieces[pos->KingSq[BLACK]] == bK);
@@ -141,12 +141,12 @@ int LeerFen(char *fen, TABLERO *pos) {
 	ASSERT(fen!=NULL);
 	ASSERT(pos!=NULL);
 	
-	int  col = COL_8, fila = FILA_A, piece = 0, count = 0, i = 0,  c64 = 0, c120 = 0;
+	int  fila = FILA_8, cod = COL_A, piece = 0, count = 0, i = 0,  c64 = 0, c120 = 0;
 	short flag =0;
 	
 	ResetBoard(pos);
 	
-	while ((col >= COL_1) && *fen) {
+	while ((fila >= FILA_1) && *fen) {
 	    count = 1;
 		switch (*fen) {
             case 'p': piece = bP; break;
@@ -176,8 +176,8 @@ int LeerFen(char *fen, TABLERO *pos) {
 
             case '/':
             case ' ':
-                col--;
-                fila = FILA_A;
+                fila--;
+                col = COL_A;
                 count=0;
                 break;              
 
@@ -187,12 +187,12 @@ int LeerFen(char *fen, TABLERO *pos) {
         }		
 		
 		for (i = 0; i < count; i++) {			
-            c64 = col * 8 + fila;
+            c64 = fila * 8 + col;
 			c120 = C64a120(c64);
             if (piece != EMPTY) {
                 pos->pieces[c120] = piece;
             }
-			fila++;
+			col++;
         }
 		fen++;
 	}
@@ -220,13 +220,13 @@ int LeerFen(char *fen, TABLERO *pos) {
 	ASSERT(pos->enroque>=0 && pos->enroque <= 15);
 	
 	if (*fen != '-') {        
-		fila = fen[0] - 'a';
-		col = fen[1] - '1';
+		col = fen[0] - 'a';
+		fila = fen[1] - '1';
 		
-		ASSERT(fila>=FILA_A && fila <= FILA_H);
-		ASSERT(col>=COL_1 && col <= COL_8);
+		ASSERT(col>=COL_A && col <= COL_H);
+		ASSERT(fila>=FILA_1 && fila <= FILA_8);
 		
-		pos->AlPaso = FCCAS(fila,col);
+		pos->AlPaso = FCCAS(col,fila);
 		fen++;	
     }
 	fen += 2;
@@ -286,9 +286,9 @@ void ResetBoard(TABLERO *pos) {
 	
 	pos->enroque = 0;
 	
-	pos->posKey = 0ULL;
+	//pos->posKey = 0ULL;
 
-	for(i = 0; i < 3; ++i) {
+	for(i = 0; i < 2; ++i) {
 		pos->bigPce[i] = 0;
 		pos->majPce[i] = 0;
 		pos->minPce[i] = 0;
@@ -307,10 +307,10 @@ void PrintBoard(const TABLERO *pos) {
 
 	printf("\nGame Board:\n\n");
 	
-	for(col = COL_8; col >= COL_1; col--) {
+	for(fila = FILA_8; fila >= FILA_1; fila--) {
 		printf("%d  ",col+1);
-		for(fila = FILA_A; fila <= FILA_H; fila++) {
-			sq = FCCAS(fila,col);
+		for(col = COL_A; col <= COL_H; col++) {
+			sq = FCCAS(col,fila);
 			piece = pos->pieces[sq];
 			printf("%3c",PceChar[piece]);
 		}
@@ -318,8 +318,8 @@ void PrintBoard(const TABLERO *pos) {
 	}
 	
 	printf("\n   ");
-	for(fila = FILA_A; fila <= FILA_H; fila++) {
-		printf("%3c",'a'+fila);	
+	for(col = COL_A; col <= COL_H; col++) {
+		printf("%3c",'a'+col);	
 	}
 	printf("\n");
 	printf("side:%c\n",SideChar[pos->side]);
