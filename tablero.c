@@ -31,11 +31,6 @@ int CheckBoard(const TABLERO *pos) {
 	
 	int sq64,t_piece,t_pce_num,sq120,colour,pcount;
 	
-	//U64 t_pawns[3] = {0ULL, 0ULL, 0ULL};
-	
-	//t_pawns[WHITE] = pos->pawns[WHITE];
-	//t_pawns[BLACK] = pos->pawns[BLACK];
-	//t_pawns[BOTH] = pos->pawns[BOTH];
 	
 	// check piece lists
 	for(t_piece = wP; t_piece <= bK; ++t_piece) {
@@ -62,29 +57,6 @@ int CheckBoard(const TABLERO *pos) {
 		ASSERT(t_pceNum[t_piece]==pos->pceNum[t_piece]);	
 	}
 	
-	// check bitboards count
-	/*pcount = CNT(t_pawns[WHITE]);
-	ASSERT(pcount == pos->pceNum[wP]);
-	pcount = CNT(t_pawns[BLACK]);
-	ASSERT(pcount == pos->pceNum[bP]);
-	pcount = CNT(t_pawns[BOTH]);
-	ASSERT(pcount == (pos->pceNum[bP] + pos->pceNum[wP]));*/
-	
-	// check bitboards squares
-	/*while(t_pawns[WHITE]) {
-		sq64 = POP(&t_pawns[WHITE]);
-		ASSERT(pos->pieces[SQ120(sq64)] == wP);
-	}
-	
-	while(t_pawns[BLACK]) {
-		sq64 = POP(&t_pawns[BLACK]);
-		ASSERT(pos->pieces[SQ120(sq64)] == bP);
-	}
-	
-	while(t_pawns[BOTH]) {
-		sq64 = POP(&t_pawns[BOTH]);
-		ASSERT( (pos->pieces[SQ120(sq64)] == bP) || (pos->pieces[SQ120(sq64)] == wP) );
-	}*/
 	
 	ASSERT(t_material[WHITE]==pos->material[WHITE] && t_material[BLACK]==pos->material[BLACK]);
 	ASSERT(t_minPce[WHITE]==pos->minPce[WHITE] && t_minPce[BLACK]==pos->minPce[BLACK]);
@@ -92,7 +64,6 @@ int CheckBoard(const TABLERO *pos) {
 	ASSERT(t_bigPce[WHITE]==pos->bigPce[WHITE] && t_bigPce[BLACK]==pos->bigPce[BLACK]);	
 	
 	ASSERT(pos->side==WHITE || pos->side==BLACK);
-	//ASSERT(GeneratePosKey(pos)==pos->posKey);
 	
 	ASSERT(pos->AlPaso==NO_SQ || ( RanksBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
 		 || ( RanksBrd[pos->AlPaso]==FILA_3 && pos->side == BLACK));
@@ -103,38 +74,35 @@ int CheckBoard(const TABLERO *pos) {
 	return TRUE;	
 }
 
+
 void UpdateListsMaterial(TABLERO *pos) {	
 	
-	int piece,sq,index,colour;
+	int pieza,cas,i,color;
 	
-	for(index = 0; index < NUM_CASILLAS; ++index) {
-		sq = index;
-		piece = pos->pieces[index];
-		if(piece!=OFFBOARD && piece!= EMPTY) {
-			colour = PieceCol[piece];
+	pos->material[0] = 0;
+	pos->material[1] = 0;
+	for (i = 0; i < 13 ;i++) {
+		pos->pceNum[i] = 0;
+	}
+	for(i = 0; i < NUM_CASILLAS; i++) {
+		cas = i;
+		pieza = pos->pieces[i];
+		if(pieza!=OFFBOARD && pieza!= EMPTY) {
+			if(pieza <= wK) color = WHITE;
+			else color = BLACK;
 			
-		    if( PieceBig[piece] == TRUE) pos->bigPce[colour]++;
-		    if( PieceMin[piece] == TRUE) pos->minPce[colour]++;
-		    if( PieceMaj[piece] == TRUE) pos->majPce[colour]++;
+			pos->material[color] += PieceVal[pieza];
 			
-			pos->material[colour] += PieceVal[piece];
+			pos->pList[pieza][pos->pceNum[pieza]] = cas;
+			pos->pceNum[pieza]++;
 			
-			pos->pList[piece][pos->pceNum[piece]] = sq;
-			pos->pceNum[piece]++;
+			if(pieza==wK) pos->KingSq[WHITE] = cas;
+			if(pieza==bK) pos->KingSq[BLACK] = cas;	
 			
-			if(piece==wK) pos->KingSq[WHITE] = sq;
-			if(piece==bK) pos->KingSq[BLACK] = sq;	
-			
-	/*		if(piece==wP) {
-				SETBIT(pos->pawns[WHITE],SQ64(sq));
-				SETBIT(pos->pawns[BOTH],SQ64(sq));
-			} else if(piece==bP) {
-				SETBIT(pos->pawns[BLACK],SQ64(sq));
-				SETBIT(pos->pawns[BOTH],SQ64(sq));
-			}*/
 		}
 	}
 }
+
 
 int LeerFen(char *fen, TABLERO *pos) {
 	
@@ -254,9 +222,6 @@ int LeerFen(char *fen, TABLERO *pos) {
 	}
 	else return -1;
 	pos->j_im = pos->j_real;
-
-
-	pos->posKey = GeneratePosKey(pos); 
 	
 	UpdateListsMaterial(pos);
 	
@@ -286,19 +251,11 @@ void ResetBoard(TABLERO *pos) {
 	
 	pos->enroque = 0;
 	
-	//pos->posKey = 0ULL;
-
-	for(i = 0; i < 2; ++i) {
-		pos->bigPce[i] = 0;
-		pos->majPce[i] = 0;
-		pos->minPce[i] = 0;
-	//	pos->pawns[i] = 0ULL;
-	}
 	
 	for(i = 0; i < 13; ++i) {
 		pos->pceNum[i] = 0;
 	}
-	//Falta piece list ya veremos que hacemos con eso más tarde
+
 	
 }
 void PrintBoard(const TABLERO *pos) {
