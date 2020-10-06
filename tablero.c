@@ -281,7 +281,7 @@ void PrintBoard(const TABLERO *pos) {
 		for(col = COL_A; col <= COL_H; col++) {
 			pieza = FCCAS(col,fila);
 			piezan = pos->pieces[pieza];
-			printf("%c",PceChar[piezan]);
+			printf("%c",PceChar[piezan]);//he quitado %3c
 			printf(" ");
 		}
 		printf("\n");
