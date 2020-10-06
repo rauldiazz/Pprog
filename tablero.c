@@ -2,6 +2,9 @@
 #include "stdio.h"
 #include "definiciones.h"
 
+int PieceVal[13] = { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
+
+
 int C64a120 (int c64){
 	int resto;
 	int cociente;

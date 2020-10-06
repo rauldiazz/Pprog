@@ -95,7 +95,7 @@ extern char PceChar[];
 extern char SideChar[];
 extern char RankChar[];
 extern char FileChar[];
-extern int PieceVal[13] = { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
+extern int PieceVal[13];
 extern int PieceBig[13];
 extern int PieceMaj[13];
 extern int PieceMin[13];
