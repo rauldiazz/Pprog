@@ -2,6 +2,18 @@
 #include "stdio.h"
 #include "definiciones.h"
 
+char PceChar[] = ".♙♘♗♖♕♔♟♞♝♜♛♚";
+char SideChar[] = "wb-";
+char RankChar[] = "12345678";
+char FileChar[] = "abcdefgh";
+
+int PieceBig[13] = { FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE };
+int PieceMaj[13] = { FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE };
+int PieceMin[13] = { FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE };
+int PieceVal[13]= { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
+int PieceCol[13] = { BOTH, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE,
+	BLACK, BLACK, BLACK, BLACK, BLACK, BLACK };
+
 int PieceVal[13] = { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
 
 
@@ -258,25 +270,26 @@ void ResetBoard(TABLERO *pos) {
 
 	
 }
-/*void PrintBoard(const TABLERO *pos) {
+void PrintBoard(const TABLERO *pos) {
 	
-	int sq,fila,col,piece;
+	int pieza,fila,col,piezan;
 
 	printf("\nGame Board:\n\n");
 	
 	for(fila = FILA_8; fila >= FILA_1; fila--) {
 		printf("%d  ",col+1);
 		for(col = COL_A; col <= COL_H; col++) {
-			sq = FCCAS(col,fila);
-			piece = pos->pieces[sq];
-			printf("%3c",PceChar[piece]);
+			pieza = FCCAS(col,fila);
+			piezan = pos->pieces[pieza];
+			printf("%c",PceChar[piezan]);
+			printf(" ");
 		}
 		printf("\n");
 	}
 	
 	printf("\n   ");
 	for(col = COL_A; col <= COL_H; col++) {
-		printf("%3c",'a'+col);	
+		printf("%c",'a'+col);	
 	}
 	printf("\n");
 	printf("side:%c\n",SideChar[pos->side]);
@@ -287,8 +300,7 @@ void ResetBoard(TABLERO *pos) {
 			pos->enroque & BKCA ? 'k' : '-',
 			pos->enroque & BQCA ? 'q' : '-'	
 			);
-	printf("PosKey:%llX\n",pos->posKey);
-}*/
+}
 
 TABLERO* Create_tablero(){
 
