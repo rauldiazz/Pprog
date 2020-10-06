@@ -1,6 +1,6 @@
 #include "definiciones.h"
 
-char PceChar[] = ".PNBRQKpnbrqk";
+char PceChar[] = ".♙♘♗♖♕♔♟♞♝♜♛♚";
 char SideChar[] = "wb-";
 char RankChar[] = "12345678";
 char FileChar[] = "abcdefgh";
