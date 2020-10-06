@@ -290,6 +290,8 @@ void ResetBoard(TABLERO *pos) {
 TABLERO* Create_tablero(){
 
 	TABLERO *tab=NULL;
+	int i;
+
 
 	tab=(TABLERO*)malloc(sizeof(TABLERO));
 	if(!tab) 
@@ -301,25 +303,29 @@ TABLERO* Create_tablero(){
 
 	if(!tab->material||!tab->pceNum||tab->KingSq){
 		
+		
 		Free_tablero(tab);
 		return NULL;
 	}
 
-	tab->pList=(int**)malloc(13*sizeof(int*));
+	tab->pList=(int**)malloc(12*sizeof(int*));
 	if(!tab->pList){
 
 		Free_tablero(tab);
 		return NULL;
 	}
-	*tab->pList=(int*)malloc(10*sizeof(int));
 
-	if(!*tab->pList){
+	for(i=0;i<12;i++){
+
+	tab->pList[i]=(int*)malloc(10*sizeof(int));
+
+	if(!tab->pList[i]){
 
 		Free_tablero(tab);
 		return NULL;
 
 	}
-
+	}
 
 	return tab;
 }
@@ -335,9 +341,10 @@ void Free_tablero(TABLERO *tab){
 
 	if(tab->pList){
 		
-		for(i=0;i<10;i++){
+		for(i=0;i<12;i++){
 			if(tab->pList[i])free(tab->pList[i]);
 		}
+		free(tab->pList);
 	}
 
 	if(tab)free(tab);
