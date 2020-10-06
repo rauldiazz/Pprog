@@ -18,8 +18,6 @@ printf("At Line %d\n",__LINE__); \
 exit(1);}
 #endif
 
-typedef unsigned long long U64;
-
 #define NUM_CASILLAS 120
 
 #define MAXGAMEMOVES 2048
@@ -53,16 +51,15 @@ typedef struct {
 	int enroque;
 	int AlPaso;
 	int fiftyMove;
-	U64 posKey;
 
 } S_UNDO;
 
 typedef struct {
 
-	int pieces[NUM_CASILLAS];
+	int *pieces;
 
 		
-	int KingSq[2];
+	int *KingSq;
 	
 	int side;
 	int AlPaso;
@@ -76,44 +73,33 @@ typedef struct {
 	
 
 	
-	int pceNum[13];
-	int material[2];
+	int *pceNum;
+	int *material;
 	
-	S_UNDO history[MAXGAMEMOVES];
+	S_UNDO *history;
 	
 	// piece list
-	int pList[13][10];	
+	int **pList;	
 	
 } TABLERO;
 
 /* MACROS */
 
 #define FCCAS(f,r) ( (21 + (f) ) + ( (r) * 10 ) ) 
-//#define SQ64(sq120) (Sq120ToSq64[(sq120)])
-//#define SQ120(sq64) (Sq64ToSq120[(sq64)])
-//#define POP(b) PopBit(b)
-//#define CNT(b) CountBits(b)
-//#define CLRBIT(bb,sq) ((bb) &= ClearMask[(sq)])
-//#define SETBIT(bb,sq) ((bb) |= SetMask[(sq)])
+
 
 /* GLOBALS */
 
-//extern int Sq120ToSq64[NUM_CASILLAS];
-//extern int Sq64ToSq120[64];
-extern U64 SetMask[64];
-extern U64 ClearMask[64];
-extern U64 PieceKeys[13][120];
-extern U64 SideKey;
-extern U64 CastleKeys[16];
+
 extern char PceChar[];
 extern char SideChar[];
 extern char RankChar[];
 extern char FileChar[];
-
+extern int PieceVal[13] = { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
 extern int PieceBig[13];
 extern int PieceMaj[13];
 extern int PieceMin[13];
-extern int PieceVal[13];
+
 extern int PieceCol[13];
 
 extern int FilesBrd[NUM_CASILLAS];
@@ -124,13 +110,6 @@ extern int RanksBrd[NUM_CASILLAS];
 // init.c
 extern void AllInit();
 
-// bitboards.c
-/*extern void PrintBitBoard(U64 bb);
-extern int PopBit(U64 *bb);
-extern int CountBits(U64 b);*/
-
-// hashkeys.c
-extern U64 GeneratePosKey(const TABLERO *pos);
 
 // board.c
 extern void ResetBoard(TABLERO *pos);

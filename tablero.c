@@ -59,9 +59,6 @@ int CheckBoard(const TABLERO *pos) {
 	
 	
 	ASSERT(t_material[WHITE]==pos->material[WHITE] && t_material[BLACK]==pos->material[BLACK]);
-	ASSERT(t_minPce[WHITE]==pos->minPce[WHITE] && t_minPce[BLACK]==pos->minPce[BLACK]);
-	ASSERT(t_majPce[WHITE]==pos->majPce[WHITE] && t_majPce[BLACK]==pos->majPce[BLACK]);
-	ASSERT(t_bigPce[WHITE]==pos->bigPce[WHITE] && t_bigPce[BLACK]==pos->bigPce[BLACK]);	
 	
 	ASSERT(pos->side==WHITE || pos->side==BLACK);
 	
@@ -258,7 +255,7 @@ void ResetBoard(TABLERO *pos) {
 
 	
 }
-void PrintBoard(const TABLERO *pos) {
+/*void PrintBoard(const TABLERO *pos) {
 	
 	int sq,fila,col,piece;
 
@@ -288,4 +285,4 @@ void PrintBoard(const TABLERO *pos) {
 			pos->enroque & BQCA ? 'q' : '-'	
 			);
 	printf("PosKey:%llX\n",pos->posKey);
-}
+}*/
