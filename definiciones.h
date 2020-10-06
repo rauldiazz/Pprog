@@ -85,7 +85,7 @@ typedef struct {
 
 /* MACROS */
 
-#define FCCAS(f,r) ( (21 + (f) ) + ( (r) * 10 ) ) 
+#define FCCAS(col,fila) ( (col + (f) ) + ( (fila) * 10 ) ) 
 
 
 /* GLOBALS */
