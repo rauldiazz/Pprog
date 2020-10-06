@@ -24,8 +24,8 @@ int COLsBrd[NUM_CASILLAS];
 void InitFILAsCOLsBrd() {
 	
 	int index = 0;
-	int fila = FILA_A;
-	int columna = COL_1;
+	int col = COL_A;
+	int fila = FILA_1;
 	int sq = A1;
 	int sq64 = 0;
 	
@@ -34,11 +34,11 @@ void InitFILAsCOLsBrd() {
 		COLsBrd[index] = OFFBOARD;
 	}
 	
-	for(columna = COL_1; columna <= COL_8; ++columna) {
-		for(fila = FILA_A; fila <= FILA_H; ++fila) {
-			sq = FCCAS(fila,columna);
-			FILAsBrd[sq] = fila;
-			COLsBrd[sq] = columna;
+	for(fila = FILA_1; fila <= FILA_8; ++fila) {
+		for(col = COL_A; col <= COL_H; ++col) {
+			sq = FCCAS(col,fila);
+			FILAsBrd[sq] = col;
+			COLsBrd[sq] = fila;
 		}
 	}
 }
@@ -73,33 +73,8 @@ void InitBitMasks() {
 	}
 }
 
-/*void InitSq120To64() {
 
-	int index = 0;
-	int fila = FILA_A;
-	int columna= COL_1;
-	int sq = A1;
-	int sq64 = 0;
-	for(index = 0; index < NUM_CASILLAS; ++index) {
-		Sq120ToSq64[index] = 65;
-	}
-	
-	for(index = 0; index < 64; ++index) {
-		Sq64ToSq120[index] = 120;
-	}
-	
-	for(columna = COL_1; columna <= COL_8; ++columna) {
-		for(fila = FILA_A; fila <= FILA_H; ++fila) {
-			sq = FCCAS(fila,columna);
-			Sq64ToSq120[sq64] = sq;
-			Sq120ToSq64[sq] = sq64;
-			sq64++;
-		}
-	}
-}*/
-
-void AllInit() {
-	//InitSq120To64();	
+void AllInit() {	
 	InitBitMasks();
 	InitHashKeys();	
     InitFILAsCOLsBrd();
