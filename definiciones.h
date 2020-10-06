@@ -119,5 +119,6 @@ extern void UpdateListsMaterial(TABLERO *pos);
 extern int CheckBoard(const TABLERO *pos);
 extern int C120a64(int c120);
 extern int C64a120(int c64);
-
+extern void Free_tablero(TABLERO *tab);
+extern TABLERO* Create_tablero();
 #endif

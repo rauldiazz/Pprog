@@ -21,46 +21,45 @@ int C120a64 (int c120){
 	return cociente*8 + resto;
 }
 
+/*Función para dada una posicion en el tablero, mediante el uso de una serie de arrays y variables internas, crea una posición "espejo" para 
+luego comprobar que coincide con la dada y que así se la informacion almacenada en cada una de las martes de estructura 
+tablero que es redundante es crrecta*/
 int CheckBoard(const TABLERO *pos) {   
+	
  
-	int t_pceNum[13] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	int t_bigPce[2] = { 0, 0};
-	int t_majPce[2] = { 0, 0};
-	int t_minPce[2] = { 0, 0};
-	int t_material[2] = { 0, 0};
+	int esp_pceNum[13] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+	int esp_material[2] = { 0, 0};
 	
-	int sq64,t_piece,t_pce_num,sq120,colour,pcount;
-	
-	
-	// check piece lists
-	for(t_piece = wP; t_piece <= bK; ++t_piece) {
-		for(t_pce_num = 0; t_pce_num < pos->pceNum[t_piece]; ++t_pce_num) {
-			sq120 = pos->pList[t_piece][t_pce_num];
-			ASSERT(pos->pieces[sq120]==t_piece);
+	int sq64,esp_piece,esp_pce_num,sq120,colour;
+
+	for(esp_piece = wP; esp_piece <= bK; ++esp_piece) {
+		for(esp_pce_num = 0; esp_pce_num < pos->pceNum[esp_piece]; ++esp_pce_num) {
+			sq120 = pos->pList[esp_piece][esp_pce_num];
+			ASSERT(pos->pieces[sq120]==esp_piece);
 		}	
 	}
 
-	// check piece count and other counters	
+
 	for(sq64 = 0; sq64 < 64; ++sq64) {
 		sq120 = C64a120(sq64);
-		t_piece = pos->pieces[sq120];
-		t_pceNum[t_piece]++;
-		colour = PieceCol[t_piece];
-		if( PieceBig[t_piece] == TRUE) t_bigPce[colour]++;
-		if( PieceMin[t_piece] == TRUE) t_minPce[colour]++;
-		if( PieceMaj[t_piece] == TRUE) t_majPce[colour]++;
+		esp_piece = pos->pieces[sq120];
+		esp_pceNum[esp_piece]++;
+		colour = PieceCol[esp_piece];
 		
-		t_material[colour] += PieceVal[t_piece];
+		esp_material[colour] += PieceVal[esp_piece];
 	}
 	
-	for(t_piece = wP; t_piece <= bK; ++t_piece) {
-		ASSERT(t_pceNum[t_piece]==pos->pceNum[t_piece]);	
+	for(esp_piece = wP; esp_piece <= bK; ++esp_piece) {
+		ASSERT(esp_pceNum[esp_piece]==pos->pceNum[esp_piece]);	
 	}
 	
-	
-	ASSERT(t_material[WHITE]==pos->material[WHITE] && t_material[BLACK]==pos->material[BLACK]);
+
+	ASSERT(esp_material[WHITE]==pos->material[WHITE] && esp_material[BLACK]==pos->material[BLACK]);
+
 	
 	ASSERT(pos->side==WHITE || pos->side==BLACK);
+
 	
 	ASSERT(pos->AlPaso==NO_SQ || ( RanksBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
 		 || ( RanksBrd[pos->AlPaso]==FILA_3 && pos->side == BLACK));
@@ -70,6 +69,7 @@ int CheckBoard(const TABLERO *pos) {
 		 
 	return TRUE;	
 }
+
 
 
 void UpdateListsMaterial(TABLERO *pos) {	
@@ -286,3 +286,61 @@ void ResetBoard(TABLERO *pos) {
 			);
 	printf("PosKey:%llX\n",pos->posKey);
 }*/
+
+TABLERO* Create_tablero(){
+
+	TABLERO *tab=NULL;
+
+	tab=(TABLERO*)malloc(sizeof(TABLERO));
+	if(!tab) 
+		return NULL;
+
+	tab->KingSq=(int*)malloc(2*sizeof(int));
+	tab->pceNum=(int*)malloc(13*sizeof(int));
+	tab->material=(int*)malloc(2*sizeof(int));
+
+	if(!tab->material||!tab->pceNum||tab->KingSq){
+		
+		Free_tablero(tab);
+		return NULL;
+	}
+
+	tab->pList=(int**)malloc(13*sizeof(int*));
+	if(!tab->pList){
+
+		Free_tablero(tab);
+		return NULL;
+	}
+	*tab->pList=(int*)malloc(10*sizeof(int));
+
+	if(!*tab->pList){
+
+		Free_tablero(tab);
+		return NULL;
+
+	}
+
+
+	return tab;
+}
+
+void Free_tablero(TABLERO *tab){
+	int i;
+	
+	if(tab->KingSq)free(tab->KingSq);
+
+	if(tab->material)free(tab->material);
+
+	if(tab->pceNum)free(tab->pceNum);
+
+	if(tab->pList){
+		
+		for(i=0;i<10;i++){
+			if(tab->pList[i])free(tab->pList[i]);
+		}
+	}
+
+	if(tab)free(tab);
+	return;
+
+}
