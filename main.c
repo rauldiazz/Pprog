@@ -17,9 +17,9 @@ char *aux;
 
 
 tab=Create_tablero();
-
+InitFILAsCOLsBrd();
 //pf=fopen("r", "prueba.txt");
-LeerFen(START_FEN, tab);
+LeerFen(FEN1, tab);
 CheckBoard(tab);
 PrintBoard(tab);
 
