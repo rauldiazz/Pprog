@@ -371,6 +371,7 @@ TABLERO* Create_tablero(){
 	}
 	}
 
+
 	return tab;
 }
 
