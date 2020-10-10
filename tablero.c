@@ -14,7 +14,31 @@ int PieceVal[13]= { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000
 int PieceCol[13] = { BOTH, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE,
 	BLACK, BLACK, BLACK, BLACK, BLACK, BLACK };
 
-int PieceVal[13] = { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
+
+
+int FILAsBrd[NUM_CASILLAS];
+int COLsBrd[NUM_CASILLAS];
+void InitFILAsCOLsBrd() {
+	
+	int index = 0;
+	int col = COL_A;
+	int fila = FILA_1;
+	int sq = A1;
+	int sq64 = 0;
+	
+	for(index = 0; index < NUM_CASILLAS; ++index) {
+		FILAsBrd[index] = OFFBOARD;
+		COLsBrd[index] = OFFBOARD;
+	}
+	
+	for(fila = FILA_1; fila <= FILA_8; ++fila) {
+		for(col = COL_A; col <= COL_H; ++col) {
+			sq = FCCAS(col,fila);
+			FILAsBrd[sq] = col;
+			COLsBrd[sq] = fila;
+		}
+	}
+}
 
 
 int C64a120 (int c64){
@@ -76,8 +100,8 @@ int CheckBoard(const TABLERO *pos) {
 	ASSERT(pos->side==WHITE || pos->side==BLACK);
 
 	
-	ASSERT(pos->AlPaso==NO_SQ || ( RanksBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
-		 || ( RanksBrd[pos->AlPaso]==FILA_3 && pos->side == BLACK));
+	ASSERT(pos->AlPaso==NO_SQ || ( FILAsBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
+		 || ( FILAsBrd[pos->AlPaso]==FILA_3 && pos->side == BLACK));
 	
 	ASSERT(pos->pieces[pos->KingSq[WHITE]] == wK);
 	ASSERT(pos->pieces[pos->KingSq[BLACK]] == bK);

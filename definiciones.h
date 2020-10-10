@@ -85,7 +85,7 @@ typedef struct {
 
 /* MACROS */
 
-#define FCCAS(col,fila) ( (col + (f) ) + ( (fila) * 10 ) ) 
+#define FCCAS(col,fila) ( (col + (21) ) + ( (fila) * 10 ) ) 
 
 
 /* GLOBALS */
@@ -108,7 +108,7 @@ extern int RanksBrd[NUM_CASILLAS];
 /* FUNCTIONS */
 
 // init.c
-extern void AllInit();
+extern void InitFILAsCOLsBrd();
 
 
 // board.c
