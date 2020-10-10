@@ -349,7 +349,8 @@ void PrintBoard(const TABLERO *pos) {
 	}
 	printf("\n");
 	printf("side:%c\n",SideChar[pos->side]);
-	printf("AlPaso:%d\n",pos->AlPaso);
+	if(pos->AlPaso==99)printf("AlPaso:NO\n");
+	else printf("AlPaso:%d\n",pos->AlPaso);
 	printf("castle:%c%c%c%c\n",
 			pos->enroque & WKCA ? 'K' : '-',
 			pos->enroque & WQCA ? 'Q' : '-',
