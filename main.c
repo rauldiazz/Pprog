@@ -17,10 +17,13 @@ char *aux;
 
 
 tab=Create_tablero();
-Free_tablero(tab);
-/*pf=fopen("r", "prueba.txt");
 
+pf=fopen("r", "prueba.txt");
+LeerFen(START_FEN, tab);
+CheckBoard(tab);
+PrintBoard(tab);
 
+/*
 for(i=0;i<4;i++){
 
 fscanf(pf,"%s\n", aux);
@@ -29,8 +32,9 @@ CheckBoard(tab);
 PrintBoard(tab);
 
 }
+*/
+Free_tablero(tab);
 
-*/	
 	
 	return 0;
 }

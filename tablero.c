@@ -340,7 +340,7 @@ TABLERO* Create_tablero(){
 	tab->pceNum=(int*)malloc(13*sizeof(int));
 	tab->material=(int*)malloc(2*sizeof(int));
 
-	if(!tab->material||!tab->pceNum||tab->KingSq){
+	if(!tab->material||!tab->pceNum||!tab->KingSq){
 		
 		
 		Free_tablero(tab);
