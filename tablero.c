@@ -117,21 +117,25 @@ void UpdateListsMaterial(TABLERO *pos) {
 	
 	pos->material[0] = 0;
 	pos->material[1] = 0;
+
 	for (i = 0; i < 13 ;i++) {
 		pos->pceNum[i] = 0;
 	}
+
 	for(i = 0; i < NUM_CASILLAS; i++) {
 		cas = i;
 		pieza = pos->pieces[i];
+
 		if(pieza!=OFFBOARD && pieza!= EMPTY) {
 			if(pieza <= wK) color = WHITE;
 			else color = BLACK;
-			
+
 			pos->material[color] += PieceVal[pieza];
-			
+
 			pos->pList[pieza][pos->pceNum[pieza]] = cas;
+
 			pos->pceNum[pieza]++;
-			
+
 			if(pieza==wK) pos->KingSq[WHITE] = cas;
 			if(pieza==bK) pos->KingSq[BLACK] = cas;	
 			
@@ -277,7 +281,7 @@ void ResetBoard(TABLERO *pos) {
 	}
 
 	pos->KingSq[WHITE] = pos->KingSq[BLACK] = NO_SQ;
-	
+
 	pos->side = BOTH;
 	pos->AlPaso = NO_SQ;
 	pos->fiftyMove = 0;
@@ -288,7 +292,7 @@ void ResetBoard(TABLERO *pos) {
 	pos->enroque = 0;
 	
 	
-	for(i = 0; i < 13; ++i) {
+	for(i = 0; i < 12; ++i) {
 		pos->pceNum[i] = 0;
 	}
 
@@ -339,6 +343,7 @@ TABLERO* Create_tablero(){
 	tab->KingSq=(int*)malloc(2*sizeof(int));
 	tab->pceNum=(int*)malloc(13*sizeof(int));
 	tab->material=(int*)malloc(2*sizeof(int));
+	tab->pieces=(int*)malloc(NUM_CASILLAS*sizeof(int));
 
 	if(!tab->material||!tab->pceNum||!tab->KingSq){
 		
@@ -354,7 +359,7 @@ TABLERO* Create_tablero(){
 		return NULL;
 	}
 
-	for(i=0;i<12;i++){
+	for(i=0;i<13;i++){
 
 	tab->pList[i]=(int*)malloc(10*sizeof(int));
 
@@ -371,7 +376,10 @@ TABLERO* Create_tablero(){
 
 void Free_tablero(TABLERO *tab){
 	int i;
-	
+
+	if(tab->pieces)free(tab->pieces);
+
+
 	if(tab->KingSq)free(tab->KingSq);
 
 	if(tab->material)free(tab->material);
@@ -380,7 +388,7 @@ void Free_tablero(TABLERO *tab){
 
 	if(tab->pList){
 		
-		for(i=0;i<12;i++){
+		for(i=0;i<13;i++){
 			if(tab->pList[i])free(tab->pList[i]);
 		}
 		free(tab->pList);
