@@ -35,8 +35,8 @@ void InitFILAsCOLsBrd() {
 	for(fila = FILA_1; fila <= FILA_8; ++fila) {
 		for(col = COL_A; col <= COL_H; ++col) {
 			sq = FCCAS(col,fila);
-			FILAsBrd[sq] = col;
-			COLsBrd[sq] = fila;
+			FILAsBrd[sq] = fila;
+			COLsBrd[sq] = col;
 		}
 	}
 }
