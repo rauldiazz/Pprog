@@ -299,6 +299,7 @@ void ResetBoard(TABLERO *pos) {
 
 	
 }
+
 void PrintBoard(const TABLERO *pos) {
 	
 	int pieza,fila,col,piezan;
@@ -309,16 +310,42 @@ void PrintBoard(const TABLERO *pos) {
 		printf("%d  ",fila+1);
 		for(col = COL_A; col <= COL_H; col++) {
 			pieza = FCCAS(col,fila);
-			piezan = pos->pieces[pieza];
-			printf("%3c",PceChar[piezan]);//he quitado %3c
+			piezan = pos->pieces[pieza];    
+            if(piezan==0)
+			printf(". ");
+			if(piezan==1)
+			printf("♟ ");
+			if(piezan==2)
+			printf("♞ ");
+			if(piezan==3)
+			printf("♝ ");
+			if(piezan==4)
+			printf("♜ ");
+			if(piezan==5)
+			printf("♛ ");
+			if(piezan==6)
+			printf("♚ ");
+			if(piezan==7)
+			printf("♙ ");
+			if(piezan==8)
+			printf("♘ ");
+			if(piezan==9)
+			printf("♗ ");
+			if(piezan==10)
+			printf("♖ ");
+			if(piezan==11)
+			printf("♕ ");
+			if(piezan==12)
+			printf("♔ ");
+		
 			printf(" ");
 		}
 		printf("\n");
 	}
 	
-	printf("\n  ");
+	printf("\n ");
 	for(col = COL_A; col <= COL_H; col++) {
-		printf("%4c",'a'+col);	
+		printf("%3c",'a'+col);	
 	}
 	printf("\n");
 	printf("side:%c\n",SideChar[pos->side]);
