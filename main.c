@@ -20,8 +20,8 @@ tab=Create_tablero();
 
 //pf=fopen("r", "prueba.txt");
 LeerFen(START_FEN, tab);
-//CheckBoard(tab);
-//PrintBoard(tab);
+CheckBoard(tab);
+PrintBoard(tab);
 
 /*
 for(i=0;i<4;i++){

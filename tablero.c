@@ -2,7 +2,8 @@
 #include "stdio.h"
 #include "definiciones.h"
 
-char PceChar[] = ".♙♘♗♖♕♔♟♞♝♜♛♚";
+//char PceChar[] = ".♙♘♗♖♕♔♟♞♝♜♛♚";
+char PceChar[] = ".PNBRQKpnbrqk";
 char SideChar[] = "wb-";
 char RankChar[] = "12345678";
 char FileChar[] = "abcdefgh";
@@ -305,19 +306,19 @@ void PrintBoard(const TABLERO *pos) {
 	printf("\nGame Board:\n\n");
 	
 	for(fila = FILA_8; fila >= FILA_1; fila--) {
-		printf("%d  ",col+1);
+		printf("%d  ",fila+1);
 		for(col = COL_A; col <= COL_H; col++) {
 			pieza = FCCAS(col,fila);
 			piezan = pos->pieces[pieza];
-			printf("%c",PceChar[piezan]);//he quitado %3c
+			printf("%3c",PceChar[piezan]);//he quitado %3c
 			printf(" ");
 		}
 		printf("\n");
 	}
 	
-	printf("\n   ");
+	printf("\n  ");
 	for(col = COL_A; col <= COL_H; col++) {
-		printf("%c",'a'+col);	
+		printf("%4c",'a'+col);	
 	}
 	printf("\n");
 	printf("side:%c\n",SideChar[pos->side]);
@@ -352,7 +353,7 @@ TABLERO* Create_tablero(){
 		return NULL;
 	}
 
-	tab->pList=(int**)malloc(12*sizeof(int*));
+	tab->pList=(int**)malloc(13*sizeof(int*));
 	if(!tab->pList){
 
 		Free_tablero(tab);
