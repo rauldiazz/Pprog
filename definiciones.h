@@ -101,7 +101,7 @@ typedef struct{
 /* GLOBALS */
 
 
-extern char PceChar[];
+/*extern char PceChar[];
 extern char SideChar[];
 extern char RankChar[];
 extern char FileChar[];
@@ -110,7 +110,7 @@ extern int PieceBig[13];
 extern int PieceMaj[13];
 extern int PieceMin[13];
 
-extern int PieceCol[13];
+extern int PieceCol[13];*/
 
 extern int FilesBrd[NUM_CASILLAS];
 extern int RanksBrd[NUM_CASILLAS];
@@ -122,6 +122,7 @@ extern void InitFILAsCOLsBrd();
 
 
 // board.c
+extern int pieceColour(int pce);
 extern void ResetBoard(TABLERO *pos);
 extern int LeerFen(char *fen, TABLERO *pos);
 extern void PrintBoard(const TABLERO *pos);

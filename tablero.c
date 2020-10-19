@@ -41,6 +41,14 @@ void InitFILAsCOLsBrd() {
 	}
 }
 
+int pieceColour(int pce){
+
+    if(pce == wP || pce == wR || pce == wB || pce == wN || pce == wQ || pce == wK) return WHITE;
+
+    else if(pce == bP || pce == bR || pce == bB || pce == bN || pce == bQ || pce == bK) return BLACK;
+
+    return BOTH;
+}
 
 int C64a120 (int c64){
 	int resto;
@@ -85,7 +93,7 @@ int CheckBoard(const TABLERO *pos) {
 		sq120 = C64a120(sq64);
 		esp_piece = pos->pieces[sq120];
 		esp_pceNum[esp_piece]++;
-		colour = PieceCol[esp_piece];
+		colour = pieceColour(esp_piece);
 		
 		esp_material[colour] += PieceVal[esp_piece];
 	}
