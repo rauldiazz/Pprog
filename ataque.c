@@ -32,7 +32,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 		}	
 	}
 	
-	// knights
+	// caballos
 	for(index = 0; index < 8; ++index) {		
 		pce = pos->pieces[sq + KnDir[index]];
 		if((pce == wN || pce == bN) && pieceColour(pce)==side) {
@@ -40,7 +40,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 		}
 	}
 	
-	// rooks, queens
+	// torres, damas
 	for(index = 0; index < 4; ++index) {		
 		dir = RkDir[index];
 		t_sq = sq + dir;
@@ -57,7 +57,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 		}
 	}
 	
-	// bishops, queens
+	// alfiles y damas
 	for(index = 0; index < 4; ++index) {		
 		dir = BiDir[index];
 		t_sq = sq + dir;
@@ -74,7 +74,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 		}
 	}
 	
-	// kings
+	// reyes
 	for(index = 0; index < 8; ++index) {		
 		pce = pos->pieces[sq + KiDir[index]];
 		if((pce == wK || pce == bK) && pieceColour(pce)==side) {
