@@ -20,6 +20,8 @@ int pieceColour(int pce){
 int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 
 	int pce,index,t_sq,dir;
+
+	ASSERT(CheckBoard(pos));
 	
 	// reyes
 	for(index = 0; index < 8; ++index) {		
@@ -82,4 +84,6 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 			pce = pos->pieces[t_sq];
 		}
 	}
+}
+
 	
