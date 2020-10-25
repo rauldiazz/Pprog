@@ -6,35 +6,34 @@
 #define FEN2 "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
 #define FEN3 "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
 #define FEN4 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
-
+#define FEN5 "rnbqkb1r/pp1p1pPp/8/2p1pP2/1P1P4/3P3P/P1P5/RNBQKBNR w KQkq e6 0 1"
 
 int main() {	
 
-TABLERO *tab=NULL;
-FILE *pf;
-int i=0;
-char *aux;
+	TABLERO *tab=NULL;
+	MOVE **m;
+	int i=0,count = 0;
+	char *aux;
 
 
-tab=Create_tablero();
-InitFILAsCOLsBrd();
-//pf=fopen("r", "prueba.txt");
-LeerFen(FEN1, tab);
-CheckBoard(tab);
-PrintBoard(tab);
+	tab=Create_tablero();
+	InitFILAsCOLsBrd();
 
-/*
-for(i=0;i<4;i++){
+	LeerFen(FEN5, tab);
+	CheckBoard(tab);
+	PrintBoard(tab);
 
-fscanf(pf,"%s\n", aux);
-LeerFen(aux, tab);
-CheckBoard(tab);
-PrintBoard(tab);
+	m = Generador_Movimientos(tab,&count);
 
-}
-*/
-Free_tablero(tab);
+	print_moves(m,count);
 
+	Free_tablero(tab);
+	for (i=0;i<count;i++){
+		free_move(m[i]);
+	}
+	free(m);
 	
+
+
 	return 0;
 }
