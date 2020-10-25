@@ -121,7 +121,7 @@ extern int RanksBrd[NUM_CASILLAS];
 extern void InitFILAsCOLsBrd();
 
 
-// board.c
+// tablero.c
 extern int pieceColour(int pce);
 extern void ResetBoard(TABLERO *pos);
 extern int LeerFen(char *fen, TABLERO *pos);
@@ -132,4 +132,9 @@ extern int C120a64(int c120);
 extern int C64a120(int c64);
 extern void Free_tablero(TABLERO *tab);
 extern TABLERO* Create_tablero();
+
+
+// ataque.c
+extern int SqAttacked(const int sq, const int side, const TABLERO *pos);
+
 #endif
