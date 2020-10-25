@@ -90,6 +90,8 @@ MOVE** add_reycaballo(TABLERO *t, MOVE **m, int *count){
 			}
 		}
 
+        //bucle rey blanco
+
         for(i=0; i< t->pceNum[wK]&&flag==1; i++) {
 			cas = t->pList[wK][i];
 			ASSERT(cas!=OFFBOARD);
@@ -108,6 +110,9 @@ MOVE** add_reycaballo(TABLERO *t, MOVE **m, int *count){
 				
 			}
 		}
+
+        //bucle rey negro
+        
            for(i=0; i< t->pceNum[bK]&&flag==1; i++) {
 			cas = t->pList[bK][i];
 			ASSERT(cas!=OFFBOARD);
