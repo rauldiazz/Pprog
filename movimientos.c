@@ -25,7 +25,7 @@ MOVE insert_move(int castle, int from, int to, int pieza, int captura, int coron
 MOVE *Generador_Movimientos(TABLERO *t){
     int count = 0;
 
-    ASSERT(CheckBoard(pos))
+    ASSERT(CheckBoard(pos));
 
     if(!t) return NULL;
 
@@ -97,11 +97,11 @@ MOVE * Generador_Peones(TABLERO *t, MOVE *m, int *count ){
         }
 
         if (t->AlPaso == cas +9 - 20*side && flag == 1){
-            m = AddMovePeon(m,count, cas, cas +9 - 20*side, EMPTY,-(CAMBIO_LADO*side) + bP, side, 1);
+            m = AddMovePeon(m,count, cas, cas +9 - 20*side, EMPTY,-(CAMBIO_LADO*side) + bP, side, cas +9 - 20*side);
             if (!m) flag = 0;
         }
         else if (t->AlPaso == cas +11 - 20*side && flag == 1){
-            m = AddMovePeon(m,count, cas, cas +11 - 20*side, EMPTY,-(CAMBIO_LADO*side) + bP, side, 1);
+            m = AddMovePeon(m,count, cas, cas +11 - 20*side, EMPTY,-(CAMBIO_LADO*side) + bP, side,cas +11 - 20*side);
             if (!m) flag = 0;
         }
         
@@ -110,4 +110,48 @@ MOVE * Generador_Peones(TABLERO *t, MOVE *m, int *count ){
         return NULL;
     }
     return m;
+}
+
+int print_moves(MOVE *m, int count){
+    int i;
+    int col, fila;
+    MOVE mt;
+
+    if (!m) return -1;
+
+    for(i=0; i<count; i++){
+        printf("Jugada %d: ");
+        mt = m[i];
+        col = Cas_Col(mt.from);
+        fila = Cas_Fila(mt.from);
+        printf("%c%d", 'a'+col, fila +1);
+        col = Cas_COl(mt.to);
+        fila = Cas_Fila(mt.to);
+        printf("%c%d", 'a'+col, fila +1);
+
+        if(mt.piezas[2] != EMPTY){
+            switch (mt.piezas[2])
+            {
+            case wN:
+            case bN:
+                printf("n");
+                break;
+            case wB:
+            case bB:
+                printf("b");
+                break;
+            case wR:
+            case bR:
+                printf("r");
+                break;
+            case wQ:
+            case bQ:
+                printf("q");
+                break;
+            default:
+                break;
+            }
+        }
+        printf("\n");
+    }
 }
