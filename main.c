@@ -19,7 +19,7 @@ int main() {
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FEN5, tab);
+	LeerFen(FEN4, tab);
 	CheckBoard(tab);
 	PrintBoard(tab);
 

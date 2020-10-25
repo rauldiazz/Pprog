@@ -113,8 +113,8 @@ extern int PieceMin[13];
 
 extern int PieceCol[13];*/
 
-extern int FilesBrd[NUM_CASILLAS];
-extern int RanksBrd[NUM_CASILLAS];
+extern int FILAsBrd[NUM_CASILLAS];
+extern int COLsBrd[NUM_CASILLAS];
 
 /* FUNCTIONS */
 
@@ -136,6 +136,7 @@ extern TABLERO* Create_tablero();
 int Cas_Col (int cas);
 int Cas_Fila (int cas);
 
+
 // ataque.c
 extern int SqAttacked(const int sq, const int side, const TABLERO *pos);
 
@@ -144,5 +145,5 @@ extern MOVE **Generador_Peones(TABLERO *t, MOVE **m, int *count );
 extern MOVE **Generador_Movimientos(TABLERO *t, int *count);
 int print_moves(MOVE **m, int count);
 void free_move(MOVE *m);
-
+extern MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count );
 #endif

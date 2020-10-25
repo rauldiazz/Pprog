@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "definiciones.h"
-
+#define SQOFFBOARD(sq) (FILAsBrd[sq]==OFFBOARD)
 #define PEONDIR 10
 
 
@@ -41,6 +41,7 @@ MOVE **Generador_Movimientos(TABLERO *t, int *count){
     *count = 1;
 
     m = Generador_Peones(t, m, count);
+    m = Generador_Slide(t, m, count);
 
     return m;
     
@@ -132,6 +133,82 @@ MOVE ** Generador_Peones(TABLERO *t, MOVE **m, int *count ){
     }
     return m;
 }
+
+
+MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
+
+    ASSERT(CheckBoard(t));
+
+    int pceIndex, pce, pceNum, side, index, sq, t_sq, dir;
+    int PceDirSlide[6][8] = {
+	
+	{ -9, -11, 11, 9, 0, 0, 0, 0 },
+	{ -1, -10,	1, 10, 0, 0, 0, 0 },
+	{ -1, -10,	1, 10, -9, -11, 11, 9 },
+	{ -9, -11, 11, 9, 0, 0, 0, 0 },
+	{ -1, -10,	1, 10, 0, 0, 0, 0 },
+	{ -1, -10,	1, 10, -9, -11, 11, 9 }
+
+    };
+
+
+    int NumDirSlide[6] = {
+    4,4,8,4,4,8
+    };
+
+    int LoopSlidePce[8] = {
+    wB, wR, wQ, 0, bB, bR, bQ, 0
+    };
+
+    int LoopSlideIndex[2] = { 0, 4 };
+
+
+    if(!t||!m)return NULL;
+
+    side=t->side;
+
+	pceIndex = LoopSlideIndex[side];
+	pce = LoopSlidePce[pceIndex];
+    pceIndex++;
+	while( pce != 0) {	
+		
+		for(pceNum = 0; pceNum < t->pceNum[pce]; ++pceNum) {
+			sq = t->pList[pce][pceNum];
+			ASSERT(!SQOFFBOARD(sq));
+			
+			for(index = 0; index < NumDirSlide[pce]; ++index) {
+				dir = PceDirSlide[pce][index];
+				t_sq = sq + dir;
+				
+				while(!SQOFFBOARD(t_sq)) {				
+					
+					if(t->pieces[t_sq] != EMPTY) {
+						if( pieceColour(t->pieces[t_sq]) != side) {
+                            
+                            m = realloc(m,(*count + 1)*sizeof(MOVE*));
+							m[*count] = insert_move(EMPTY,sq, t_sq, pce, t->pieces[t_sq], EMPTY, EMPTY);
+                            (*count) ++;
+						}
+						break;
+					}	
+					m = realloc(m,(*count + 1)*sizeof(MOVE*));
+					m[*count] = insert_move(EMPTY,sq, t_sq, pce, EMPTY, EMPTY, EMPTY);
+                    
+                    (*count) ++;
+					t_sq += dir;
+				}
+			}
+		}
+		
+		pce = LoopSlidePce[pceIndex++];
+
+}
+    return m;
+
+}
+
+
+
 
 int print_moves(MOVE **m, int count){
     int i;

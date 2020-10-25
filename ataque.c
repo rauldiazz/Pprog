@@ -85,6 +85,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 			pce = pos->pieces[t_sq];
 		}
 	}
+	return FALSE;
 }
 
 	
