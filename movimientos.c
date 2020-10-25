@@ -11,61 +11,82 @@ MOVE *create_move(){
 void free_move(MOVE *m){
     free(m);
 }
-MOVE insert_move(int castle, int from, int to, int pieza, int captura, int corona, int paso){
-    MOVE m;
-    m.castle = castle;
-    m.from = from;
-    m.piezas[0] = pieza;
-    m.piezas[1] = captura;
-    m.piezas[2] = corona;
-    m.paso = paso;
+MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int corona, int paso){
+    MOVE  *m;
+    m = create_move();
+    //printf("Después de create move\n");
+    if (!m) return NULL;        
+    m->castle = castle;
+    m->from = from;
+    m->to =to;
+    //printf("antes de piezas\n");
+    m->piezas[0] = pieza;
+    m->piezas[1] = captura;
+    m->piezas[2] = corona;
+    //printf("Despues de piezass\n");
+    m->paso = paso;
+    //printf("ANtes de return \n");
     return m;
 }
 
-MOVE *Generador_Movimientos(TABLERO *t){
-    int count = 0;
+MOVE **Generador_Movimientos(TABLERO *t, int *count){
+    MOVE **m;
 
     ASSERT(CheckBoard(t));
 
     if(!t) return NULL;
 
+    m = (MOVE**) malloc(sizeof(MOVE*));
+    m[0] = insert_move(0,A1,A1,0,0,0,0);
+    *count = 1;
+
+    m = Generador_Peones(t, m, count);
+
+    return m;
     
 } 
 
-MOVE * AddMovePeon (MOVE *m,  int *count, int cas, int to, int to2, int captura, int side, int paso){
+MOVE ** AddMovePeon (MOVE **m,  int *count, int cas, int to, int to2, int captura, int side, int paso){
     if (!m) return NULL;
+    //printf("Empezamos Add Move\n");
     if(Cas_Fila(cas) == FILA_7 - side*5){
-        m = realloc(m,*count + 4);
+        m = realloc(m,(*count + 4)*sizeof(MOVE*));
         if (!m) return NULL;
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, CAMBIO_LADO*side + wN, paso);
-        *count ++;
+        (*count) ++;
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, CAMBIO_LADO*side + wB, paso);
-        *count ++;
+        (*count) ++;
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, CAMBIO_LADO*side + wR, paso);
-        *count ++;
+        (*count) ++;
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, CAMBIO_LADO*side + wQ, paso);
-        *count ++;
+        (*count) ++;
+        //printf("primer if\n");
     }
     else if (Cas_Fila(cas) == FILA_2 +side*5 && captura == EMPTY && to2 == EMPTY){
-        m = realloc(m, *count + 2);
+       // printf("Antes de realloc\n");
+        m = realloc(m, (*count + 2)*sizeof(MOVE*));
         if (!m) return NULL;
+        //printf("después de realloc\n");
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, EMPTY, paso);
-        *count++;
+        //printf("Después de insertmove");
+        (*count)++;
         m[*count] = insert_move(EMPTY,cas, to + 10 - 20*side,CAMBIO_LADO*side + wP, captura, EMPTY, paso);
-        count++;
+        (*count)++;
+        //printf("segundo if\n");
     }
     else{
-        m = realloc(m, *count +1);
+        m = realloc(m, (*count +1)*sizeof(MOVE*));
         if (!m) return NULL;
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, EMPTY, paso);
-        *count++;
+        (*count)++;
+        //printf("else\n");
     }
     return m;
 }
 
 
-MOVE * Generador_Peones(TABLERO *t, MOVE *m, int *count ){
-    MOVE mt;
+MOVE ** Generador_Peones(TABLERO *t, MOVE **m, int *count ){
+
     int i;
     int side;
     int cas = 0, cas_temp=0;
@@ -86,12 +107,12 @@ MOVE * Generador_Peones(TABLERO *t, MOVE *m, int *count ){
             if (!m) flag = 0;
         }
         pieza = t->pieces[cas +11 - 20*side];
-        if(pieza != EMPTY && pieza - (2*side*pieza) < CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
+        if(pieza != EMPTY && pieza != OFFBOARD && pieza - (2*side*pieza) > CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
             m = AddMovePeon(m,count, cas, cas +11 - 20*side, EMPTY,pieza, side, EMPTY);
             if (!m) flag = 0;
         }
         pieza = t->pieces[cas +9 - 20*side];
-        if (pieza != EMPTY && pieza - (2*side*pieza) < CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
+        if (pieza != EMPTY && pieza != OFFBOARD && pieza - (2*side*pieza) > CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
             m = AddMovePeon(m,count, cas, cas +9 - 20*side, EMPTY,pieza, side, EMPTY);
             if (!m) flag = 0;
         }
@@ -112,25 +133,25 @@ MOVE * Generador_Peones(TABLERO *t, MOVE *m, int *count ){
     return m;
 }
 
-int print_moves(MOVE *m, int count){
+int print_moves(MOVE **m, int count){
     int i;
     int col, fila;
-    MOVE mt;
+    MOVE *mt;
 
     if (!m) return -1;
-
-    for(i=0; i<count; i++){
-        printf("Jugada %d: ",i+1);
+    printf("Antes del for, count es %d\n", count);
+    for(i=0, printf("EN el bucle\n"); i<count; i++){
+        printf("Jugada %d: ",i);
         mt = m[i];
-        col = Cas_Col(mt.from);
-        fila = Cas_Fila(mt.from);
+        col = Cas_Col(mt->from);
+        fila = Cas_Fila(mt->from);
         printf("%c%d", 'a'+col, fila +1);
-        col = Cas_Col(mt.to);
-        fila = Cas_Fila(mt.to);
+        col = Cas_Col(mt->to);
+        fila = Cas_Fila(mt->to);
         printf("%c%d", 'a'+col, fila +1);
 
-        if(mt.piezas[2] != EMPTY){
-            switch (mt.piezas[2])
+        if(mt->piezas[2] != EMPTY){
+            switch (mt->piezas[2])
             {
             case wN:
             case bN:

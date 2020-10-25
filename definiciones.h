@@ -139,4 +139,10 @@ int Cas_Fila (int cas);
 // ataque.c
 extern int SqAttacked(const int sq, const int side, const TABLERO *pos);
 
+//movimientos.c
+extern MOVE **Generador_Peones(TABLERO *t, MOVE **m, int *count );
+extern MOVE **Generador_Movimientos(TABLERO *t, int *count);
+int print_moves(MOVE **m, int count);
+void free_move(MOVE *m);
+
 #endif
