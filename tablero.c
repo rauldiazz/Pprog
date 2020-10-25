@@ -41,6 +41,16 @@ void InitFILAsCOLsBrd() {
 	}
 }
 
+int Cas_Fila (int cas){
+	return FILAsBrd[cas];
+}
+
+int Cas_Col (int cas){
+	return COLsBrd[cas];
+}
+
+
+
 int pieceColour(int pce){
 
     if(pce == wP || pce == wR || pce == wB || pce == wN || pce == wQ || pce == wK) return WHITE;

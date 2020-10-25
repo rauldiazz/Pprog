@@ -19,6 +19,7 @@ exit(1);}
 #endif
 
 #define NUM_CASILLAS 120
+#define CAMBIO_LADO 6 
 
 #define MAXGAMEMOVES 2048
 
