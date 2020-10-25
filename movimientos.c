@@ -25,7 +25,7 @@ MOVE insert_move(int castle, int from, int to, int pieza, int captura, int coron
 MOVE *Generador_Movimientos(TABLERO *t){
     int count = 0;
 
-    ASSERT(CheckBoard(pos));
+    ASSERT(CheckBoard(t));
 
     if(!t) return NULL;
 
@@ -72,7 +72,7 @@ MOVE * Generador_Peones(TABLERO *t, MOVE *m, int *count ){
     int pieza = EMPTY;
     short flag = 1;
 
-    if(!m || !t) return -1;
+    if(!m || !t) return NULL;
 
     side = t->side;
 
@@ -85,14 +85,14 @@ MOVE * Generador_Peones(TABLERO *t, MOVE *m, int *count ){
             m = AddMovePeon(m, count, cas, cas + 10 - 20*side, t->pieces[cas + 20 - 40*side],EMPTY,side,EMPTY);
             if (!m) flag = 0;
         }
-        
-        if(t->pieces[cas +11 - 20*side] != EMPTY && flag == 1){
-            m = AddMovePeon(m,count, cas, cas +11 - 20*side, EMPTY,t->pieces[cas +11 - 20*side], side, EMPTY);
+        pieza = t->pieces[cas +11 - 20*side];
+        if(pieza != EMPTY && pieza - (2*side*pieza) < CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
+            m = AddMovePeon(m,count, cas, cas +11 - 20*side, EMPTY,pieza, side, EMPTY);
             if (!m) flag = 0;
         }
-
-        if (t->pieces[cas +9 - 20*side] != EMPTY && flag == 1){
-            m = AddMovePeon(m,count, cas, cas +9 - 20*side, EMPTY,t->pieces[cas +9 - 20*side], side, EMPTY);
+        pieza = t->pieces[cas +9 - 20*side];
+        if (pieza != EMPTY && pieza - (2*side*pieza) < CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
+            m = AddMovePeon(m,count, cas, cas +9 - 20*side, EMPTY,pieza, side, EMPTY);
             if (!m) flag = 0;
         }
 
@@ -120,12 +120,12 @@ int print_moves(MOVE *m, int count){
     if (!m) return -1;
 
     for(i=0; i<count; i++){
-        printf("Jugada %d: ");
+        printf("Jugada %d: ",i+1);
         mt = m[i];
         col = Cas_Col(mt.from);
         fila = Cas_Fila(mt.from);
         printf("%c%d", 'a'+col, fila +1);
-        col = Cas_COl(mt.to);
+        col = Cas_Col(mt.to);
         fila = Cas_Fila(mt.to);
         printf("%c%d", 'a'+col, fila +1);
 
