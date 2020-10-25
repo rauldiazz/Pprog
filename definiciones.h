@@ -133,7 +133,8 @@ extern int C120a64(int c120);
 extern int C64a120(int c64);
 extern void Free_tablero(TABLERO *tab);
 extern TABLERO* Create_tablero();
-
+int Cas_Col (int cas);
+int Cas_Fila (int cas);
 
 // ataque.c
 extern int SqAttacked(const int sq, const int side, const TABLERO *pos);

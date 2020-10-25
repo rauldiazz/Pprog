@@ -290,6 +290,7 @@ int LeerFen(char *fen, TABLERO *pos) {
 void ResetBoard(TABLERO *pos) {
 
 	int i = 0;
+	int j = 0;
 
 	for(i = 0; i < NUM_CASILLAS; ++i) {
 		pos->pieces[i] = OFFBOARD;
@@ -309,11 +310,21 @@ void ResetBoard(TABLERO *pos) {
 	pos->j_real = 0;
 	
 	pos->enroque = 0;
+	pos->material[0] = 0;
+	pos->material[1] = 0;
 	
 	
 	for(i = 0; i < 12; ++i) {
 		pos->pceNum[i] = 0;
 	}
+	for(i=0;i<13;i++){
+		for(j=0;j<10;j++){
+
+			pos->pList[i][j]=0;	
+		}
+	}
+	pos->KingSq[0]=0;
+	pos->KingSq[1]=0;
 
 	
 }
