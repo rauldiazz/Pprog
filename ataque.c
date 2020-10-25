@@ -21,6 +21,15 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 
 	int pce,index,t_sq,dir;
 	
+	// reyes
+	for(index = 0; index < 8; ++index) {		
+		pce = pos->pieces[sq + KiDir[index]];
+		if((pce == wK || pce == bK) && pieceColour(pce)==side) {
+			return TRUE;
+		}
+	}
+
+
 	// pawns
 	if(side == WHITE) {
 		if(pos->pieces[sq-11] == wP || pos->pieces[sq-9] == wP) {
@@ -71,14 +80,6 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 			}
 			t_sq += dir;
 			pce = pos->pieces[t_sq];
-		}
-	}
-	
-	// reyes
-	for(index = 0; index < 8; ++index) {		
-		pce = pos->pieces[sq + KiDir[index]];
-		if((pce == wK || pce == bK) && pieceColour(pce)==side) {
-			return TRUE;
 		}
 	}
 	
