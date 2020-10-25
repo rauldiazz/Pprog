@@ -89,7 +89,7 @@ typedef struct{
 	int to;
 	//el primer elemento es la pieza que se ha movido, el segundo lo que ha capturado, y lo último en que se ha coronado
 	int piezas[3];
-	// No se si necesitermos una de al paso
+	int paso;
 }MOVE;
 
 
