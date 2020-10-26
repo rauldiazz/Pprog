@@ -1,29 +1,23 @@
 
 #include "stdio.h"
 #include "definiciones.h"
+#define SQOFFBOARD(sq) (FILAsBrd[sq]==OFFBOARD)
 
 const int KnDir[8] = { -8, -19,	-21, -12, 8, 19, 21, 12 };
 const int RkDir[4] = { -1, -10,	1, 10 };
 const int BiDir[4] = { -9, -11, 11, 9 };
 const int KiDir[8] = { -1, -10,	1, 10, -9, -11, 11, 9 };
 
-int pieceColour(int pce){
 
-    if(pce == wP || pce == wR || pce == wB || pce == wN || pce == wQ || pce == wK) return WHITE;
-
-    else if(pce == bP || pce == bR || pce == bB || pce == bN || pce == bQ || pce == bK) return BLACK;
-
-    return BOTH;
-}
 
 
 int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 
 	int pce,index,t_sq,dir;
-
+printf("HOLA");
 	ASSERT(CheckBoard(pos));
-	ASSERT(sq!=OFFBOARD);
-	
+	ASSERT(!SQOFFBOARD(sq));
+	printf("REYES  ");
 	// reyes
 	for(index = 0; index < 8; ++index) {		
 		pce = pos->pieces[sq + KiDir[index]];
@@ -32,7 +26,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 		}
 	}
 
-
+printf("PEONES  ");
 	// pawns
 	if(side == WHITE) {
 		if(pos->pieces[sq-11] == wP || pos->pieces[sq-9] == wP) {
@@ -43,7 +37,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 			return TRUE;
 		}	
 	}
-	
+	printf("CABALLOS  ");
 	// caballos
 	for(index = 0; index < 8; ++index) {		
 		pce = pos->pieces[sq + KnDir[index]];
@@ -51,7 +45,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 			return TRUE;
 		}
 	}
-	
+	printf("PERROS DAMAS  ");
 	// torres, damas
 	for(index = 0; index < 4; ++index) {		
 		dir = RkDir[index];
@@ -68,7 +62,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 			pce = pos->pieces[t_sq];
 		}
 	}
-	
+	printf("PERROS DAMAS alf ");
 	// alfiles y damas
 	for(index = 0; index < 4; ++index) {		
 		dir = BiDir[index];
