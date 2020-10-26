@@ -143,6 +143,7 @@ extern int SqAttacked(const int sq, const int side, const TABLERO *pos);
 //movimientos.c
 extern MOVE **Generador_Peones(TABLERO *t, MOVE **m, int *count );
 extern MOVE **Generador_Movimientos(TABLERO *t, int *count);
+extern MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count);
 int print_moves(MOVE **m, int count);
 void free_move(MOVE *m);
 extern MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count );
