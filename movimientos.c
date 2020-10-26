@@ -134,6 +134,133 @@ MOVE ** Generador_Peones(TABLERO *t, MOVE **m, int *count ){
     return m;
 }
 
+MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
+    int i,j;
+    int dir;
+    int side;
+    int cas = 0, cas_temp=0;
+    int cas_aux;
+    int pce_cas_aux;
+    int pieza = EMPTY;
+    short flag = 1;
+    int dircaballo[8]={-8,-19,-21,-12,8,19,21,12};
+    int dirrey[8]={-1,-10,1,10,-9,-11,9,11};
+    
+    if(!m || !t) return NULL;
+
+	
+    //bucle caballo blanco
+
+	for(i=0; i< t->pceNum[2] ; ++i) {
+			
+            cas = t->pList[2][i];
+            
+			
+			for(j = 0; j < 8;j++) {
+				dir = dircaballo[j];
+				cas_aux = cas + dir;
+                
+
+				
+				if(!SQOFFBOARD(cas_aux)) {	
+                     
+                    pce_cas_aux=t->pieces[cas_aux];
+                    if(pce_cas_aux==EMPTY || pce_cas_aux==bP || pce_cas_aux==bN || pce_cas_aux== bB || pce_cas_aux== bR || pce_cas_aux==bQ || pce_cas_aux==bK){
+                       
+                        m = realloc(m, (*count +1)*sizeof(MOVE*));
+                        if (!m) return NULL;
+                      
+
+                        m[*count] = insert_move(EMPTY,cas,cas_aux,2, pce_cas_aux, EMPTY, EMPTY);
+                        (*count)++;
+                       
+				}
+                }
+				
+			}
+		}
+
+
+    //bucle caballo negro
+
+    for(i=0; i< t->pceNum[bN]; i++) {
+			cas = t->pList[bN][i];
+			
+			
+			for(j = 0; j < 8; ++j) {
+				dir = dircaballo[j];
+				cas_aux = cas + dir;
+				
+				if(cas_aux!=OFFBOARD) {	
+                    pce_cas_aux=t->pieces[cas_aux];
+                    if(pce_cas_aux==EMPTY || pce_cas_aux==wP || pce_cas_aux==wN || pce_cas_aux== wB || pce_cas_aux== wR || pce_cas_aux==wQ || pce_cas_aux==wK){
+                        m = realloc(m, (*count +1)*sizeof(MOVE*));
+                        if (!m) return NULL;
+                      
+
+                        m[*count] = insert_move(EMPTY,cas,cas_aux,bN, pce_cas_aux, EMPTY, EMPTY);
+                        (*count)++;
+				}
+				}
+				
+			}
+		}
+
+        //bucle rey blanco
+
+        for(i=0; i< t->pceNum[wK]; i++) {
+			cas = t->pList[wK][i];
+			
+			
+			for(j = 0; j < 8; ++j) {
+				dir = dirrey[j];
+				cas_aux = cas + dir;
+                pce_cas_aux=t->pieces[cas_aux];
+				
+				if(cas_aux!=OFFBOARD && SqAttacked(cas_aux, BLACK,t)==FALSE) {	
+                    if(pce_cas_aux==EMPTY || pce_cas_aux==bP || pce_cas_aux==bN || pce_cas_aux== bB || pce_cas_aux== bR || pce_cas_aux==bQ || pce_cas_aux==bK){
+                        m = realloc(m, (*count +1)*sizeof(MOVE*));
+                        if (!m) return NULL;
+                      
+
+                        m[*count] = insert_move(EMPTY,cas,cas_aux,wK, pce_cas_aux, EMPTY, EMPTY);
+                        (*count)++;
+				}
+            }
+				
+			}
+		}
+
+        //bucle rey negro
+        
+           for(i=0; i< t->pceNum[bK]; i++) {
+			cas = t->pList[bK][i];
+		
+			
+			for(j = 0; j < 8; ++j) {
+				dir = dirrey[j];
+				cas_aux = cas + dir;
+                pce_cas_aux=t->pieces[cas_aux];
+				
+				if(cas_aux!=OFFBOARD && SqAttacked(cas_aux, WHITE,t)==FALSE) {	
+                    if(pce_cas_aux==EMPTY || pce_cas_aux==wP || pce_cas_aux==wN || pce_cas_aux== wB || pce_cas_aux== wR || pce_cas_aux==wQ || pce_cas_aux==wK){
+                        m = realloc(m, (*count +1)*sizeof(MOVE*));
+                        if (!m) return NULL;
+                      
+
+                        m[*count] = insert_move(EMPTY,cas,cas_aux,bK, pce_cas_aux, EMPTY, EMPTY);
+                        (*count)++;
+				}
+            }
+				
+			}
+		}
+			
+		
+		
+return m;
+}
+
 
 MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
 
