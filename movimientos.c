@@ -3,6 +3,7 @@
 #define SQOFFBOARD(sq) (FILAsBrd[sq]==OFFBOARD)
 #define PEONDIR 10
 
+char PceChar2[] = ".PNBRQKPNBRQK";
 
 MOVE *create_move(){
     return (MOVE*)malloc(sizeof(MOVE));
