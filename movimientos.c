@@ -345,46 +345,67 @@ MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
 
 
 
-
 int print_moves(MOVE **m, int count){
     int i;
     int col, fila;
     MOVE *mt;
 
     if (!m) return -1;
-    printf("Antes del for, count es %d\n", count);
-    for(i=0, printf("EN el bucle\n"); i<count; i++){
+    
+    for(i=0; i<count; i++){
         printf("Jugada %d: ",i);
         mt = m[i];
-        col = Cas_Col(mt->from);
-        fila = Cas_Fila(mt->from);
-        printf("%c%d", 'a'+col, fila +1);
-        col = Cas_Col(mt->to);
-        fila = Cas_Fila(mt->to);
-        printf("%c%d", 'a'+col, fila +1);
+        //primero ver el enroque
+        //Después vemos las piezas:
+        if(mt->piezas[0] == wP || mt->piezas[0] == bP){
+            col = Cas_Col(mt->from);
+            fila = Cas_Fila(mt->from);
+            printf("%c%d", 'a'+col, fila +1);
 
-        if(mt->piezas[2] != EMPTY){
-            switch (mt->piezas[2])
-            {
-            case wN:
-            case bN:
-                printf("n");
-                break;
-            case wB:
-            case bB:
-                printf("b");
-                break;
-            case wR:
-            case bR:
-                printf("r");
-                break;
-            case wQ:
-            case bQ:
-                printf("q");
-                break;
-            default:
-                break;
+            //Captura
+            if(mt->piezas[1] != EMPTY && mt->piezas[1] != OFFBOARD) printf("x");
+
+            col = Cas_Col(mt->to);
+            fila = Cas_Fila(mt->to);
+            printf("%c%d", 'a'+col, fila +1);
+
+            //Coronación
+            if(mt->piezas[2] != EMPTY){
+                switch (mt->piezas[2])
+                {
+                case wN:
+                case bN:
+                    printf("=N");
+                    break;
+                case wB:
+                case bB:
+                    printf("=B");
+                    break;
+                case wR:
+                case bR:
+                    printf("=R");
+                    break;
+                case wQ:
+                case bQ:
+                    printf("=Q");
+                    break;
+                default:
+                    break;
+                }
             }
+        }
+        else{
+            printf("%c", PceChar2[mt->piezas[0]]);
+            col = Cas_Col(mt->from);
+            fila = Cas_Fila(mt->from);
+            printf("%c%d", 'a'+col, fila +1);
+
+            //Captura
+            if(mt->piezas[1] != EMPTY && mt->piezas[1] != OFFBOARD) printf("x");
+
+            col = Cas_Col(mt->to);
+            fila = Cas_Fila(mt->to);
+            printf("%c%d", 'a'+col, fila +1);
         }
         printf("\n");
     }
