@@ -8,6 +8,10 @@
 #define FEN4 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
 #define FEN5 "rnbqkb1r/pp1p1pPp/8/2p1pP2/1P1P4/3P3P/P1P5/RNBQKBNR w KQkq e6 0 1"
 #define FEN6 "2n3q1/PPK5/1N3P2/2R5/1p2bNk1/2PB3p/7n/8 b - - 0 1"
+#define FEN7 "rn1qkbnr/p2b1ppp/1pp5/3pp3/QP2PP2/B1PP1NP1/P2N3P/R3KB1R w KQkq - 0 1"
+#define FEN8 "rn2kb1r/ppp1p2p/3p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
+#define FEN9 "r3kb1r/ppp1p2p/n2p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
+#define FEN10 "r3kb1r/ppp1p2p/n2p3N/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
 int main() {	
 
 	TABLERO *tab=NULL;
@@ -19,7 +23,7 @@ int main() {
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FEN6, tab);
+	LeerFen(FEN10, tab);
 	CheckBoard(tab);
 	PrintBoard(tab);
 

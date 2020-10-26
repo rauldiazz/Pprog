@@ -147,4 +147,5 @@ extern MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count);
 int print_moves(MOVE **m, int count);
 void free_move(MOVE *m);
 extern MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count );
+extern MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count );
 #endif

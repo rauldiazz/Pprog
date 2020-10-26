@@ -44,6 +44,7 @@ MOVE **Generador_Movimientos(TABLERO *t, int *count){
     m = Generador_Peones(t, m, count);
     m = Generador_Slide(t, m, count);
     m = Generador_RC(t, m, count);
+    m = Generador_Enroques(t, m, count);
     return m;
     
 } 
@@ -99,6 +100,8 @@ MOVE ** Generador_Peones(TABLERO *t, MOVE **m, int *count ){
 
     side = t->side;
 
+    ASSERT(CheckBoard(t));
+
     //Las correciones donde hay *side sirven para escoger, dependiendo del lado al que le toque, escoger las características correctas
     for(i=0;i<t->pceNum[CAMBIO_LADO*side + wP]&& flag == 1;i++){
         cas = t->pList[CAMBIO_LADO*side + wP][i];
@@ -151,6 +154,8 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
     if(!m || !t) return NULL;
 
 	side=t->side;
+
+    ASSERT(CheckBoard(t));
    
    
     //bucle caballo blanco
@@ -270,6 +275,109 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 		
 return m;
 }
+
+MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
+
+    int side;
+    int sq, entresq;
+    int i, flag=1;
+
+    if(!t||!m)return NULL;
+
+    ASSERT(CheckBoard(t));
+
+    side=t->side;
+    
+
+
+    if(side==WHITE){
+
+        sq = t->pList[wK][0];
+
+        if(SqAttacked(sq, BLACK,t))return m;
+
+        if(t->enroque & WKCA){
+            for(i=1;i<=2&&flag==1;i++){
+
+                entresq=sq+i;
+                flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, BLACK,t)));
+                
+            }
+            if(flag==1){
+
+                m = realloc(m,(*count + 1)*sizeof(MOVE*));
+				m[*count] = insert_move(WKCA,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+                (*count) ++;
+
+            }
+
+        }
+        flag=1;
+        if(t->enroque & WQCA){
+            for(i=1;i<=3&&flag==1;i++){
+
+                entresq=sq-i;
+                flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, BLACK,t)));
+                
+            }
+            if(flag==1){
+
+                m = realloc(m,(*count + 1)*sizeof(MOVE*));
+				m[*count] = insert_move(WQCA,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+                (*count) ++;
+
+            }
+
+        }
+
+    }
+    if(side==BLACK){
+
+        sq = t->pList[bK][0];
+
+        if(SqAttacked(sq, WHITE,t))return m;
+
+        if(t->enroque & BKCA){
+            for(i=1;i<=2&&flag==1;i++){
+
+                entresq=sq+i;
+                flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, WHITE,t)));
+
+            }
+            if(flag==1){
+
+                m = realloc(m,(*count + 1)*sizeof(MOVE*));
+				m[*count] = insert_move(BKCA,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+                (*count) ++;
+
+            }
+
+        }
+        flag=1;
+        if(t->enroque & BQCA){
+            for(i=1;i<=3&&flag==1;i++){
+
+                entresq=sq-i;
+                flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, WHITE,t)));
+
+            }
+            if(flag==1){
+
+                m = realloc(m,(*count + 1)*sizeof(MOVE*));
+				m[*count] = insert_move(BQCA,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+                (*count) ++;
+
+            }
+
+        }
+
+    }
+
+    return m;
+
+
+}
+
 
 
 MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
@@ -397,6 +505,7 @@ int print_moves(MOVE **m, int count){
             }
         }
         else{
+            if(mt->castle==EMPTY){
             printf("%c", PceChar2[mt->piezas[0]]);
             col = Cas_Col(mt->from);
             fila = Cas_Fila(mt->from);
@@ -408,6 +517,15 @@ int print_moves(MOVE **m, int count){
             col = Cas_Col(mt->to);
             fila = Cas_Fila(mt->to);
             printf("%c%d", 'a'+col, fila +1);
+            }
+            else{
+                if(mt->castle==WKCA)printf("WKCA");
+                else if(mt->castle==WQCA)printf("WQCA");
+                else if(mt->castle==BKCA)printf("BKCA");
+                else if(mt->castle==BQCA)printf("BQCA");
+
+            }
+            
         }
         printf("\n");
     }
