@@ -134,6 +134,7 @@ MOVE ** Generador_Peones(TABLERO *t, MOVE **m, int *count ){
     return m;
 }
 
+
 MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
     int i,j;
     int dir;
@@ -148,9 +149,12 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
     
     if(!m || !t) return NULL;
 
-	
+	side=t->side;
+   
+   
     //bucle caballo blanco
 
+   if(side==WHITE){
 	for(i=0; i< t->pceNum[2] ; ++i) {
 			
             cas = t->pList[2][i];
@@ -179,9 +183,11 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				
 			}
 		}
+   }
 
 
     //bucle caballo negro
+     if(side==BLACK){
 
     for(i=0; i< t->pceNum[bN]; i++) {
 			cas = t->pList[bN][i];
@@ -205,9 +211,10 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				
 			}
 		}
+     }
 
         //bucle rey blanco
-
+      if(side==WHITE){
         for(i=0; i< t->pceNum[wK]; i++) {
 			cas = t->pList[wK][i];
 			
@@ -230,9 +237,10 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				
 			}
 		}
+      }
 
         //bucle rey negro
-        
+         if(side==BLACK){
            for(i=0; i< t->pceNum[bK]; i++) {
 			cas = t->pList[bK][i];
 		
@@ -255,6 +263,7 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				
 			}
 		}
+         }
 			
 		
 		
