@@ -14,10 +14,10 @@ const int KiDir[8] = { -1, -10,	1, 10, -9, -11, 11, 9 };
 int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 
 	int pce,index,t_sq,dir;
-printf("HOLA");
+
 	ASSERT(CheckBoard(pos));
 	ASSERT(!SQOFFBOARD(sq));
-	printf("REYES  ");
+	
 	// reyes
 	for(index = 0; index < 8; ++index) {		
 		pce = pos->pieces[sq + KiDir[index]];
@@ -26,7 +26,7 @@ printf("HOLA");
 		}
 	}
 
-printf("PEONES  ");
+
 	// pawns
 	if(side == WHITE) {
 		if(pos->pieces[sq-11] == wP || pos->pieces[sq-9] == wP) {
@@ -37,7 +37,7 @@ printf("PEONES  ");
 			return TRUE;
 		}	
 	}
-	printf("CABALLOS  ");
+	
 	// caballos
 	for(index = 0; index < 8; ++index) {		
 		pce = pos->pieces[sq + KnDir[index]];
@@ -45,7 +45,7 @@ printf("PEONES  ");
 			return TRUE;
 		}
 	}
-	printf("PERROS DAMAS  ");
+	
 	// torres, damas
 	for(index = 0; index < 4; ++index) {		
 		dir = RkDir[index];
@@ -62,7 +62,7 @@ printf("PEONES  ");
 			pce = pos->pieces[t_sq];
 		}
 	}
-	printf("PERROS DAMAS alf ");
+	
 	// alfiles y damas
 	for(index = 0; index < 4; ++index) {		
 		dir = BiDir[index];

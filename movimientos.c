@@ -43,7 +43,7 @@ MOVE **Generador_Movimientos(TABLERO *t, int *count){
 
     m = Generador_Peones(t, m, count);
     m = Generador_Slide(t, m, count);
-
+    m = Generador_RC(t, m, count);
     return m;
     
 } 
@@ -198,7 +198,7 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				dir = dircaballo[j];
 				cas_aux = cas + dir;
 				
-				if(cas_aux!=OFFBOARD) {	
+				if((!SQOFFBOARD(cas_aux))) {	
                     pce_cas_aux=t->pieces[cas_aux];
                     if(pce_cas_aux==EMPTY || pce_cas_aux==wP || pce_cas_aux==wN || pce_cas_aux== wB || pce_cas_aux== wR || pce_cas_aux==wQ || pce_cas_aux==wK){
                         m = realloc(m, (*count +1)*sizeof(MOVE*));
@@ -225,7 +225,7 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				cas_aux = cas + dir;
                 pce_cas_aux=t->pieces[cas_aux];
 				
-				if(cas_aux!=OFFBOARD && SqAttacked(cas_aux, BLACK,t)==FALSE) {	
+				if((!SQOFFBOARD(cas_aux)) && SqAttacked(cas_aux, BLACK,t)==FALSE) {	
                     if(pce_cas_aux==EMPTY || pce_cas_aux==bP || pce_cas_aux==bN || pce_cas_aux== bB || pce_cas_aux== bR || pce_cas_aux==bQ || pce_cas_aux==bK){
                         m = realloc(m, (*count +1)*sizeof(MOVE*));
                         if (!m) return NULL;
@@ -251,7 +251,7 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				cas_aux = cas + dir;
                 pce_cas_aux=t->pieces[cas_aux];
 				
-				if(cas_aux!=OFFBOARD && SqAttacked(cas_aux, WHITE,t)==FALSE) {	
+				if((!SQOFFBOARD(cas_aux)) && SqAttacked(cas_aux, WHITE,t)==FALSE) {	
                     if(pce_cas_aux==EMPTY || pce_cas_aux==wP || pce_cas_aux==wN || pce_cas_aux== wB || pce_cas_aux== wR || pce_cas_aux==wQ || pce_cas_aux==wK){
                         m = realloc(m, (*count +1)*sizeof(MOVE*));
                         if (!m) return NULL;
@@ -277,11 +277,12 @@ MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
     ASSERT(CheckBoard(t));
 
     int pceIndex, pce, pceNum, side, index, sq, t_sq, dir;
-    int PceDirSlide[6][8] = {
-	
+    int PceDirSlide[8][8] = {
+	{0,0,0,0,0,0,0,0},
 	{ -9, -11, 11, 9, 0, 0, 0, 0 },
 	{ -1, -10,	1, 10, 0, 0, 0, 0 },
 	{ -1, -10,	1, 10, -9, -11, 11, 9 },
+    {0,0,0,0,0,0,0,0},
 	{ -9, -11, 11, 9, 0, 0, 0, 0 },
 	{ -1, -10,	1, 10, 0, 0, 0, 0 },
 	{ -1, -10,	1, 10, -9, -11, 11, 9 }
@@ -289,8 +290,8 @@ MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
     };
 
 
-    int NumDirSlide[6] = {
-    4,4,8,4,4,8
+    int NumDirSlide[13] = {
+    0,0,0,4,4,8,0,0,0,4,4,8,0
     };
 
     int LoopSlidePce[8] = {
@@ -311,16 +312,16 @@ MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
 		
 		for(pceNum = 0; pceNum < t->pceNum[pce]; ++pceNum) {
 			sq = t->pList[pce][pceNum];
-			ASSERT(!SQOFFBOARD(sq));
+			if(SQOFFBOARD(sq)) return NULL;
 			
 			for(index = 0; index < NumDirSlide[pce]; ++index) {
-				dir = PceDirSlide[pce][index];
+				dir = PceDirSlide[pceIndex][index];
 				t_sq = sq + dir;
 				
 				while(!SQOFFBOARD(t_sq)) {				
 					
 					if(t->pieces[t_sq] != EMPTY) {
-						if( pieceColour(t->pieces[t_sq]) != side) {
+						if( pieceColour(t->pieces[t_sq]) !=side) {
                             
                             m = realloc(m,(*count + 1)*sizeof(MOVE*));
 							m[*count] = insert_move(EMPTY,sq, t_sq, pce, t->pieces[t_sq], EMPTY, EMPTY);
