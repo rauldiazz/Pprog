@@ -580,6 +580,7 @@ int print_moves(MOVE **m, int count){
 /*Introducir una jugada que sea válida o jaque*/
 int HacerJugada(TABLERO *t,MOVE *m){
     S_UNDO *u;
+    int aux=t->enroque;
 
 
     if(!t||!m)return FALSE;
@@ -588,8 +589,6 @@ int HacerJugada(TABLERO *t,MOVE *m){
     u->AlPaso = t->AlPaso;
     u->fiftyMove = t->fiftyMove;
     u->enroque = t->enroque;
-
-
 
     if(m->castle!=EMPTY){
 
@@ -645,6 +644,70 @@ int HacerJugada(TABLERO *t,MOVE *m){
     UpdateListsMaterial(t);
 
     CheckBoard(t);
+
+    if(t->side==WHITE){
+
+        if(t->pieces[m->from]==wK){
+
+            if(aux%2==1){
+
+                t->enroque-=1;
+                aux-=1;
+            }
+            aux/=2;
+            if(aux%2==1){
+                t->enroque-=2;
+            }
+
+        }
+        else if(t->pieces[m->from]==wR){
+
+            if(m->from==H1){
+
+                if(aux%2==1)t->enroque-=1;
+            }
+            else if(m->from==A1){
+
+                aux=(aux-(aux%2))/2;
+
+                if(aux%2==1) t->enroque-=2;                    
+            }
+        }
+    }
+    else if(t->side==BLACK){
+
+        if(t->pieces[m->from]==bK){
+
+            aux-=BQCA;
+            if(aux>=0){
+                t->enroque-=8;
+            }
+            else if(aux<0)aux=t->enroque;
+
+            aux-=BKCA;
+            if(aux<0)t->enroque-=4;
+        }
+
+        else if(t->pieces[m->from]==bR){
+            aux-=BQCA;
+            if(m->from==A8){
+
+                if(aux>=0){                   
+                    t->enroque-=8;
+                }
+
+                else if(aux<0)aux=t->enroque;
+
+            }
+            else if(m->from==H8){
+
+                aux-=BKCA;
+                if(aux>=0)t->enroque-=4;
+            }
+        }
+
+    }
+
 
 
     if(m->piezas[0] == wP + CAMBIO_LADO*t->side && (m->to - m->from) == 20 -40*t->side){
