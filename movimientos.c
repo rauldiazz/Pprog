@@ -27,7 +27,22 @@ MOVE *move_copy(MOVE*m){
     return copy;
 }
 
+void free_UNDO(S_UNDO * u){
+    if(u){
+        if(u->jugada) free_move(u->jugada);
+        free(u);
+    } 
+}
 
+S_UNDO *create_UNDO (MOVE *jugada){
+    S_UNDO *u;
+    if(!(u= (S_UNDO*)malloc(sizeof(S_UNDO)))) return NULL;
+    if(!(u->jugada = move_copy(jugada))){
+        free_UNDO(u);
+        return NULL;
+    }
+    return u;
+}
 
 MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int corona, int paso){
     MOVE  *m;
@@ -562,63 +577,77 @@ int print_moves(MOVE **m, int count){
     }
 }
 
-
-int Makemove(TABLERO *t,MOVE *m){
-    int cas,pieza,i;
+/*Introducir una jugada que sea válida o jaque*/
+int HacerJugada(TABLERO *t,MOVE *m){
+    S_UNDO *u;
 
 
     if(!t||!m)return FALSE;
 
-    if(m->castle != 0){
-        if(m->castle!=EMPTY){
+    if(!(u = create_UNDO(m))) return FALSE;
+    u->AlPaso = t->AlPaso;
+    u->fiftyMove = t->fiftyMove;
+    u->enroque = t->enroque;
 
-    if(m->castle==WKCA){
 
-        t->pieces[E1]=EMPTY;
-        t->pieces[H1]=EMPTY;
-        t->pieces[G1]=wK;
-        t->pieces[F1]=wR;
+
+    if(m->castle!=EMPTY){
+
+        if(m->castle==WKCA){
+
+            t->pieces[E1]=EMPTY;
+            t->pieces[H1]=EMPTY;
+            t->pieces[G1]=wK;
+            t->pieces[F1]=wR;
+
+        }
+        if(m->castle==WQCA){
+
+            t->pieces[E1]=EMPTY;
+            t->pieces[A1]=EMPTY;
+            t->pieces[C1]=wK;
+            t->pieces[D1]=wR;
+
+        }
+        if(m->castle==BKCA){
+
+            t->pieces[E8]=EMPTY;
+            t->pieces[H8]=EMPTY;
+            t->pieces[G8]=bK;
+            t->pieces[F8]=bR;
+
+        }
+        if(m->castle==WKCA){
+
+            t->pieces[E8]=EMPTY;
+            t->pieces[A8]=EMPTY;
+            t->pieces[C8]=bK;
+            t->pieces[D8]=bR;
 
     }
-    if(m->castle==WQCA){
-
-        t->pieces[E1]=EMPTY;
-        t->pieces[A1]=EMPTY;
-        t->pieces[C1]=wK;
-        t->pieces[D1]=wR;
-
-    }
-    if(m->castle==BKCA){
-
-        t->pieces[E8]=EMPTY;
-        t->pieces[H8]=EMPTY;
-        t->pieces[G8]=bK;
-        t->pieces[F8]=bR;
-
-    }
-    if(m->castle==WKCA){
-
-        t->pieces[E8]=EMPTY;
-        t->pieces[A8]=EMPTY;
-        t->pieces[C8]=bK;
-        t->pieces[D8]=bR;
 
     }
 
-}
-    }
+    else{
+            t->pieces[m->from] = EMPTY;
+            t->pieces[m->to] = m->piezas[0];
 
-    t->pieces[m->from] = EMPTY;
-    t->pieces[m->to] = m->piezas[0];
+            if(SqAttacked(t->KingSq[t->side],1 - t->side,t)){
+                t->pieces[m->from] = t->pieces[m->to];
+                t->pieces[m->to] = m->piezas[1];
+                free_UNDO(u);
+                return FALSE;
+            }
 
-    if(SqAttacked(t->KingSq[t->side],1 - t->side,t)){
-        t->pieces[m->from] = t->pieces[m->to];
-        t->pieces[m->to] = m->piezas[1];
-        return FALSE;
-    }
+            if (m->piezas[2] != EMPTY) t->pieces[m->to] = m->piezas[3];
+            if (m->paso!= EMPTY) t->pieces[m->to -10 +20*t->side]=EMPTY;
+        }
+        UpdateListsMaterial(t);
 
-    UpdateListsMaterial(t);
+        CheckBoard(t);
 
-    CheckBoard(t);
 
+        if(m->piezas[0] == wP + CAMBIO_LADO*t->side && (m->to - m->from) == 20 -40*t->side){
+            t->AlPaso = m->to -10 +20*t->side;
+        }
 }
