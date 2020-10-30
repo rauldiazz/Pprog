@@ -642,12 +642,26 @@ int HacerJugada(TABLERO *t,MOVE *m){
             if (m->piezas[2] != EMPTY) t->pieces[m->to] = m->piezas[3];
             if (m->paso!= EMPTY) t->pieces[m->to -10 +20*t->side]=EMPTY;
         }
-        UpdateListsMaterial(t);
+    UpdateListsMaterial(t);
 
-        CheckBoard(t);
+    CheckBoard(t);
 
 
-        if(m->piezas[0] == wP + CAMBIO_LADO*t->side && (m->to - m->from) == 20 -40*t->side){
-            t->AlPaso = m->to -10 +20*t->side;
-        }
+    if(m->piezas[0] == wP + CAMBIO_LADO*t->side && (m->to - m->from) == 20 -40*t->side){
+        t->AlPaso = m->to -10 +20*t->side;
+    }
+    else{
+        t->AlPaso = NO_SQ;
+    }
+
+    if(m->piezas[1] != EMPTY && m->piezas[0] != wP + CAMBIO_LADO*t->side){
+        t->fiftyMove++;
+    }
+    else{
+        t->fiftyMove = 0;
+    }
+
+    t->side = 1- t->side;
+    return TRUE;
+
 }
