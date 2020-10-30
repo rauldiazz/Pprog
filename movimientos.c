@@ -12,6 +12,23 @@ MOVE *create_move(){
 void free_move(MOVE *m){
     free(m);
 }
+
+MOVE *move_copy(MOVE*m){
+    MOVE *copy;
+    if(!m)return NULL;
+    if(!(copy = create_move())) return NULL;
+    copy->castle=m->castle;
+    copy->from = m->from;
+    copy->paso = m->paso;
+    copy->to = m->to;
+    copy->piezas[0] = m->piezas[0];
+    copy->piezas[1] = m->piezas[1];
+    copy->piezas[2] = m->piezas[2];
+    return copy;
+}
+
+
+
 MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int corona, int paso){
     MOVE  *m;
     m = create_move();
@@ -543,4 +560,31 @@ int print_moves(MOVE **m, int count){
         }
         printf("\n");
     }
+}
+
+
+int Makemove(TABLERO *t,MOVE *m){
+    int cas,pieza,i;
+
+
+    if(!t||!m)return FALSE;
+
+    if(m->castle != 0){
+        /*mover enroque*/
+    }
+
+    t->pieces[m->from] = EMPTY;
+    t->pieces[m->to] = m->piezas[0];
+
+    if(SqAttacked(t->KingSq[t->side],1 - t->side,t)){
+        t->pieces[m->from] = t->pieces[m->to];
+        t->pieces[m->to] = m->piezas[1];
+        return FALSE;
+    }
+
+    UpdateListsMaterial(t);
+
+    CheckBoard(t);
+
+
 }
