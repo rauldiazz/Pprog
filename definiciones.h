@@ -46,11 +46,20 @@ enum { FALSE, TRUE };
 
 enum { WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8 };
 
+typedef struct{
+	int castle;
+	int from;
+	int to;
+	//el primer elemento es la pieza que se ha movido, el segundo lo que ha capturado, y lo último en que se ha coronado
+	int piezas[3];
+	int paso;
+}MOVE;
+
 typedef struct {
 
-	int jugada;
+	MOVE * jugada;
 	int enroque;
-	int AlPaso;
+	int AlPaso;/*casilla en la que se puede comer al paso*/
 	int fiftyMove;
 
 } S_UNDO;
@@ -84,14 +93,7 @@ typedef struct {
 	
 } TABLERO;
 
-typedef struct{
-	int castle;
-	int from;
-	int to;
-	//el primer elemento es la pieza que se ha movido, el segundo lo que ha capturado, y lo último en que se ha coronado
-	int piezas[3];
-	int paso;
-}MOVE;
+
 
 
 /* MACROS */

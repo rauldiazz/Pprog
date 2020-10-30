@@ -386,6 +386,7 @@ void PrintBoard(const TABLERO *pos) {
 			pos->enroque & BKCA ? 'k' : '-',
 			pos->enroque & BQCA ? 'q' : '-'	
 			);
+	
 }
 
 TABLERO* Create_tablero(){

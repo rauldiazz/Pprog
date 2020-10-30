@@ -281,6 +281,7 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
     int side;
     int sq, entresq;
     int i, flag=1;
+    int aux;
 
     if(!t||!m)return NULL;
 
@@ -288,7 +289,8 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
 
     side=t->side;
     
-
+    aux=t->enroque;
+    
 
     if(side==WHITE){
 
@@ -296,7 +298,8 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
 
         if(SqAttacked(sq, BLACK,t))return m;
 
-        if(t->enroque & WKCA){
+        if((aux%2)==1){
+            aux-=1;
             for(i=1;i<=2&&flag==1;i++){
 
                 entresq=sq+i;
@@ -313,7 +316,8 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
 
         }
         flag=1;
-        if(t->enroque & WQCA){
+        aux=aux/2;
+        if(aux%2==1){
             for(i=1;i<=3&&flag==1;i++){
 
                 entresq=sq-i;
@@ -332,29 +336,16 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
 
     }
     if(side==BLACK){
+        aux=t->enroque;
+        
 
         sq = t->pList[bK][0];
 
         if(SqAttacked(sq, WHITE,t))return m;
 
-        if(t->enroque & BKCA){
-            for(i=1;i<=2&&flag==1;i++){
 
-                entresq=sq+i;
-                flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, WHITE,t)));
-
-            }
-            if(flag==1){
-
-                m = realloc(m,(*count + 1)*sizeof(MOVE*));
-				m[*count] = insert_move(BKCA,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
-                (*count) ++;
-
-            }
-
-        }
-        flag=1;
-        if(t->enroque & BQCA){
+        aux-=BQCA;
+        if((aux)>=0){
             for(i=1;i<=3&&flag==1;i++){
 
                 entresq=sq-i;
@@ -365,6 +356,29 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
 
                 m = realloc(m,(*count + 1)*sizeof(MOVE*));
 				m[*count] = insert_move(BQCA,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
+                (*count) ++;
+                
+
+            }
+
+        }
+
+        flag=1;
+        if(aux<0)aux=t->enroque;
+
+        aux-=BKCA;
+
+        if(aux>=0){
+            for(i=1;i<=2&&flag==1;i++){
+
+                entresq=sq+i;
+                flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, WHITE,t)));
+
+            }
+            if(flag==1){
+
+                m = realloc(m,(*count + 1)*sizeof(MOVE*));
+				m[*count] = insert_move(BKCA,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY);
                 (*count) ++;
 
             }
