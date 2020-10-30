@@ -61,6 +61,7 @@ typedef struct {
 	int enroque;
 	int AlPaso;/*casilla en la que se puede comer al paso*/
 	int fiftyMove;
+	char *fen;
 
 } S_UNDO;
 
