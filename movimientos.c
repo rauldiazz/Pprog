@@ -570,7 +570,42 @@ int Makemove(TABLERO *t,MOVE *m){
     if(!t||!m)return FALSE;
 
     if(m->castle != 0){
-        /*mover enroque*/
+        if(m->castle!=EMPTY){
+
+    if(m->castle==WKCA){
+
+        t->pieces[E1]=EMPTY;
+        t->pieces[H1]=EMPTY;
+        t->pieces[G1]=wK;
+        t->pieces[F1]=wR;
+
+    }
+    if(m->castle==WQCA){
+
+        t->pieces[E1]=EMPTY;
+        t->pieces[A1]=EMPTY;
+        t->pieces[C1]=wK;
+        t->pieces[D1]=wR;
+
+    }
+    if(m->castle==BKCA){
+
+        t->pieces[E8]=EMPTY;
+        t->pieces[H8]=EMPTY;
+        t->pieces[G8]=bK;
+        t->pieces[F8]=bR;
+
+    }
+    if(m->castle==WKCA){
+
+        t->pieces[E8]=EMPTY;
+        t->pieces[A8]=EMPTY;
+        t->pieces[C8]=bK;
+        t->pieces[D8]=bR;
+
+    }
+
+}
     }
 
     t->pieces[m->from] = EMPTY;
@@ -585,6 +620,5 @@ int Makemove(TABLERO *t,MOVE *m){
     UpdateListsMaterial(t);
 
     CheckBoard(t);
-
 
 }
