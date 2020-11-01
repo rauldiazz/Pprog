@@ -813,7 +813,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
 
 
 
-void TakeMove(TABLERO *t) {
+void DeshcerJugada(TABLERO *t) {
     int col,pce,flag,i,captura,promo;
     MOVE * move;
 	int from;
@@ -889,7 +889,7 @@ void TakeMove(TABLERO *t) {
 	
 	captura = move->piezas[1];
     if(captura != EMPTY) {
-        t->pieces[to] = pce;
+        t->pieces[to] = captura;
     }
 
     promo=move->piezas[2];
