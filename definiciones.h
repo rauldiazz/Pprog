@@ -75,9 +75,9 @@ typedef struct {
 	int side;
 	int AlPaso;
 	int fiftyMove;
-	
 
-	int j_im; 
+
+	int histcont; 
 	int j_real;
 	
 	int enroque;

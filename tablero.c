@@ -280,7 +280,7 @@ int LeerFen(char *fen, TABLERO *pos) {
 		pos->j_real = 2*((fen[3]-'0')*1000 + (fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side -1;
 	}
 	else return -1;
-	pos->j_im = pos->j_real;
+	pos->histcont = pos->j_real;
 	
 	UpdateListsMaterial(pos);
 	
@@ -306,7 +306,7 @@ void ResetBoard(TABLERO *pos) {
 	pos->AlPaso = NO_SQ;
 	pos->fiftyMove = 0;
 	
-	pos->j_im = 0;
+	pos->histcont = 0;
 	pos->j_real = 0;
 	
 	pos->enroque = 0;
@@ -473,6 +473,7 @@ char * EscribirFen(TABLERO *t){
 	if(!(fen = (char*)malloc(MAXFEN*sizeof(char)))) return NULL;
 
 	for(i=64;i>0 && flag == TRUE;i--){
+		/*printf("ln es %d\n",ln);*/
 		a = i + 6 -2*((i-1) %8);
 		pieza = t->pieces[C64a120(a)];
 		if(i!= 64 && i%8 ==0){
@@ -490,6 +491,7 @@ char * EscribirFen(TABLERO *t){
 			cont++;
 			break;
 		case OFFBOARD: 
+			/*printf("la casilla %d es OFFBOARD, i es %d\n", C64a120(i-1), i);*/
 			flag = FALSE;
 			break;
 
