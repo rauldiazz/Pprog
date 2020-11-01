@@ -809,3 +809,100 @@ int HacerJugada(TABLERO *t,MOVE *m){
     return TRUE;
 
 }
+
+
+
+
+void TakeMove(TABLERO *t) {
+    int col,pce,flag,i,captura,promo;
+    MOVE * move;
+	int from;
+    int to;
+	
+    ASSERT(CheckBoard(t));
+	
+	t->histcont--; //histcont  hisply
+    t->j_real--;  //j_real ply
+	
+    move = t->history[t->histcont]->jugada;
+    from = move->from;
+    to = move->to;	
+	
+	;
+
+    t->enroque = t->history[t->histcont]->enroque;
+    t->fiftyMove = t->history[t->histcont]->fiftyMove;
+    t->AlPaso = t->history[t->histcont]->AlPaso;
+
+   
+    t->side ^= 1;
+    
+	
+	if(t->AlPaso!=EMPTY) {
+        if(t->side == WHITE) {
+            t->pieces[to-10]=bP;
+        } else {
+            t->pieces[to-10]=wP;
+        }
+    } else if(t->enroque==WKCA  || t->enroque==BKCA || t->enroque==WQCA || t->enroque==BQCA) {
+        switch(to) {
+           
+            
+            case G1:  
+                t->pieces[E1]=EMPTY;
+                t->pieces[H1]=EMPTY;
+                t->pieces[G1]=wK;
+                t->pieces[F1]=wR;
+                break;
+            case C1: 
+                t->pieces[E1]=EMPTY;
+                t->pieces[A1]=EMPTY;
+                t->pieces[C1]=wK;
+                t->pieces[D1]=wR;
+                break;
+            case G8: 
+                t->pieces[E8]=EMPTY;
+                t->pieces[H8]=EMPTY;
+                t->pieces[G8]=bK;
+                t->pieces[F8]=bR; 
+                break;
+            case C8: 
+                t->pieces[E8]=EMPTY;
+                t->pieces[A8]=EMPTY;
+                t->pieces[C8]=bK;
+                t->pieces[D8]=bR;
+
+                break;
+            default: ASSERT(FALSE);     
+                break;
+        }
+    }
+	
+	
+	//move piece to-from
+    i = 0;
+	pce = t->pieces[from];	
+    t->pieces[from] = EMPTY;
+	t->pieces[to] = pce;
+     
+    
+	
+	captura = move->piezas[1];
+    if(captura != EMPTY) {
+        t->pieces[to] = pce;
+    }
+
+    promo=move->piezas[2];
+	
+	if(promo != EMPTY)   {
+        
+        t->pieces[from]=EMPTY;
+        t->pieces[from] = promo;
+
+    }
+    UpdateListsMaterial(t);
+    CheckBoard(t);
+	
+    ASSERT(CheckBoard(t));
+
+}
