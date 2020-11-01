@@ -462,7 +462,7 @@ void Free_tablero(TABLERO *tab){
 
 char * EscribirFen(TABLERO *t){
 	char *fen;
-	int i=0,ln=0;
+	int i=0,ln=0,a=0;
 	int pieza,cont=0;
 	char aux;
 	short flag = TRUE;
@@ -472,9 +472,15 @@ char * EscribirFen(TABLERO *t){
 
 	if(!(fen = (char*)malloc(MAXFEN*sizeof(char)))) return NULL;
 
-	for(i=64;i>0 && flag == TRUE;i++){
-		pieza = t->pieces[C64a120(i-1)];
+	for(i=64;i>0 && flag == TRUE;i--){
+		a = i + 6 -2*((i-1) %8);
+		pieza = t->pieces[C64a120(a)];
 		if(i!= 64 && i%8 ==0){
+			if(cont!= 0){
+				fen[ln] = '0' + cont;
+				ln ++;
+				cont = 0;
+			}
 			fen[ln] = '/';
 			ln++;
 		}
