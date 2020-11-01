@@ -690,7 +690,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
             t->pieces[F8]=bR;
 
         }
-        if(m->castle==WKCA){
+        if(m->castle==BQCA){
 
             t->pieces[E8]=EMPTY;
             t->pieces[A8]=EMPTY;
@@ -798,7 +798,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
         t->fiftyMove = 0;
     }
     t->j_real++;
-    t->j_im++;
+    t->histcont++;
     t->side = 1- t->side;
     return TRUE;
 
