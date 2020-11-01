@@ -280,7 +280,6 @@ int LeerFen(char *fen, TABLERO *pos) {
 		pos->j_real = 2*((fen[3]-'0')*1000 + (fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side -1;
 	}
 	else return -1;
-	pos->histcont = pos->j_real;
 	
 	UpdateListsMaterial(pos);
 	
@@ -429,32 +428,45 @@ TABLERO* Create_tablero(){
 
 	}
 	}
+	//Podria cambiarse por realloc
+	tab->history = (S_UNDO**) malloc(MAXGAMEMOVES*sizeof(S_UNDO*));
 
+	if(!tab->history){
+		Free_tablero(tab);
+		return NULL;
+	}
 
 	return tab;
 }
 
 void Free_tablero(TABLERO *tab){
 	int i;
+	if(tab){
+		if(tab->pieces)free(tab->pieces);
 
-	if(tab->pieces)free(tab->pieces);
 
+		if(tab->KingSq)free(tab->KingSq);
 
-	if(tab->KingSq)free(tab->KingSq);
+		if(tab->material)free(tab->material);
 
-	if(tab->material)free(tab->material);
+		if(tab->pceNum)free(tab->pceNum);
 
-	if(tab->pceNum)free(tab->pceNum);
-
-	if(tab->pList){
-		
-		for(i=0;i<13;i++){
-			if(tab->pList[i])free(tab->pList[i]);
+		if(tab->pList){
+			
+			for(i=0;i<13;i++){
+				if(tab->pList[i])free(tab->pList[i]);
+			}
+			free(tab->pList);
 		}
-		free(tab->pList);
-	}
 
-	if(tab)free(tab);
+		if(tab->history){
+			for(i=0;i<tab->histcont;i++){
+				free_UNDO(tab->history[i]);
+			}
+			free(tab->history);
+		}
+		free(tab);
+	}
 	return;
 
 }

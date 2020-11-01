@@ -15,27 +15,34 @@
 int main() {	
 
 	TABLERO *tab=NULL;
-	MOVE **m;
+	MOVE **m,*jugada;
 	int i=0,count = 0;
 	char *aux;
+
+	jugada = insert_move(EMPTY,E2,E4,wP,EMPTY,EMPTY,EMPTY);
 
 
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FEN4, tab);
+	LeerFen(START_FEN, tab);
 	CheckBoard(tab);
 	PrintBoard(tab);
+	aux = EscribirFen(tab);
+	printf("La FEN es: %s\n",aux);
+	free(aux);
+	HacerJugada(tab,jugada);
+	PrintBoard(tab);
+	/*m = Generador_Movimientos(tab,&count);
 
-	m = Generador_Movimientos(tab,&count);
-
-	print_moves(m,count);
+	print_moves(m,count);*/
 
 	Free_tablero(tab);
-	for (i=0;i<count;i++){
+	free_move(jugada);
+	/*for (i=0;i<count;i++){
 		free_move(m[i]);
 	}
-	free(m);
+	free(m);*/
 	
 
 

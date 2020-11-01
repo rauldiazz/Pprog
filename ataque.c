@@ -15,7 +15,6 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 
 	int pce,index,t_sq,dir;
 
-	ASSERT(CheckBoard(pos));
 	ASSERT(!SQOFFBOARD(sq));
 	
 	// reyes

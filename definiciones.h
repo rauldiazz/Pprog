@@ -87,7 +87,7 @@ typedef struct {
 	int *pceNum;
 	int *material;
 	
-	S_UNDO *history;
+	S_UNDO **history;
 	
 	// piece list
 	int **pList;	
@@ -152,10 +152,15 @@ int print_moves(MOVE **m, int count);
 void free_move(MOVE *m);
 extern MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count );
 extern MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count );
-int PrintMove(MOVE *mt);
-int HacerJugada(TABLERO *t,MOVE *m);
-void DeshacerJugada(TABLERO *pos);
-
+extern int PrintMove(MOVE *mt);
+extern int HacerJugada(TABLERO *t,MOVE *m);
+extern void DeshacerJugada(TABLERO *pos);
+extern void free_UNDO(S_UNDO * u);
+extern S_UNDO *create_UNDO (MOVE *jugada);
+extern MOVE *move_copy(MOVE*m);
+extern MOVE *create_move();
+extern void free_move(MOVE *m);
+extern MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int corona, int paso);
 //comprobacion.c
 
 void Comprobacion(int prof, TABLERO *pos);

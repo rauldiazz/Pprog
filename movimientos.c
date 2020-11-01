@@ -11,6 +11,7 @@ MOVE *create_move(){
 
 void free_move(MOVE *m){
     free(m);
+    return;
 }
 
 MOVE *move_copy(MOVE*m){
@@ -33,6 +34,7 @@ void free_UNDO(S_UNDO * u){
         if(u->fen) free(u->fen);
         free(u);
     } 
+    return;
 }
 
 S_UNDO *create_UNDO (MOVE *jugada){
@@ -663,7 +665,6 @@ int HacerJugada(TABLERO *t,MOVE *m){
     u->fiftyMove = t->fiftyMove;
     u->enroque = t->enroque;
     u->fen = EscribirFen(t);
-
     if(m->castle!=EMPTY){
 
         if(m->castle==WKCA){
@@ -714,8 +715,10 @@ int HacerJugada(TABLERO *t,MOVE *m){
 
             if (m->piezas[2] != EMPTY) t->pieces[m->to] = m->piezas[3];
             if (m->paso!= EMPTY) t->pieces[m->to -10 +20*t->side]=EMPTY;
-        }
+    } 
+
     UpdateListsMaterial(t);
+
 
     CheckBoard(t);
 
@@ -798,6 +801,9 @@ int HacerJugada(TABLERO *t,MOVE *m){
         t->fiftyMove = 0;
     }
     t->j_real++;
+
+
+    t->history[t->histcont] = u;
     t->histcont++;
     t->side = 1- t->side;
     return TRUE;
