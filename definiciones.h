@@ -138,6 +138,7 @@ extern void Free_tablero(TABLERO *tab);
 extern TABLERO* Create_tablero();
 int Cas_Col (int cas);
 int Cas_Fila (int cas);
+char *EscribirFen(TABLERO *t);
 
 
 // ataque.c

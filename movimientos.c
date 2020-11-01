@@ -30,6 +30,7 @@ MOVE *move_copy(MOVE*m){
 void free_UNDO(S_UNDO * u){
     if(u){
         if(u->jugada) free_move(u->jugada);
+        if(u->fen) free(fen);
         free(u);
     } 
 }
@@ -589,6 +590,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
     u->AlPaso = t->AlPaso;
     u->fiftyMove = t->fiftyMove;
     u->enroque = t->enroque;
+    u->fen = EscribirFen(t);
 
     if(m->castle!=EMPTY){
 
@@ -723,7 +725,8 @@ int HacerJugada(TABLERO *t,MOVE *m){
     else{
         t->fiftyMove = 0;
     }
-
+    t->j_real++;
+    t->j_im++;
     t->side = 1- t->side;
     return TRUE;
 
