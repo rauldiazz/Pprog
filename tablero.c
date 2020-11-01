@@ -458,3 +458,86 @@ void Free_tablero(TABLERO *tab){
 	return;
 
 }
+
+
+char * EscribirFen(TABLERO *t){
+	char *fen;
+	int i=0,ln=0;
+	int pieza,cont=0;
+	char aux;
+	short flag = TRUE;
+
+
+	if(!t) return NULL;
+
+	if(!(fen = (char*)malloc(MAXFEN*sizeof(char)))) return NULL;
+
+	for(i=64;i>0 && flag == TRUE;i++){
+		pieza = t->pieces[C64a120(i-1)];
+		if(i!= 64 && i%8 ==0){
+			fen[ln] = '/';
+			ln++;
+		}
+		switch (pieza)
+		{
+		case EMPTY:
+			cont++;
+			break;
+		case OFFBOARD: 
+			flag = FALSE;
+			break;
+
+		default:
+			if(cont!= 0){
+				fen[ln] = '0' + cont;
+				ln ++;
+				cont = 0;
+			}
+
+			fen[ln] = PceChar[pieza]; 
+			ln++; 
+			break;
+		}
+	}
+
+	fen[ln] = ' ';
+	ln++;
+	if(t->side == WHITE) fen[ln] = 'w';
+	else fen[ln] = 'b';
+	ln++;
+
+	fen[ln] = ' ';
+	ln++;
+	cont = t->enroque;
+
+	if(cont % 2 == 1){
+		fen[ln] = 'K';
+		ln++;
+	}
+
+	cont = (cont- cont %2)/2;
+
+	if(cont % 2 == 1){
+		fen[ln] = 'Q';
+		ln++;
+	}
+
+	cont = (cont- cont %2)/2;
+
+	if(cont % 2 == 1){
+		fen[ln] = 'k';
+		ln++;
+	}
+
+	cont = (cont- cont %2)/2;
+
+	if(cont % 2 == 1){
+		fen[ln] = 'q';
+		ln++;
+	}
+
+	fen[ln] = '\0';
+	ln++;
+
+	return fen;
+} 

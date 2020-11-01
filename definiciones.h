@@ -20,7 +20,7 @@ exit(1);}
 
 #define NUM_CASILLAS 120
 #define CAMBIO_LADO 6 
-
+#define MAXFEN 128
 #define MAXGAMEMOVES 2048
 
 #define START_FEN  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
