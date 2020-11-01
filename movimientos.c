@@ -813,7 +813,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
 
 
 
-void DeshcerJugada(TABLERO *t) {
+void DeshacerJugada(TABLERO *t) {
     int col,pce,flag,i,captura,promo;
     MOVE * move;
 	int from;
@@ -834,11 +834,11 @@ void DeshcerJugada(TABLERO *t) {
     t->fiftyMove = t->history[t->histcont]->fiftyMove;
     t->AlPaso = t->history[t->histcont]->AlPaso;
 
-   
+    printf("%d alpaso es \n",t->AlPaso);
     t->side=1-t->side;
     
 	
-	if(t->AlPaso!=EMPTY) {
+	if(t->AlPaso!=EMPTY&&t->AlPaso!= OFFBOARD && t->AlPaso != NO_SQ) {
         if(t->side == WHITE) {
             t->pieces[to-10]=bP;
         } else {
