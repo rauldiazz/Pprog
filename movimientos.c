@@ -828,14 +828,14 @@ void DeshcerJugada(TABLERO *t) {
     from = move->from;
     to = move->to;	
 	
-	;
+
 
     t->enroque = t->history[t->histcont]->enroque;
     t->fiftyMove = t->history[t->histcont]->fiftyMove;
     t->AlPaso = t->history[t->histcont]->AlPaso;
 
    
-    t->side ^= 1;
+    t->side=1-t->side;
     
 	
 	if(t->AlPaso!=EMPTY) {
@@ -849,28 +849,28 @@ void DeshcerJugada(TABLERO *t) {
            
             
             case G1:  
-                t->pieces[E1]=EMPTY;
-                t->pieces[H1]=EMPTY;
-                t->pieces[G1]=wK;
-                t->pieces[F1]=wR;
+                t->pieces[E1]=wK;
+                t->pieces[H1]=wR;
+                t->pieces[G1]=EMPTY;
+                t->pieces[F1]=EMPTY;
                 break;
             case C1: 
-                t->pieces[E1]=EMPTY;
-                t->pieces[A1]=EMPTY;
-                t->pieces[C1]=wK;
-                t->pieces[D1]=wR;
+                t->pieces[E1]=wK;
+                t->pieces[A1]=wR;
+                t->pieces[C1]=EMPTY;
+                t->pieces[D1]=EMPTY;
                 break;
             case G8: 
-                t->pieces[E8]=EMPTY;
-                t->pieces[H8]=EMPTY;
-                t->pieces[G8]=bK;
-                t->pieces[F8]=bR; 
+                t->pieces[E8]=bK;
+                t->pieces[H8]=bR;
+                t->pieces[G8]=EMPTY;
+                t->pieces[F8]=EMPTY;
                 break;
             case C8: 
-                t->pieces[E8]=EMPTY;
-                t->pieces[A8]=EMPTY;
-                t->pieces[C8]=bK;
-                t->pieces[D8]=bR;
+                t->pieces[E8]=bK;
+                t->pieces[A8]=bR;
+                t->pieces[C8]=EMPTY;
+                t->pieces[D8]=EMPTY;
 
                 break;
             default: ASSERT(FALSE);     
@@ -880,10 +880,9 @@ void DeshcerJugada(TABLERO *t) {
 	
 	
 	//move piece to-from
-    i = 0;
-	pce = t->pieces[from];	
-    t->pieces[from] = EMPTY;
-	t->pieces[to] = pce;
+	pce = t->pieces[to];	
+    t->pieces[to] = EMPTY;
+	t->pieces[from] = pce;
      
     
 	
@@ -901,7 +900,7 @@ void DeshcerJugada(TABLERO *t) {
 
     }
     UpdateListsMaterial(t);
-    CheckBoard(t);
+  
 	
     ASSERT(CheckBoard(t));
 
