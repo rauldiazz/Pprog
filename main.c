@@ -33,6 +33,8 @@ int main() {
 	free(aux);
 	HacerJugada(tab,jugada);
 	PrintBoard(tab);
+	DeshacerJugada(tab);
+	PrintBoard(tab);
 	/*m = Generador_Movimientos(tab,&count);
 
 	print_moves(m,count);*/

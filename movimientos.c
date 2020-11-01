@@ -834,6 +834,8 @@ void DeshacerJugada(TABLERO *t) {
     t->fiftyMove = t->history[t->histcont]->fiftyMove;
     t->AlPaso = t->history[t->histcont]->AlPaso;
 
+
+
     printf("%d alpaso es \n",t->AlPaso);
     t->side=1-t->side;
     
@@ -898,10 +900,12 @@ void DeshacerJugada(TABLERO *t) {
         t->pieces[from]=EMPTY;
         t->pieces[from] = promo;
 
-    }
+    }    
+    free_UNDO(t->history[t->histcont]);
     UpdateListsMaterial(t);
   
 	
     ASSERT(CheckBoard(t));
+    return;
 
 }
