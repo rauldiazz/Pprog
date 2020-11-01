@@ -152,4 +152,13 @@ int print_moves(MOVE **m, int count);
 void free_move(MOVE *m);
 extern MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count );
 extern MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count );
+int PrintMove(MOVE *mt);
+int HacerJugada(TABLERO *t,MOVE *m);
+void DeshacerJugada(TABLERO *pos);
+
+//comprobacion.c
+
+void Comprobacion(int prof, TABLERO *pos);
+void Comprobaciontest(int prof, TABLERO *pos);
+
 #endif

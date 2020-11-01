@@ -30,7 +30,7 @@ MOVE *move_copy(MOVE*m){
 void free_UNDO(S_UNDO * u){
     if(u){
         if(u->jugada) free_move(u->jugada);
-        if(u->fen) free(fen);
+        if(u->fen) free(u->fen);
         free(u);
     } 
 }
@@ -500,6 +500,78 @@ MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
 
 }
 
+int PrintMove(MOVE *mt){
+    
+    int col, fila;
+
+    
+
+    if (!mt) return -1;
+    
+        //primero ver el enroque
+        //Después vemos las piezas:
+        if(mt->piezas[0] == wP || mt->piezas[0] == bP){
+            col = Cas_Col(mt->from);
+            fila = Cas_Fila(mt->from);
+            printf("%c%d", 'a'+col, fila +1);
+
+            //Captura
+            if(mt->piezas[1] != EMPTY && mt->piezas[1] != OFFBOARD) printf("x");
+
+            col = Cas_Col(mt->to);
+            fila = Cas_Fila(mt->to);
+            printf("%c%d", 'a'+col, fila +1);
+
+            //Coronación
+            if(mt->piezas[2] != EMPTY){
+                switch (mt->piezas[2])
+                {
+                case wN:
+                case bN:
+                    printf("=N");
+                    break;
+                case wB:
+                case bB:
+                    printf("=B");
+                    break;
+                case wR:
+                case bR:
+                    printf("=R");
+                    break;
+                case wQ:
+                case bQ:
+                    printf("=Q");
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        else{
+            if(mt->castle==EMPTY){
+            printf("%c", PceChar2[mt->piezas[0]]);
+            col = Cas_Col(mt->from);
+            fila = Cas_Fila(mt->from);
+            printf("%c%d", 'a'+col, fila +1);
+
+            //Captura
+            if(mt->piezas[1] != EMPTY && mt->piezas[1] != OFFBOARD) printf("x");
+
+            col = Cas_Col(mt->to);
+            fila = Cas_Fila(mt->to);
+            printf("%c%d", 'a'+col, fila +1);
+            }
+            else{
+                if(mt->castle==WKCA)printf("WKCA");
+                else if(mt->castle==WQCA)printf("WQCA");
+                else if(mt->castle==BKCA)printf("BKCA");
+                else if(mt->castle==BQCA)printf("BQCA");
+
+            }
+            
+        }
+        printf("\n");
+    }
 
 
 int print_moves(MOVE **m, int count){
