@@ -24,7 +24,7 @@ int main() {
 
 
 
-	Comprobaciontest(3,tab);
+	Comprobaciontest(1,tab);
 
 
 	Free_tablero(tab);
