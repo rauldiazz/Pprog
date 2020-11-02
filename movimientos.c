@@ -749,7 +749,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
                 return FALSE;
             }
 
-            if (m->piezas[2] != EMPTY) t->pieces[m->to] = m->piezas[3];
+            if (m->piezas[2] != EMPTY) t->pieces[m->to] = m->piezas[2];
             if (m->paso!= EMPTY) t->pieces[m->to -10 +20*t->side]=EMPTY;
     } 
 
@@ -875,7 +875,6 @@ void DeshacerJugada(TABLERO *t) {
 
     
     t->side=1-t->side;
-    
 	
 	if(move->paso!=EMPTY&&move->paso!= OFFBOARD && move->paso != NO_SQ) {
         if(t->side == WHITE) {
@@ -935,7 +934,7 @@ void DeshacerJugada(TABLERO *t) {
 	if(promo != EMPTY)   {
         
         t->pieces[from]=EMPTY;
-        t->pieces[from] = promo;
+        t->pieces[from] = CAMBIO_LADO*t->side +wP;
 
     }    
     free_UNDO(t->history[t->histcont]);

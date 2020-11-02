@@ -13,8 +13,8 @@
 #define FEN9 "r3kb1r/ppp1p2p/n2p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R w KQkq - 0 1"
 #define FEN10 "r3kb1r/ppp1p2p/n2p3N/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
 #define PERFTFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
-#define FENAUX2 "4k3/8/8/8/8/8/8/R4RK1 b  - 0 1"
-#define FENAUX "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1"
+#define FENAUX2 "k7/8/8/3p4/8/4p3/8/6K1 b  - 0 1"
+#define FENAUX "k7/8/8/3p4/4p3/8/8/7K b  - 0 1"
 int main() {	
 
 	TABLERO *tab=NULL;
@@ -24,8 +24,9 @@ int main() {
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FENAUX, tab);
-	/*jugada = insert_move(WKCA,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY);
+	LeerFen(FENAUX2, tab);
+	PrintBoard(tab);
+	/*jugada = insert_move(EMPTY,E3,E2,bP,EMPTY,EMPTY,EMPTY);
 	HacerJugada(tab,jugada);
 	fen = EscribirFen(tab);
 	printf("fen es %s\n",fen);
