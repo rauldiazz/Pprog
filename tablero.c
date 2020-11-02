@@ -519,6 +519,11 @@ char * EscribirFen(TABLERO *t){
 			break;
 		}
 	}
+	if(cont!=0){
+		fen[ln] = '0' + cont;
+		ln ++;
+		cont = 0;
+	}
 
 	fen[ln] = ' ';
 	ln++;

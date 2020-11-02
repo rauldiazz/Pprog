@@ -677,7 +677,15 @@ int HacerJugada(TABLERO *t,MOVE *m){
             t->pieces[H1]=EMPTY;
             t->pieces[G1]=wK;
             t->pieces[F1]=wR;
+            if(aux%2==1){
 
+                t->enroque-=1;
+                aux-=1;
+            }
+            aux/=2;
+            if(aux%2==1){
+                t->enroque-=2;
+            }
         }
         if(m->castle==WQCA){
 
@@ -685,7 +693,15 @@ int HacerJugada(TABLERO *t,MOVE *m){
             t->pieces[A1]=EMPTY;
             t->pieces[C1]=wK;
             t->pieces[D1]=wR;
+            if(aux%2==1){
 
+                t->enroque-=1;
+                aux-=1;
+            }
+            aux/=2;
+            if(aux%2==1){
+                t->enroque-=2;
+            }
         }
         if(m->castle==BKCA){
 
@@ -693,7 +709,14 @@ int HacerJugada(TABLERO *t,MOVE *m){
             t->pieces[H8]=EMPTY;
             t->pieces[G8]=bK;
             t->pieces[F8]=bR;
+            aux-=BQCA;
+            if(aux>=0){
+                t->enroque-=8;
+            }
+            else if(aux<0)aux=t->enroque;
 
+            aux-=BKCA;
+            if(aux>=0)t->enroque-=4;
         }
         if(m->castle==BQCA){
 
@@ -701,7 +724,14 @@ int HacerJugada(TABLERO *t,MOVE *m){
             t->pieces[A8]=EMPTY;
             t->pieces[C8]=bK;
             t->pieces[D8]=bR;
+            aux-=BQCA;
+            if(aux>=0){
+                t->enroque-=8;
+            }
+            else if(aux<0)aux=t->enroque;
 
+            aux-=BKCA;
+            if(aux>=0)t->enroque-=4;
     }
 
     }
