@@ -761,6 +761,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
     CheckBoard(t);
     
     if(t->side==WHITE){
+        aux-=BQCA;
         if(m->to==A8){
                 if(aux>=0){                   
                     t->enroque-=8;
