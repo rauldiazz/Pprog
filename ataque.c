@@ -53,6 +53,7 @@ int SqAttacked(const int sq, const int side, const TABLERO *pos) {
 		while(pce != OFFBOARD) {
 			if(pce != EMPTY) {
 				if((pce == bR || pce == bQ || pce == wQ || pce == wR) && pieceColour(pce) == side) {
+
 					return TRUE;
 				}
 				break;

@@ -66,7 +66,7 @@ void Comprobaciontest(int prof, TABLERO *pos) {
             continue;
         }
         long alcanzados = nHojas;
-        /*PrintBoard(pos);*/
+        PrintBoard(pos);
         Comprobacion(prof - 1, pos);
         DeshacerJugada(pos);
 

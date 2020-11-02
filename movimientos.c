@@ -76,10 +76,12 @@ MOVE **Generador_Movimientos(TABLERO *t, int *count){
     m[0] = insert_move(0,A1,A1,0,0,0,0);
     *count = 1;
 
+    
+    m = Generador_Enroques(t, m, count);
     m = Generador_Peones(t, m, count);
     m = Generador_Slide(t, m, count);
     m = Generador_RC(t, m, count);
-    m = Generador_Enroques(t, m, count);
+
     return m;
     
 } 
@@ -265,7 +267,7 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				cas_aux = cas + dir;
                 pce_cas_aux=t->pieces[cas_aux];
 				
-				if((!SQOFFBOARD(cas_aux)) && SqAttacked(cas_aux, BLACK,t)==FALSE) {	
+				if((!SQOFFBOARD(cas_aux))) {	
                     if(pce_cas_aux==EMPTY || pce_cas_aux==bP || pce_cas_aux==bN || pce_cas_aux== bB || pce_cas_aux== bR || pce_cas_aux==bQ || pce_cas_aux==bK){
                         m = realloc(m, (*count +1)*sizeof(MOVE*));
                         if (!m) return NULL;
@@ -291,7 +293,7 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 				cas_aux = cas + dir;
                 pce_cas_aux=t->pieces[cas_aux];
 				
-				if((!SQOFFBOARD(cas_aux)) && SqAttacked(cas_aux, WHITE,t)==FALSE) {	
+				if((!SQOFFBOARD(cas_aux))) {	
                     if(pce_cas_aux==EMPTY || pce_cas_aux==wP || pce_cas_aux==wN || pce_cas_aux== wB || pce_cas_aux== wR || pce_cas_aux==wQ || pce_cas_aux==wK){
                         m = realloc(m, (*count +1)*sizeof(MOVE*));
                         if (!m) return NULL;
@@ -654,10 +656,13 @@ int print_moves(MOVE **m, int count){
 /*Introducir una jugada que sea válida o jaque*/
 int HacerJugada(TABLERO *t,MOVE *m){
     S_UNDO *u;
-    int aux=t->enroque;
+    int aux,ksq;
+
 
 
     if(!t||!m)return FALSE;
+    aux=t->enroque;
+
 
     if(!(u = create_UNDO(m))) return FALSE;
     u->AlPaso = t->AlPaso;
@@ -704,8 +709,10 @@ int HacerJugada(TABLERO *t,MOVE *m){
     else{
             t->pieces[m->from] = EMPTY;
             t->pieces[m->to] = m->piezas[0];
+            if(m->piezas[0]==wK || m->piezas[0]== bK) ksq = m->to;
+            else ksq = t->KingSq[t->side];
+            if(SqAttacked(ksq ,1 - t->side,t)){
 
-            if(SqAttacked(t->KingSq[t->side],1 - t->side,t)){
                 t->pieces[m->from] = t->pieces[m->to];
                 t->pieces[m->to] = m->piezas[1];
                 free_UNDO(u);
