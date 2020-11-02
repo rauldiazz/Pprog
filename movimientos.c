@@ -361,6 +361,7 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
                 flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, BLACK,t)));
                 
             }
+            if(flag == 1) flag = (t->pieces[sq-3] == EMPTY);
             if(flag==1){
 
                 m = realloc(m,(*count + 1)*sizeof(MOVE*));
@@ -389,6 +390,7 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
                 flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, WHITE,t)));
 
             }
+            if(flag == 1) flag = (t->pieces[sq-3] == EMPTY);
             if(flag==1){
 
                 m = realloc(m,(*count + 1)*sizeof(MOVE*));
@@ -757,8 +759,22 @@ int HacerJugada(TABLERO *t,MOVE *m){
 
 
     CheckBoard(t);
-
+    
     if(t->side==WHITE){
+        if(m->to==A8){
+                if(aux>=0){                   
+                    t->enroque-=8;
+                }
+
+                else if(aux<0)aux=t->enroque;
+
+            }
+            else if(m->to==H8){
+                if(aux<0)aux=t->enroque;
+
+                aux-=BKCA;
+                if(aux>=0)t->enroque-=4;
+            }
         if(t->pieces[m->to]==wK){
 
             if(aux%2==1){
@@ -787,7 +803,17 @@ int HacerJugada(TABLERO *t,MOVE *m){
         }
     }
     else if(t->side==BLACK){
-        
+        if(m->to==H1){
+
+                if(aux%2==1)t->enroque-=1;
+            }
+            else if(m->to==A1){
+
+                aux=(aux-(aux%2))/2;
+
+                if(aux%2==1) t->enroque-=2;                    
+            }
+
         if(t->pieces[m->to]==bK){
             //printf("Se ha movido el negro\n");
             aux-=BQCA;
