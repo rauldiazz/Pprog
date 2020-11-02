@@ -757,9 +757,9 @@ int HacerJugada(TABLERO *t,MOVE *m){
         }
     }
     else if(t->side==BLACK){
-
+        
         if(t->pieces[m->to]==bK){
-
+            //printf("Se ha movido el negro\n");
             aux-=BQCA;
             if(aux>=0){
                 t->enroque-=8;
@@ -767,13 +767,14 @@ int HacerJugada(TABLERO *t,MOVE *m){
             else if(aux<0)aux=t->enroque;
 
             aux-=BKCA;
-            if(aux<0)t->enroque-=4;
+            if(aux>=0)t->enroque-=4;
         }
 
         else if(t->pieces[m->to]==bR){
+            //printf("Se ha movido el rey negro\n");
             aux-=BQCA;
             if(m->from==A8){
-
+                //printf("Se ha movido la torre de A8\n");
                 if(aux>=0){                   
                     t->enroque-=8;
                 }
@@ -782,7 +783,8 @@ int HacerJugada(TABLERO *t,MOVE *m){
 
             }
             else if(m->from==H8){
-
+                if(aux<0)aux=t->enroque;
+                //printf("Se ha movido la torre de H8\n");
                 aux-=BKCA;
                 if(aux>=0)t->enroque-=4;
             }

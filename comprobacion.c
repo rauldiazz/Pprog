@@ -29,7 +29,7 @@ void Comprobacion(int prof, TABLERO *pos) {
             free_move(m[MoveNum]);
             continue;
         }
-
+        //if(prof == 3) PrintBoard(pos);
         Comprobacion(prof - 1, pos);
         DeshacerJugada(pos);
         free_move(m[MoveNum]);
@@ -66,7 +66,7 @@ void Comprobaciontest(int prof, TABLERO *pos) {
             continue;
         }
         long alcanzados = nHojas;
-        /*PrintBoard(pos);*/
+        //PrintBoard(pos);
         Comprobacion(prof - 1, pos);
         DeshacerJugada(pos);
 
