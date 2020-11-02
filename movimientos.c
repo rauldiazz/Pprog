@@ -880,7 +880,7 @@ void DeshacerJugada(TABLERO *t) {
         if(t->side == WHITE) {
             t->pieces[to-10]=bP;
         } else {
-            t->pieces[to-10]=wP;
+            t->pieces[to+10]=wP;
         }
     } else if(move->castle==WKCA  || move->castle==BKCA || move->castle==WQCA || move->castle==BQCA) {
         switch(move->castle) {
@@ -925,7 +925,7 @@ void DeshacerJugada(TABLERO *t) {
     
 	
 	captura = move->piezas[1];
-    if(captura != EMPTY) {
+    if(captura != EMPTY && (move->paso == EMPTY || move->paso == NO_SQ)) {
         t->pieces[to] = captura;
     }
 
