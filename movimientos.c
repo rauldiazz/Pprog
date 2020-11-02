@@ -729,8 +729,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
     CheckBoard(t);
 
     if(t->side==WHITE){
-
-        if(t->pieces[m->from]==wK){
+        if(t->pieces[m->to]==wK){
 
             if(aux%2==1){
 
@@ -743,7 +742,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
             }
 
         }
-        else if(t->pieces[m->from]==wR){
+        else if(t->pieces[m->to]==wR){
 
             if(m->from==H1){
 
@@ -759,7 +758,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
     }
     else if(t->side==BLACK){
 
-        if(t->pieces[m->from]==bK){
+        if(t->pieces[m->to]==bK){
 
             aux-=BQCA;
             if(aux>=0){
@@ -771,7 +770,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
             if(aux<0)t->enroque-=4;
         }
 
-        else if(t->pieces[m->from]==bR){
+        else if(t->pieces[m->to]==bR){
             aux-=BQCA;
             if(m->from==A8){
 

@@ -12,18 +12,20 @@
 #define FEN8 "rn2kb1r/ppp1p2p/3p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R w KQkq - 0 1"
 #define FEN9 "r3kb1r/ppp1p2p/n2p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R w KQkq - 0 1"
 #define FEN10 "r3kb1r/ppp1p2p/n2p3N/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
-#define PERFTFEN "4k2R/8/8/8/8/8/8/4K3 b - - 0 1"
+#define PERFTFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
+#define FENAUX "4k3/8/8/8/8/8/8/R3K3 w Q - 0 1"
+#define FENAUX2 "4k3/8/8/8/8/8/7R/4K3 b  - 0 1"
 int main() {	
 
 	TABLERO *tab=NULL;
-	MOVE *jugada;
+	MOVE *jugada,*jugada2;
 
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
 	LeerFen(PERFTFEN, tab);
-
-
+	/*jugada = insert_move(EMPTY,H1,H2,wR,EMPTY,EMPTY,EMPTY);*/
+	/*HacerJugada(tab,jugada);*/
 	Comprobaciontest(2, tab);
 
 
