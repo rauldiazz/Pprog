@@ -355,7 +355,7 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
         flag=1;
         aux=aux/2;
         if(aux%2==1){
-            for(i=1;i<=3&&flag==1;i++){
+            for(i=1;i<=2&&flag==1;i++){
 
                 entresq=sq-i;
                 flag=((t->pieces[entresq] == EMPTY && !SqAttacked(entresq, BLACK,t)));
