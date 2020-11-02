@@ -9,7 +9,7 @@ void Comprobacion(int prof, TABLERO *pos) {
 
     int count=0;
 
-   
+
 
     ASSERT(CheckBoard(pos));  
 
@@ -23,17 +23,19 @@ void Comprobacion(int prof, TABLERO *pos) {
     if(!m)return;
       
     int MoveNum = 0;
-	for(MoveNum = 0; MoveNum <(count); ++MoveNum) {	
+	for(MoveNum = 1; MoveNum <count; ++MoveNum) {	
        
         if ( !HacerJugada(pos,m[MoveNum]))  {
             free_move(m[MoveNum]);
             continue;
         }
+        
         Comprobacion(prof - 1, pos);
         DeshacerJugada(pos);
         free_move(m[MoveNum]);
     }
-    
+    free_move(m[0]);
+    free(m);
 
     return;
 }
@@ -57,13 +59,14 @@ void Comprobaciontest(int prof, TABLERO *pos) {
 
 
     int MoveNum = 0;
-	for(MoveNum = 0; MoveNum < count; ++MoveNum) {
+	for(MoveNum = 1; MoveNum < count; ++MoveNum) {
         
         if ( !HacerJugada(pos,m[MoveNum]))  {
             free_move(m[MoveNum]);
             continue;
         }
         long alcanzados = nHojas;
+        /*PrintBoard(pos);*/
         Comprobacion(prof - 1, pos);
         DeshacerJugada(pos);
 
@@ -74,7 +77,8 @@ void Comprobaciontest(int prof, TABLERO *pos) {
         printf(" : %ld\n", nAnt);
         free_move(m[MoveNum]);
     }
-	
+    free_move(m[0]);
+	free(m);
 	printf("\nTest completado: %ld nodos visitados\n",nHojas);
     
     return;

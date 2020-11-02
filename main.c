@@ -16,15 +16,15 @@
 int main() {	
 
 	TABLERO *tab=NULL;
+	MOVE *jugada;
 
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(PERFTFEN, tab);
+	LeerFen(START_FEN, tab);
 
 
-
-	Comprobaciontest(1,tab);
+	Comprobaciontest(2,tab);
 
 
 	Free_tablero(tab);

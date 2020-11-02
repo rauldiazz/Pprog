@@ -572,7 +572,6 @@ int PrintMove(MOVE *mt){
             }
             
         }
-        printf("\n");
     }
 
 
@@ -840,35 +839,35 @@ void DeshacerJugada(TABLERO *t) {
     t->side=1-t->side;
     
 	
-	if(t->AlPaso!=EMPTY&&t->AlPaso!= OFFBOARD && t->AlPaso != NO_SQ) {
+	if(move->paso!=EMPTY&&move->paso!= OFFBOARD && move->paso != NO_SQ) {
         if(t->side == WHITE) {
             t->pieces[to-10]=bP;
         } else {
             t->pieces[to-10]=wP;
         }
-    } else if(t->enroque==WKCA  || t->enroque==BKCA || t->enroque==WQCA || t->enroque==BQCA) {
-        switch(to) {
+    } else if(move->castle==WKCA  || move->castle==BKCA || move->castle==WQCA || move->castle==BQCA) {
+        switch(move->castle) {
            
             
-            case G1:  
+            case WKCA:  
                 t->pieces[E1]=wK;
                 t->pieces[H1]=wR;
                 t->pieces[G1]=EMPTY;
                 t->pieces[F1]=EMPTY;
                 break;
-            case C1: 
+            case WQCA: 
                 t->pieces[E1]=wK;
                 t->pieces[A1]=wR;
                 t->pieces[C1]=EMPTY;
                 t->pieces[D1]=EMPTY;
                 break;
-            case G8: 
+            case BKCA: 
                 t->pieces[E8]=bK;
                 t->pieces[H8]=bR;
                 t->pieces[G8]=EMPTY;
                 t->pieces[F8]=EMPTY;
                 break;
-            case C8: 
+            case BQCA: 
                 t->pieces[E8]=bK;
                 t->pieces[A8]=bR;
                 t->pieces[C8]=EMPTY;
