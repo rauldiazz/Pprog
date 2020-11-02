@@ -12,39 +12,23 @@
 #define FEN8 "rn2kb1r/ppp1p2p/3p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R w KQkq - 0 1"
 #define FEN9 "r3kb1r/ppp1p2p/n2p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R w KQkq - 0 1"
 #define FEN10 "r3kb1r/ppp1p2p/n2p3N/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
+#define PERFTFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
 int main() {	
 
 	TABLERO *tab=NULL;
-	MOVE **m,*jugada;
-	int i=0,count = 0;
-	char *aux;
-
-	jugada = insert_move(EMPTY,E2,E4,wP,EMPTY,EMPTY,EMPTY);
-
 
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(START_FEN, tab);
-	CheckBoard(tab);
-	PrintBoard(tab);
-	aux = EscribirFen(tab);
-	printf("La FEN es: %s\n",aux);
-	free(aux);
-	HacerJugada(tab,jugada);
-	PrintBoard(tab);
-	DeshacerJugada(tab);
-	PrintBoard(tab);
-	/*m = Generador_Movimientos(tab,&count);
+	LeerFen(PERFTFEN, tab);
 
-	print_moves(m,count);*/
+
+
+	Comprobaciontest(3,tab);
+
 
 	Free_tablero(tab);
-	free_move(jugada);
-	/*for (i=0;i<count;i++){
-		free_move(m[i]);
-	}
-	free(m);*/
+	
 	
 
 
