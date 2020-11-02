@@ -7,10 +7,9 @@ long nHojas;
 
 void Comprobacion(int prof, TABLERO *pos) {
 
-    int *count;
+    int count=0;
 
-    count=(int*)malloc(sizeof(int));
-    if(!count)return;
+   
 
     ASSERT(CheckBoard(pos));  
 
@@ -20,11 +19,11 @@ void Comprobacion(int prof, TABLERO *pos) {
     }	
 
     MOVE **m=NULL;;
-    m=Generador_Movimientos(pos, count);
+    m=Generador_Movimientos(pos, &count);
     if(!m)return;
       
     int MoveNum = 0;
-	for(MoveNum = 0; MoveNum <(*count); ++MoveNum) {	
+	for(MoveNum = 0; MoveNum <(count); ++MoveNum) {	
        
         if ( !HacerJugada(pos,m[MoveNum]))  {
             free_move(m[MoveNum]);
@@ -47,20 +46,18 @@ void Comprobaciontest(int prof, TABLERO *pos) {
 	PrintBoard(pos);
 	printf("\nEmpezando el test para profundidad:%d\n",prof);	
 	nHojas = 0;
-	int *count;
+	int count=0;
 
-    count=(int*)malloc(sizeof(int));
-    if(!count)return;
     
     MOVE **m=NULL;
-    m=Generador_Movimientos(pos, count);
+    m=Generador_Movimientos(pos, &count);
     if(!m)return;
     
 
 
 
     int MoveNum = 0;
-	for(MoveNum = 0; MoveNum < (*count); ++MoveNum) {
+	for(MoveNum = 0; MoveNum < count; ++MoveNum) {
         
         if ( !HacerJugada(pos,m[MoveNum]))  {
             free_move(m[MoveNum]);
@@ -72,13 +69,13 @@ void Comprobaciontest(int prof, TABLERO *pos) {
 
                 
         long nAnt = nHojas - alcanzados;
-        printf("move %d : ",MoveNum+1);
+        printf("move %d : ",MoveNum);
         PrintMove(m[MoveNum]);
         printf(" : %ld\n", nAnt);
         free_move(m[MoveNum]);
     }
 	
 	printf("\nTest completado: %ld nodos visitados\n",nHojas);
-
+    
     return;
 }
