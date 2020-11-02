@@ -223,7 +223,7 @@ int LeerFen(char *fen, TABLERO *pos) {
         }
 		fen++;
 	}
-	
+
 	ASSERT(*fen == 'w' || *fen == 'b');
 	
 	if(*fen == 'w') pos->side = WHITE;
@@ -238,7 +238,7 @@ int LeerFen(char *fen, TABLERO *pos) {
 			case 'Q': pos->enroque += WQCA; break;
 			case 'k': pos->enroque += BKCA; break;
 			case 'q': pos->enroque += BQCA; break;
-			default: flag = 0;
+			default: flag = 0; fen--; break;
         }
 		fen++;
 	}
@@ -280,7 +280,7 @@ int LeerFen(char *fen, TABLERO *pos) {
 		pos->j_real = 2*((fen[3]-'0')*1000 + (fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side -1;
 	}
 	else return -1;
-	
+
 	UpdateListsMaterial(pos);
 	
 	return 0;
