@@ -119,7 +119,7 @@ int CheckBoard(const TABLERO *pos) {
 	ASSERT(pos->side==WHITE || pos->side==BLACK);
 
 	
-	ASSERT(pos->AlPaso==NO_SQ || ( FILAsBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
+	ASSERT(pos->AlPaso==NO_SQ || pos->AlPaso==EMPTY ||( FILAsBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
 		 || ( FILAsBrd[pos->AlPaso]==FILA_3 && pos->side == BLACK));
 	
 	ASSERT(pos->pieces[pos->KingSq[WHITE]] == wK);

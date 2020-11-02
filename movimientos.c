@@ -836,7 +836,7 @@ void DeshacerJugada(TABLERO *t) {
 
 
 
-    printf("%d alpaso es \n",t->AlPaso);
+    
     t->side=1-t->side;
     
 	
