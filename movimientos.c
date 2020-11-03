@@ -775,7 +775,8 @@ int HacerJugada(TABLERO *t,MOVE *m){
 
                 aux-=BKCA;
                 if(aux>=0)t->enroque-=4;
-            }
+             }
+        aux = t->enroque;
         if(t->pieces[m->to]==wK){
 
             if(aux%2==1){
@@ -814,7 +815,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
 
                 if(aux%2==1) t->enroque-=2;                    
             }
-
+        aux = t->enroque;
         if(t->pieces[m->to]==bK){
             //printf("Se ha movido el negro\n");
             aux-=BQCA;
