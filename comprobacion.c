@@ -54,13 +54,12 @@ void Comprobaciontest(int prof, TABLERO *pos) {
     MOVE **m=NULL;
     m=Generador_Movimientos(pos, &count);
     if(!m)return;
-    
+    //print_moves(m,count);
 
 
 
     int MoveNum = 0;
 	for(MoveNum = 1; MoveNum < count; ++MoveNum) {
-        
         if ( !HacerJugada(pos,m[MoveNum]))  {
             free_move(m[MoveNum]);
             continue;
@@ -69,7 +68,7 @@ void Comprobaciontest(int prof, TABLERO *pos) {
         //PrintBoard(pos);
         Comprobacion(prof - 1, pos);
         DeshacerJugada(pos);
-
+        //PrintBoard(pos);
                 
         long nAnt = nHojas - alcanzados;
         printf("move %d : ",MoveNum);

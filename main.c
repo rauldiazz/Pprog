@@ -14,7 +14,7 @@
 #define FEN10 "r3kb1r/ppp1p2p/n2p3N/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
 #define PERFTFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
 #define FENAUX2 "2kr3r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/P1N2Q1p/1PPBBPPP/R3K2R w KQ - 0 1"
-#define FENAUX "k7/8/8/3p4/4p3/8/8/7K b  - 0 1"
+#define FENAUX "k7/7P/8/N7/8/8/8/7K w  - 0 1"
 int main() {	
 
 	TABLERO *tab=NULL;
@@ -24,14 +24,15 @@ int main() {
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(PERFTFEN, tab);
+	LeerFen(FENAUX, tab);
+
 	//PrintBoard(tab);
 	/*jugada = insert_move(EMPTY,A1,A2,wR,EMPTY,EMPTY,EMPTY);
 	HacerJugada(tab,jugada);
 	fen = EscribirFen(tab);
 	printf("fen es %s\n",fen);
-	free(fen);
-	free_move(jugada);*/
+	free(fen);*/
+	/*free_move(jugada);*/
 	/*jugada = insert_move(EMPTY,F7,F5,bP,EMPTY,EMPTY,EMPTY);
 	HacerJugada(tab,jugada);
 	free_move(jugada);
@@ -39,7 +40,7 @@ int main() {
 	HacerJugada(tab,jugada);
 	free_move(jugada);*/
 
-	Comprobaciontest(5, tab);
+	Comprobaciontest(7, tab);
 
 
 	Free_tablero(tab);

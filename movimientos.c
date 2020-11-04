@@ -90,6 +90,7 @@ MOVE ** AddMovePeon (MOVE **m,  int *count, int cas, int to, int to2, int captur
     if (!m) return NULL;
     //printf("Empezamos Add Move\n");
     if(Cas_Fila(cas) == FILA_7 - side*5){
+        
         m = realloc(m,(*count + 4)*sizeof(MOVE*));
         if (!m) return NULL;
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, CAMBIO_LADO*side + wN, paso);
@@ -142,28 +143,28 @@ MOVE ** Generador_Peones(TABLERO *t, MOVE **m, int *count ){
     //Las correciones donde hay *side sirven para escoger, dependiendo del lado al que le toque, escoger las características correctas
     for(i=0;i<t->pceNum[CAMBIO_LADO*side + wP]&& flag == 1;i++){
         cas = t->pList[CAMBIO_LADO*side + wP][i];
-        ASSERT(cas != OFFBOARD)
+        ASSERT(cas != OFFBOARD);
 
         if(t->pieces[cas + 10 - 20*side] == EMPTY){
             m = AddMovePeon(m, count, cas, cas + 10 - 20*side, t->pieces[cas + 20 - 40*side],EMPTY,side,EMPTY);
             if (!m) flag = 0;
         }
         pieza = t->pieces[cas +11 - 20*side];
-        if(pieza != EMPTY && pieza != OFFBOARD && pieza - (2*side*pieza) > CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
+        if(pieza != EMPTY && pieza != OFFBOARD && pieza != NO_SQ && pieza - (2*side*pieza) > CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
             m = AddMovePeon(m,count, cas, cas +11 - 20*side, EMPTY,pieza, side, EMPTY);
             if (!m) flag = 0;
         }
         pieza = t->pieces[cas +9 - 20*side];
-        if (pieza != EMPTY && pieza != OFFBOARD && pieza - (2*side*pieza) > CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
+        if (pieza != EMPTY && pieza != OFFBOARD && pieza != NO_SQ && pieza - (2*side*pieza) > CAMBIO_LADO - 2*side*CAMBIO_LADO && flag == 1){
             m = AddMovePeon(m,count, cas, cas +9 - 20*side, EMPTY,pieza, side, EMPTY);
             if (!m) flag = 0;
         }
 
-        if (t->AlPaso == cas +9 - 20*side && flag == 1){
+        if (t->AlPaso == cas +9 - 20*side && flag == 1 && t->AlPaso != NO_SQ){
             m = AddMovePeon(m,count, cas, cas +9 - 20*side, EMPTY,-(CAMBIO_LADO*side) + bP, side, cas +9 - 20*side);
             if (!m) flag = 0;
         }
-        else if (t->AlPaso == cas +11 - 20*side && flag == 1){
+        else if (t->AlPaso == cas +11 - 20*side && flag == 1 && t->AlPaso != NO_SQ){
             m = AddMovePeon(m,count, cas, cas +11 - 20*side, EMPTY,-(CAMBIO_LADO*side) + bP, side,cas +11 - 20*side);
             if (!m) flag = 0;
         }
