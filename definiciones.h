@@ -1,7 +1,9 @@
+
 #ifndef DEFS_H
 #define DEFS_H
 
 #include "stdlib.h"
+#include <string.h>
 
 #define DEBUG
 
@@ -76,9 +78,8 @@ typedef struct {
 	int AlPaso;
 	int fiftyMove;
 
-
-	int histcont; 
-	int j_real;
+	int histcont; //numero de elementos de history
+	int j_real;//numero de jugadas
 	
 	int enroque;
 	
@@ -139,6 +140,8 @@ extern TABLERO* Create_tablero();
 int Cas_Col (int cas);
 int Cas_Fila (int cas);
 char *EscribirFen(TABLERO *t);
+int esTablas(TABLERO *tab);
+int Repetida(TABLERO *tab, int *times);
 
 
 // ataque.c
@@ -165,5 +168,6 @@ extern MOVE* insert_move(int castle, int from, int to, int pieza, int captura, i
 
 void Comprobacion(int prof, TABLERO *pos);
 void Comprobaciontest(int prof, TABLERO *pos);
+
 
 #endif

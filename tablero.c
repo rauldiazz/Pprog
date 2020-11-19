@@ -119,7 +119,7 @@ int CheckBoard(const TABLERO *pos) {
 	ASSERT(pos->side==WHITE || pos->side==BLACK);
 
 	
-	ASSERT(pos->AlPaso==NO_SQ || pos->AlPaso==EMPTY ||( FILAsBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
+	ASSERT(pos->AlPaso==NO_SQ || ( FILAsBrd[pos->AlPaso]==FILA_6 && pos->side == WHITE)
 		 || ( FILAsBrd[pos->AlPaso]==FILA_3 && pos->side == BLACK));
 	
 	ASSERT(pos->pieces[pos->KingSq[WHITE]] == wK);
@@ -223,7 +223,7 @@ int LeerFen(char *fen, TABLERO *pos) {
         }
 		fen++;
 	}
-
+	
 	ASSERT(*fen == 'w' || *fen == 'b');
 	
 	if(*fen == 'w') pos->side = WHITE;
@@ -238,7 +238,7 @@ int LeerFen(char *fen, TABLERO *pos) {
 			case 'Q': pos->enroque += WQCA; break;
 			case 'k': pos->enroque += BKCA; break;
 			case 'q': pos->enroque += BQCA; break;
-			default: flag = 0; fen--; break;
+			default: flag = 0;
         }
 		fen++;
 	}
@@ -280,7 +280,7 @@ int LeerFen(char *fen, TABLERO *pos) {
 		pos->j_real = 2*((fen[3]-'0')*1000 + (fen[2]-'0')*100 + (fen[1]-'0')*10 + (fen[0]-'0')) + pos->side -1;
 	}
 	else return -1;
-
+	
 	UpdateListsMaterial(pos);
 	
 	return 0;
@@ -519,11 +519,6 @@ char * EscribirFen(TABLERO *t){
 			break;
 		}
 	}
-	if(cont!=0){
-		fen[ln] = '0' + cont;
-		ln ++;
-		cont = 0;
-	}
 
 	fen[ln] = ' ';
 	ln++;
@@ -566,3 +561,47 @@ char * EscribirFen(TABLERO *t){
 
 	return fen;
 } 
+
+int Repetida(TABLERO *tab, int *times){
+
+	int i=0;
+	char *aux=NULL, *fen=NULL;
+
+	ASSERT(tab!=NULL);
+
+	(*times)=0;
+
+	fen=tab->history[tab->histcont -1]->fen;
+	
+	for(i=tab->histcont - tab->fiftyMove; i<(tab->histcont);i++){
+
+		aux=tab->history[i]->fen;
+		
+		if(strcmp(aux, fen)==0) (*times)++;
+
+
+		if((*times)==3)return TRUE;
+
+	}
+	if((*times)>1)return TRUE;
+
+	return FALSE;
+
+}
+
+int esTablas(TABLERO *tab){
+
+	int flag=0, cont=0;
+
+	ASSERT(tab!=NULL);
+
+	if(tab->fiftyMove >= 100)return TRUE;
+
+	flag=Repetida(tab, &cont);
+
+	if(flag==FALSE||(flag==TRUE && cont<3)) return FALSE;
+	
+	return TRUE;
+
+}
+
