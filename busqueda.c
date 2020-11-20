@@ -7,7 +7,7 @@
 #define MAXDEPTH 64
 #define NOMOV 0
 
-static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, S_SEARCHINFO *info, int DoNull) { // declarar esta estructura
+static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, int DoNull) { // declarar esta estructura , S_SEARCHINFO *info, posterior
     int MoveNum = 0;
 	int Legal = 0;
 	int OldAlpha = alpha;
@@ -17,11 +17,13 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, S_SEARCHINFO 
 	ASSERT(CheckBoard(pos)); 
 	
 	if(depth == 0) {
-		info->nodes++;
+		//info->nodes++;
+		(*info)++;
 		return EvalPosition(pos);// hacer evalucacion
 	}
+	//info->nodes++;
 	
-	info->nodes++;
+	(*info)++;
 	
 	if(Repetida(pos) || pos->fiftyMove >= 100) {
 		return 0;
@@ -29,11 +31,12 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, S_SEARCHINFO 
 	
 	if(pos->j_real > MAXDEPTH - 1) { 
 
-		return EvalPosition(pos);// hacer evalucacion
+		return EvalPosition(pos); // hacer evalucacion
 	}
 	
 	S_MOVELIST list[1];  //declarar esta estructura
-    GenerateAllMoves(pos,list); //hacer esta cosa
+    GenerateAllMoves(pos,list); //cambiar esta funcion 
+
       
     
 	for(MoveNum = 0; MoveNum < list->count; ++MoveNum) {	
