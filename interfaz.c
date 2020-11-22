@@ -3,6 +3,9 @@
 #include "definiciones.h"
 
 
+#define MAXSTRJUGADA 16
+#define PROFUNDIDAD 4
+
 int is_Valid(MOVE *m,TABLERO *t){
     int count = 0,i,flag = FALSE;
     MOVE **array;
@@ -121,6 +124,92 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
     }
     free_move(m);
     return NULL;
+
+}
+
+int Menu_juego(TABLERO *tab){
+    int flag = OK;
+    INFO info;
+    char bando='\0';
+    char entradajugada[MAXSTRJUGADA];
+    MOVE *jugada=NULL;
+    int acabar = FALSE;
+
+    info.depth = PROFUNDIDAD;
+    printf("¡¡¡Bienvenido a nuestro modulo de ajedrez!!!\n\n");
+
+    do{
+        printf("Seleccione el bando con el que quiera jugar (w,b):\n");
+        if(fgets(&bando, sizeof(bando),stdin) == NULL) flag = ERR;
+        if(bando != 'w' && bando != 'b') printf("Error al introducir el bando.\n");
+    }while(bando != 'w'&& bando != 'b'&&flag == OK);
+    if (flag == ERR) return ERR;
+
+
+    if(bando == 'w'){
+        PrintBoard(tab);
+
+        do{
+            printf("Introduzca su jugada:\n");
+            fflush(stdin);
+            if(fgets(entradajugada, sizeof(entradajugada),stdin) == NULL) flag = ERR;
+            if(flag != ERR){
+                jugada = LeerMovimiento(entradajugada,tab);
+                if(!jugada) printf("Jugada inválida.\n");
+            }
+        }while(flag == OK && !jugada);
+
+        if(flag == OK){
+            HacerJugada(tab, jugada);
+	        free_move(jugada);
+        }
+    }
+
+    while(flag == OK && acabar == FALSE){
+        jugada = SearchPosition(tab,&info);
+        HacerJugada(tab,jugada);
+        PrintBoard(tab);
+        printf("El módulo ha jugado ");
+        PrintMove(jugada);
+        printf("\n\n");
+        free_move(jugada);
+        acabar = FinPartida(tab);
+        if(acabar != FALSE){
+            switch (acabar){
+                case GANAN_NEGRAS: printf("Las negras han ganado esta partida. Bien jugado\n"); break;
+                case TABLAS: printf("Esta partida ha sido tablas. Bien jugado\n"); break;
+                case GANAN_BLANCAS: printf("Las blancas han ganando esta partida. Bien jugado\n"); break;
+                default:break;
+            }
+        }
+        else{
+            do{
+            printf("Introduzca su jugada:\n");
+            fflush(stdin);
+            if(fgets(entradajugada, sizeof(entradajugada),stdin) == NULL) flag = ERR;
+            if(flag != ERR){
+                jugada = LeerMovimiento(entradajugada,tab);
+                if(!jugada) printf("Jugada inválida.\n");
+            }
+
+            }while(flag == OK && !jugada);
+
+            if(flag == OK){
+                HacerJugada(tab, jugada);
+	            free_move(jugada);
+            }
+        }
+        acabar = FinPartida(tab);
+        if(acabar != FALSE){
+            switch (acabar){
+                case GANAN_NEGRAS: printf("Las negras han ganado esta partida. Bien jugado\n"); break;
+                case TABLAS: printf("Esta partida ha sido tablas. Bien jugado\n"); break;
+                case GANAN_BLANCAS: printf("Las blancas han ganando esta partida. Bien jugado\n"); break;
+                default:break;
+            }
+        }
+        
+    }
 
 }
 
