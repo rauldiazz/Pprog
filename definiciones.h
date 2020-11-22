@@ -184,6 +184,7 @@ void Comprobaciontest(int prof, TABLERO *pos);
 //interfaz.c
 int is_Valid(MOVE *m,TABLERO *t);
 MOVE *LeerMovimiento(char *entrada, TABLERO *t);
+int Menu_juego(TABLERO *tab);
 
 //evaluacion.c
 int EvalPosition(const TABLERO *pos);
