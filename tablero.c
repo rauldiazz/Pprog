@@ -12,8 +12,7 @@ int PieceBig[13] = { FALSE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TR
 int PieceMaj[13] = { FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE };
 int PieceMin[13] = { FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE };
 int PieceVal[13]= { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
-int PieceCol[13] = { BOTH, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE,
-	BLACK, BLACK, BLACK, BLACK, BLACK, BLACK };
+int PieceCol[13] = { BOTH, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK };
 
 
 
@@ -571,6 +570,8 @@ int Repetida(TABLERO *tab, int *times){
 
 	(*times)=0;
 
+	if(tab->histcont==0)return FALSE;
+
 	fen=tab->history[tab->histcont -1]->fen;
 	
 	for(i=tab->histcont - tab->fiftyMove; i<(tab->histcont);i++){
@@ -591,17 +592,33 @@ int Repetida(TABLERO *tab, int *times){
 
 int esTablas(TABLERO *tab){
 
-	int flag=0, cont=0;
+	int flag=0, flag1=0, cont=0;
 
 	ASSERT(tab!=NULL);
 
 	if(tab->fiftyMove >= 100)return TRUE;
-
+	
 	flag=Repetida(tab, &cont);
+	
+
+	flag1=InsufMat(tab);
+	if(flag1==TRUE)return TRUE;
 
 	if(flag==FALSE||(flag==TRUE && cont<3)) return FALSE;
 	
 	return TRUE;
+
+}
+
+int InsufMat(TABLERO *tab){
+
+	ASSERT(tab!=NULL);
+
+	if(tab->material[BLACK]==50000 && tab->material[WHITE]==50000)return TRUE;
+	if(tab->material[WHITE]==50325 && tab->material[BLACK]==50000)return TRUE;
+	if(tab->material[BLACK]==50325 && tab->material[WHITE]==50000)return TRUE; 
+
+	return FALSE;
 
 }
 
