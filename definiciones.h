@@ -153,6 +153,7 @@ char *EscribirFen(TABLERO *t);
 int esTablas(TABLERO *tab);
 int Repetida(TABLERO *tab, int *times);
 int InsufMat(TABLERO *tab);
+int FinPartida(TABLERO *tab);
 
 
 // ataque.c

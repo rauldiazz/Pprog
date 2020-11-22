@@ -622,3 +622,25 @@ int InsufMat(TABLERO *tab){
 
 }
 
+
+int FinPartida(TABLERO *tab){
+	MOVE **m;
+	int count=0,i;
+	if(!tab) return FALSE;
+	if(esTablas(tab)== TRUE) return TABLAS;
+
+	m = Generador_Movimientos(tab,&count);
+
+	for(i=0;i<count;i++){
+		free_move(m[i]);
+	}
+	free(m);
+
+	if(count==0){
+		if(SqAttacked(tab->KingSq[tab->side],1-tab->side,tab)==TRUE) return GANAN_NEGRAS + 2 * tab->side;
+		else return TABLAS;
+	}
+
+	return FALSE;
+	
+}
