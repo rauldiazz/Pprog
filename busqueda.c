@@ -12,7 +12,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 	//MOVE *Best=NULL;
 	int Score = -INFINITO;
 	MOVE ** movelist;
-	int* count;
+	int count;
 	int index;
 
 
@@ -36,10 +36,10 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 	}
 	
 	
-    movelist = GenerateAllMoves(pos,count); 
+    movelist = GenerateAllMoves(pos,&count); 
       
     
-	for(index= 0; index< (*count); index++) {	
+	for(index= 0; index< count; index++) {	
        
         if ( !HacerJugada(pos,movelist[index]))  {
             continue;
@@ -60,7 +60,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 			Best = movelist[index];
 		}	
     }
-	for(index=0; index<(*count); index++){
+	for(index=0; index<count; index++){
 		if(Best!=movelist[index])
 			free_move(movelist[index]);
 
