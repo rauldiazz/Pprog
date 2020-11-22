@@ -57,7 +57,8 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
 			}
 			alpha = Score;
 			BestMove = movelist[index];
-		}		
+		}	
+		free_move(movelist[index]);
     }
 	
 	if(Legal == 0) {
@@ -68,9 +69,9 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
 		}
 	}
 	
-	if(alpha != OldAlpha) {
+	/*if(alpha != OldAlpha) {
 		StorePvMove(pos, BestMove); //hacer 
-	}
-	
+	}*/
+	free(movelist);
 	return alpha;
 } 
