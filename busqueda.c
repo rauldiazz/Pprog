@@ -87,7 +87,7 @@ void SearchPosition(TABLERO *pos, INFO  *info) {
 	int actualDepth = info->depth;
 
 		bestScore = AlphaBeta(-INFINITO, INFINITO, actualDepth, pos, info,Best);
-		info->stop=bestScore;
+		info->bestScore=bestScore;
 	
 	return Best;
 }

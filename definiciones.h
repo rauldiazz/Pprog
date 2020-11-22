@@ -97,7 +97,7 @@ typedef struct {
 
 typedef struct{
 	int visited;
-	int stop;
+	int bestScore;
 	int depth;
 
 }INFO;
