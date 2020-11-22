@@ -142,13 +142,14 @@ int Menu_juego(TABLERO *tab){
     do{
         printf("Seleccione el bando con el que quiera jugar (w,b):\n");
         fflush(stdin);
-        flag1 = scanf("%c\n",&bando);
+        flag1 = scanf("%c",&bando);
         if(flag1 == EOF) return ERR;
         fflush(stdin);
         if(bando != 'w' && bando != 'b') printf("Error al introducir el bando.\n");
     }while(bando != 'w'&& bando != 'b'&&flag == OK);
     if (flag == ERR) return ERR;
 
+    printf("Empezamos la partida!\n");
 
     if(bando == 'w'){
         PrintBoard(tab);
