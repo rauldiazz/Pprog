@@ -53,36 +53,41 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
     }
     else if (*aux >= 'a' && *aux <= 'h'){
         pieza = wP +t->side*(CAMBIO_LADO);
-        printf("es una jugada de peon\n");
+      //  printf("es una jugada de peon\n");
     }
 
     switch (*aux)
     {
-        case 'N': pieza = wN + t->side*(CAMBIO_LADO); break;
-        case 'B': pieza = wB + t->side*(CAMBIO_LADO); break;
-        case 'R': pieza = wR + t->side*(CAMBIO_LADO); break;
-        case 'Q': pieza = wQ + t->side*(CAMBIO_LADO); break;
+        case 'N': pieza = wN + t->side*(CAMBIO_LADO);aux++; break;
+        case 'B': pieza = wB + t->side*(CAMBIO_LADO);aux++; break;
+        case 'R': pieza = wR + t->side*(CAMBIO_LADO);aux++; break;
+        case 'Q': pieza = wQ + t->side*(CAMBIO_LADO);aux++; break;
         
         default:
             break;
     }
 
-    printf("random printf,pieza es %d\n",pieza);
+  //  printf("random printf,pieza es %d\n",pieza);
     if(pieza == EMPTY) return NULL;
-    if(*(aux+1) <= '1' || *(aux+1) >= '8') return NULL;
-    //printf("la columna es %d, y la fila es %d, FECAS es %d\n",*aux-'a',*(aux+1)-'1', FCCAS(4,1));
+    if ((*aux) < 'a' || (*aux) > 'h') return NULL;
+    if(*(aux+1) < '1' || *(aux+1) > '8') return NULL;
+
+  //  printf("la columna es %d, y la fila es %d, FECAS es %d\n",*aux-'a',*(aux+1)-'1', FCCAS(0,1));
     from = FCCAS(*aux-'a',*(aux+1)-'1');
     aux++;
-    //printf("from es %d, e2 es %d\n",from,E2);
+  //  printf("from es %d, a2 es %d\n",from,A2);
     if(from < 0 || from >= 120) return NULL;
     if(t->pieces[from] == OFFBOARD) return NULL;
     aux++;
-    printf("Ha pasado from\n");
+   // printf("Ha pasado from\n");
     if(*aux == 'x'){
         captura = 1;
         aux++;
     }
-    if (*aux <= 'a' || *aux >= 'h') return NULL;
+  //  printf("    %d      \n", *aux);
+    if ((*aux) < 'a' || (*aux) > 'h') return NULL;
+   // printf("    %d      \n", *aux);
+    
     if(*(aux+1) <= '1' || *(aux+1) >= '8') return NULL;
     to = FCCAS(*aux-'a', *(aux+1) -'1');
     aux++;
@@ -106,10 +111,14 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
             paso = to;
         }
     }
-    printf("Antes de insertmove\n");
+   // printf("Antes de insertmove\n");
     m = insert_move(EMPTY, from,to,pieza, captura,corona, paso);
     PrintMove(m);
-    if(is_Valid(m,t))return m;
+    if(is_Valid(m,t)){
+   //     printf("Valid es %d\n", is_Valid(m,t));
+        
+        return m;
+    }
     free_move(m);
     return NULL;
 

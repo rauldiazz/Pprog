@@ -31,14 +31,15 @@ int main() {
 
 	printf("Introduzca su jugada\n");
 	i = scanf("%s",jugadachar);
-	printf("la jugada introducida es: %s;",jugadachar);
+	
 	jugada = LeerMovimiento(jugadachar,tab);
 
 	if(!jugada){
 		printf("jugada inválida\n");
 	}
-	free_move(jugada);
 	HacerJugada(tab, jugada);
+	free_move(jugada);
+	
 	PrintBoard(tab);
 	Free_tablero(tab);
 
