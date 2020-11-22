@@ -8,7 +8,6 @@
 #define NOMOV 0
 
 static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, int DoNull) { 
-    int MoveNum = 0;
 	int Legal = 0;
 	int OldAlpha = alpha;
 	int BestMove = NOMOV;
@@ -42,7 +41,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
     movelist = GenerateAllMoves(pos,count); 
       
     
-	for(index= 0; index< (*count); ++MoveNum) {	
+	for(index= 0; index< (*count); ++index) {	
        
         if ( !HacerJugada(pos,movelist[index]))  {
             continue;
@@ -70,7 +69,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
 	}
 	
 	if(alpha != OldAlpha) {
-		StorePvMove(pos, BestMove); 
+		StorePvMove(pos, BestMove); //hacer 
 	}
 	
 	return alpha;
