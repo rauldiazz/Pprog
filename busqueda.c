@@ -80,7 +80,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 } 
 
 
-void SearchPosition(TABLERO *pos, INFO  *info) {
+MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 
 	MOVE *Best=NULL;
 	int bestScore = -INFINITO;

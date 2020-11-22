@@ -188,5 +188,8 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t);
 //evaluacion.c
 int EvalPosition(const TABLERO *pos);
 int Mirror64(int sq64);
+//busqueda.c
+MOVE* SearchPosition(TABLERO *pos, INFO  *info);
+static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MOVE* Best);
 
 #endif
