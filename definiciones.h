@@ -69,7 +69,7 @@ typedef struct {
 
 typedef struct {
 
-	int *pieces;
+	int *pieces;//tablero en si
 
 		
 	int *KingSq;
@@ -85,13 +85,13 @@ typedef struct {
 	
 
 	
-	int *pceNum;
+	int *pceNum;//numero de piezas de cada tipo
 	int *material;
 	
 	S_UNDO **history;
 	
 	// piece list
-	int **pList;	
+	int **pList;//lista por cada tipo de pieza guarda su casilla
 	
 } TABLERO;
 
@@ -142,6 +142,7 @@ int Cas_Fila (int cas);
 char *EscribirFen(TABLERO *t);
 int esTablas(TABLERO *tab);
 int Repetida(TABLERO *tab, int *times);
+int InsufMat(TABLERO *tab);
 
 
 // ataque.c
