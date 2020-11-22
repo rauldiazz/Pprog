@@ -165,10 +165,14 @@ extern MOVE *move_copy(MOVE*m);
 extern MOVE *create_move();
 extern void free_move(MOVE *m);
 extern MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int corona, int paso);
+int move_cmp(MOVE *m1, MOVE *m2);
 //comprobacion.c
 
 void Comprobacion(int prof, TABLERO *pos);
 void Comprobaciontest(int prof, TABLERO *pos);
 
+//interfaz.c
+int is_Valid(MOVE *m,TABLERO *t);
+MOVE *LeerMovimiento(char *entrada, TABLERO *t);
 
 #endif

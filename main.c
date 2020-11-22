@@ -19,14 +19,29 @@ int main() {
 
 	TABLERO *tab=NULL;
 	MOVE *jugada,*jugada2;
-	char *fen;
+	char *fen,jugadachar[512];
+	int i;
 
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FENAUX, tab);
+	LeerFen(START_FEN, tab);
 
-	//PrintBoard(tab);
+	PrintBoard(tab);
+
+	printf("Introduzca su jugada\n");
+	i = scanf("%s",jugadachar);
+	printf("la jugada introducida es: %s;",jugadachar);
+	jugada = LeerMovimiento(jugadachar,tab);
+
+	if(!jugada){
+		printf("jugada inválida\n");
+	}
+	free_move(jugada);
+	HacerJugada(tab, jugada);
+	PrintBoard(tab);
+	Free_tablero(tab);
+
 	/*jugada = insert_move(EMPTY,A1,A2,wR,EMPTY,EMPTY,EMPTY);
 	HacerJugada(tab,jugada);
 	fen = EscribirFen(tab);
@@ -40,12 +55,9 @@ int main() {
 	HacerJugada(tab,jugada);
 	free_move(jugada);*/
 
-	Comprobaciontest(7, tab);
+	/*Comprobaciontest(7, tab);*/
 
 
-	Free_tablero(tab);
-	
-	
 
 
 	return 0;

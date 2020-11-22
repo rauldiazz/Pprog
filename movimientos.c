@@ -10,7 +10,7 @@ MOVE *create_move(){
 }
 
 void free_move(MOVE *m){
-    free(m);
+    if(m)free(m);
     return;
 }
 
@@ -55,14 +55,26 @@ MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int coro
     m->castle = castle;
     m->from = from;
     m->to =to;
-    //printf("antes de piezas\n");
+    /*printf("antes de piezas\n");*/
     m->piezas[0] = pieza;
     m->piezas[1] = captura;
     m->piezas[2] = corona;
-    //printf("Despues de piezass\n");
+    /*printf("Despues de piezass\n");*/
     m->paso = paso;
-    //printf("ANtes de return \n");
+    /*printf("ANtes de return \n");*/
     return m;
+}
+
+int move_cmp(MOVE *m1, MOVE *m2){
+    if(!m1||!m2) return FALSE;
+    if(m1->castle!=m2->castle) return FALSE;
+    if(m1->from!=m2->from) return FALSE;
+    if(m1->to!=m2->to) return FALSE;
+    if(m1->piezas[0]!=m2->piezas[0]) return FALSE;
+    if(m1->piezas[1]!=m2->piezas[1]) return FALSE;
+    if(m1->piezas[2]!=m2->piezas[2]) return FALSE;
+    if(m1->paso!=m2->paso) return FALSE;
+    return TRUE;
 }
 
 MOVE **Generador_Movimientos(TABLERO *t, int *count){
