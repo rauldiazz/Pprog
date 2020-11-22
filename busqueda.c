@@ -7,10 +7,9 @@
 #define PROFMAX 64
 #define NOMOV 0
 
-static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, int DoNull) { 
+static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info) { 
 	int Legal = 0;
-	int OldAlpha = alpha;
-	int BestMove = NOMOV;
+	int Best = NOMOV;
 	int Score = -INFINITO;
 	MOVE ** movelist;
 	int* count;
@@ -48,7 +47,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
         }
         
 		Legal++;
-		Score = -AlphaBeta( -beta, -alpha, depth-1, pos, info, TRUE);		
+		Score = -AlphaBeta( -beta, -alpha, depth-1, pos, info);		
         DeshacerJugada(pos);
 		
 		if(Score > alpha) {
@@ -56,7 +55,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
 				return beta;
 			}
 			alpha = Score;
-			BestMove = movelist[index];
+			Best = movelist[index];
 		}	
 		free_move(movelist[index]);
     }
@@ -70,7 +69,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
 	}
 	
 	/*if(alpha != OldAlpha) {
-		StorePvMove(pos, BestMove); //hacer 
+		StorePvMove(pos, Best); //hacer 
 	}*/
 	free(movelist);
 	return alpha;
