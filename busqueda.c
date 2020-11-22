@@ -67,8 +67,8 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 	}
 	
 	if(Legal == 0) {
-		if(SqAttacked(pos->KingSq[pos->side],pos->side^1,pos)) {
-			return -JAQUEMATE + pos->j_real;
+		if(SqAttacked(pos->KingSq[pos->side],CAMBIO_LADO*pos->side,pos)) {
+			return -JAQUEMATE+ pos->j_real;
 		} else {
 			return 0;
 		}
