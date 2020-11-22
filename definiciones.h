@@ -185,4 +185,8 @@ void Comprobaciontest(int prof, TABLERO *pos);
 int is_Valid(MOVE *m,TABLERO *t);
 MOVE *LeerMovimiento(char *entrada, TABLERO *t);
 
+//evaluacion.c
+int EvalPosition(const TABLERO *pos);
+int Mirror64(int sq64);
+
 #endif
