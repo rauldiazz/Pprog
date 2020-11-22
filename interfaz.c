@@ -129,6 +129,7 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
 
 int Menu_juego(TABLERO *tab){
     int flag = OK;
+    int flag1;
     INFO info;
     char bando='\0';
     char entradajugada[MAXSTRJUGADA];
@@ -140,7 +141,10 @@ int Menu_juego(TABLERO *tab){
 
     do{
         printf("Seleccione el bando con el que quiera jugar (w,b):\n");
-        if(fgets(&bando, sizeof(bando),stdin) == NULL) flag = ERR;
+        fflush(stdin);
+        flag1 = scanf("%c\n",&bando);
+        if(flag1 == EOF) return ERR;
+        fflush(stdin);
         if(bando != 'w' && bando != 'b') printf("Error al introducir el bando.\n");
     }while(bando != 'w'&& bando != 'b'&&flag == OK);
     if (flag == ERR) return ERR;
