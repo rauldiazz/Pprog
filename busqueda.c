@@ -3,16 +3,19 @@
 
 
 #define INFINITO 50000
-#define JAQUEMATE 29000
-#define MAXDEPTH 64
+#define JAQUEMATE 30000
+#define PROFMAX 64
 #define NOMOV 0
 
-static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, int DoNull) { // declarar esta estructura , S_SEARCHINFO *info, posterior
-    int MoveNum = 0;
+static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, int DoNull) { 
 	int Legal = 0;
 	int OldAlpha = alpha;
 	int BestMove = NOMOV;
 	int Score = -INFINITO;
+	MOVE ** movelist;
+	int* count;
+	int index;
+
 
 	ASSERT(CheckBoard(pos)); 
 	
@@ -25,36 +28,35 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
 	
 	(*info)++;
 	
-	if(Repetida(pos) || pos->fiftyMove >= 100) {
+	if(esTablas(pos)) {
 		return 0;
 	}
 	
-	if(pos->j_real > MAXDEPTH - 1) { 
+	if(pos->j_real > PROFMAX - 1) { 
 
 		return EvalPosition(pos); // hacer evalucacion
 	}
 	
-	S_MOVELIST list[1];  //declarar esta estructura
-    GenerateAllMoves(pos,list); //cambiar esta funcion 
-
+	
+    movelist = GenerateAllMoves(pos,count); 
       
     
-	for(MoveNum = 0; MoveNum < list->count; ++MoveNum) {	
+	for(index= 0; index< (*count); ++index) {	
        
-        if ( !MakeMove(pos,list->moves[MoveNum].move))  {
+        if ( !HacerJugada(pos,movelist[index]))  {
             continue;
         }
         
 		Legal++;
 		Score = -AlphaBeta( -beta, -alpha, depth-1, pos, info, TRUE);		
-        TakeMove(pos);
+        DeshacerJugada(pos);
 		
 		if(Score > alpha) {
 			if(Score >= beta) {
 				return beta;
 			}
 			alpha = Score;
-			BestMove = list->moves[MoveNum].move;
+			BestMove = movelist[index];
 		}		
     }
 	
@@ -67,7 +69,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, int *info, in
 	}
 	
 	if(alpha != OldAlpha) {
-		StorePvMove(pos, BestMove); // hacer esta función
+		StorePvMove(pos, BestMove); //hacer 
 	}
 	
 	return alpha;
