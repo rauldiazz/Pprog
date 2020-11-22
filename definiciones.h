@@ -95,6 +95,13 @@ typedef struct {
 	
 } TABLERO;
 
+typedef struct{
+	int visited;
+	int stop;
+	int depth;
+
+}INFO;
+
 
 
 
