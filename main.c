@@ -20,7 +20,12 @@ int main() {
 	TABLERO *tab=NULL;
 	MOVE *jugada,*jugada2;
 	char *fen,jugadachar[512];
-	int i;
+	int i, valor;
+	INFO *info;
+	info=(INFO*)malloc(sizeof(INFO));
+	if(!info)return -1;
+
+	info->depth=1;
 
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
@@ -29,18 +34,21 @@ int main() {
 
 	PrintBoard(tab);
 
-	printf("Introduzca su jugada\n");
-	i = scanf("%s",jugadachar);
-	
-	jugada = LeerMovimiento(jugadachar,tab);
 
-	if(!jugada){
-		printf("jugada inválida\n");
-	}
+	
+
+	jugada=SearchPosition(tab, info);
+	printf("\n\n\n");
+	PrintMove(jugada);
+
 	HacerJugada(tab, jugada);
-	free_move(jugada);
+
+
 	
 	PrintBoard(tab);
+
+	free_move(jugada);
+
 	Free_tablero(tab);
 
 	/*jugada = insert_move(EMPTY,A1,A2,wR,EMPTY,EMPTY,EMPTY);
