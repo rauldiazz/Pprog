@@ -12,7 +12,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 	int Score = -INFINITO;
 	MOVE ** movelist;
 	int count;
-	int index;
+	int index=0;
 
 
 	ASSERT(CheckBoard(pos)); 
@@ -62,6 +62,13 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		
 		}	
     }
+	for(index=0; index<(count);index++){
+	
+		if((*Best)!=movelist[index]){
+			free_move(movelist[index]);
+		}
+		
+	}
 
 	
 	if(Legal == 0) {
@@ -80,14 +87,17 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 
 	MOVE **Best;
+	MOVE *retorno;
 	Best=(MOVE**)malloc(sizeof(MOVE*));
 	int bestScore = -INFINITO;
 	int actualDepth = info->depth;
+	*Best=NULL;
 
 		bestScore = AlphaBeta(-INFINITO, INFINITO, actualDepth, pos, info,Best);
 		info->bestScore=bestScore;
 		PrintMove((*Best));
-	
-	return (*Best);
+	retorno=(*Best);
+	free(Best);
+	return retorno;
 }
 	

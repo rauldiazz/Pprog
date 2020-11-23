@@ -33,21 +33,20 @@ int main() {
 	LeerFen(START_FEN, tab);
 
 	PrintBoard(tab);
-
-
-	
-
 	jugada=SearchPosition(tab, info);
 	printf("\n\n\n");
 	PrintMove(jugada);
 
 	HacerJugada(tab, jugada);
+	free_move(jugada);
+	free(info);
+
 
 
 	
 	PrintBoard(tab);
 
-	free_move(jugada);
+
 
 	Free_tablero(tab);
 
