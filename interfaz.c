@@ -4,7 +4,7 @@
 
 
 #define MAXSTRJUGADA 16
-#define PROFUNDIDAD 1
+#define PROFUNDIDAD 5
 
 int is_Valid(MOVE *m,TABLERO *t){
     int count = 0,i,flag = FALSE;

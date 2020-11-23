@@ -29,10 +29,10 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		return 0;
 	}
 	
-	if(pos->j_real > PROFMAX - 1) { 
+	/*if(pos->j_real > PROFMAX - 1) { 
 
 		return EvalPosition(pos); // hacer evalucacion
-	}
+	}*/
 	
 	
     movelist = Generador_Movimientos(pos,&count); 
@@ -48,32 +48,21 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		
 		Score = -AlphaBeta( -beta, -alpha, depth-1, pos, info, Best);		
         DeshacerJugada(pos);
-		
+		if(Score >= beta) {
+			return beta;
+		}
 		if(Score > alpha) {
-			if(Score >= beta) {
-				return beta;
-			}
 			alpha = Score;
-			(*Best)=movelist[index];
-		
-	
-		
+			if(depth == 5){
+				free_move(*Best);
+				(*Best)=move_copy(movelist[index]);
+			}
 		}	
     }
-	if (depth==2){
 	for(index=0; index<(count);index++){
-	PrintMove(movelist[index]);
-	printf(" ");
-		if((*Best)!=movelist[index]){
-			free_move(movelist[index]);
-		}
-	
+		free_move(movelist[index]);
 		
 	}
-	printf("\t");
-	}
-	
-
 	
 	if(Legal == 0) {
 		if(SqAttacked(pos->KingSq[pos->side],CAMBIO_LADO*pos->side,pos)) {
