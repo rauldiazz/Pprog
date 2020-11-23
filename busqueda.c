@@ -7,9 +7,8 @@
 #define PROFMAX 64
 #define NOMOV 0
 
-static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MOVE* Best) { 
+static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MOVE** Best) { 
 	int Legal = 0;
-	//MOVE *Best=NULL;
 	int Score = -INFINITO;
 	MOVE ** movelist;
 	int count;
@@ -36,10 +35,10 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 	}
 	
 	
-    movelist = GenerateAllMoves(pos,&count); 
+    movelist = Generador_Movimientos(pos,&count); 
       
     
-	for(index= 0; index< count; index++) {	
+	for(index= 1; index< count; index++) {	
        
         if ( !HacerJugada(pos,movelist[index]))  {
             continue;
@@ -54,17 +53,12 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 				return beta;
 			}
 			alpha = Score;
-			if(Best!=NULL){
-				free_move(Best);
-			}
-			Best = movelist[index];
+		
+			(*Best) = movelist[index];
+			PrintMove((*Best));
 		}	
     }
-	for(index=0; index<count; index++){
-		if(Best!=movelist[index])
-			free_move(movelist[index]);
 
-	}
 	
 	if(Legal == 0) {
 		if(SqAttacked(pos->KingSq[pos->side],CAMBIO_LADO*pos->side,pos)) {
@@ -74,21 +68,21 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		}
 	}
 	
-
-	free(movelist);
 	return alpha;
 } 
 
 
 MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 
-	MOVE *Best=NULL;
+	MOVE **Best;
+	Best=(MOVE**)malloc(sizeof(MOVE*));
 	int bestScore = -INFINITO;
 	int actualDepth = info->depth;
 
 		bestScore = AlphaBeta(-INFINITO, INFINITO, actualDepth, pos, info,Best);
 		info->bestScore=bestScore;
+		PrintMove((*Best));
 	
-	return Best;
+	return (*Best);
 }
 	
