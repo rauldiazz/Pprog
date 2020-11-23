@@ -121,7 +121,7 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
     }
     //printf("Antes de insertmove\n");
     m = insert_move(EMPTY, from,to,pieza, captura,corona, paso);
-    PrintMove(m);
+    //PrintMove(m);
     if(is_Valid(m,t)){
     //    printf("Valid es %d\n", is_Valid(m,t));
         
