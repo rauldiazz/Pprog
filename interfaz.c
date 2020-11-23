@@ -190,7 +190,7 @@ int Menu_juego(TABLERO *tab){
             default:break;
         }
     }
-
+    PrintBoard(tab);
     while(flag == OK && acabar == FALSE){
         jugada = SearchPosition(tab,&info);
         HacerJugada(tab,jugada);
