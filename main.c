@@ -13,8 +13,8 @@
 #define FEN9 "r3kb1r/ppp1p2p/n2p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R w KQkq - 0 1"
 #define FEN10 "r3kb1r/ppp1p2p/n2p3N/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
 #define PERFTFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
-#define FENAUX2 "2kr3r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/P1N2Q1p/1PPBBPPP/R3K2R w KQ - 0 1"
-#define FENAUX "k7/7P/8/N7/8/8/8/7K w  - 0 1"
+#define FENAUX2 "2k5/7Q/R7/2p5/8/8/1PPP1PBP/2B1K2R w K - 0 1"
+#define FENAUX "r3k2r/ppp2pQp/2n5/3n4/8/8/RPPP1PBP/2B1K2R w Kkq - 0 1"
 int main() {	
 
 	TABLERO *tab=NULL;
@@ -22,31 +22,33 @@ int main() {
 	char *fen,jugadachar[512];
 	int i, valor;
 	INFO *info;
-	info=(INFO*)malloc(sizeof(INFO));
-	if(!info)return -1;
+	//info=(INFO*)malloc(sizeof(INFO));
+	//if(!info)return -1;
 
-	info->depth=1;
-
+	//info->depth=1;
+	//printf("holaaa\n");
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
 	LeerFen(START_FEN, tab);
+	Menu_juego(tab);
 
-	PrintBoard(tab);
+
+	/*PrintBoard(tab);
+
+	
+
 	jugada=SearchPosition(tab, info);
 	printf("\n\n\n");
 	PrintMove(jugada);
 
 	HacerJugada(tab, jugada);
-	free_move(jugada);
-	free(info);
-
 
 
 	
 	PrintBoard(tab);
 
-
+	free_move(jugada);*/
 
 	Free_tablero(tab);
 
@@ -64,9 +66,6 @@ int main() {
 	free_move(jugada);*/
 
 	/*Comprobaciontest(7, tab);*/
-
-
-
 
 	return 0;
 }

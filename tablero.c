@@ -222,7 +222,6 @@ int LeerFen(char *fen, TABLERO *pos) {
         }
 		fen++;
 	}
-	
 	ASSERT(*fen == 'w' || *fen == 'b');
 	
 	if(*fen == 'w') pos->side = WHITE;
@@ -233,13 +232,12 @@ int LeerFen(char *fen, TABLERO *pos) {
 	for (i = 0, flag = 1; i < 4 && flag == 1; i++) {
         //if (*fen == ' ') flag = 0;	
 		switch(*fen) {
-			case 'K': pos->enroque += WKCA; break;
-			case 'Q': pos->enroque += WQCA; break;
-			case 'k': pos->enroque += BKCA; break;
-			case 'q': pos->enroque += BQCA; break;
+			case 'K': pos->enroque += WKCA; fen++; break;
+			case 'Q': pos->enroque += WQCA; fen++; break;
+			case 'k': pos->enroque += BKCA; fen++; break;
+			case 'q': pos->enroque += BQCA; fen++; break;
 			default: flag = 0;
         }
-		fen++;
 	}
 	fen++;
 	
@@ -626,17 +624,26 @@ int InsufMat(TABLERO *tab){
 int FinPartida(TABLERO *tab){
 	MOVE **m;
 	int count=0,i;
+	int flag = TRUE;
 	if(!tab) return FALSE;
 	if(esTablas(tab)== TRUE) return TABLAS;
 
 	m = Generador_Movimientos(tab,&count);
 
+	for(i=1;i<count && flag == TRUE;i++){
+		if(HacerJugada(tab,m[i])==TRUE){
+			DeshacerJugada(tab);
+			flag = FALSE;
+		}
+	}
+
 	for(i=0;i<count;i++){
 		free_move(m[i]);
 	}
 	free(m);
-
-	if(count==0){
+	
+	
+	if(flag == TRUE){
 		if(SqAttacked(tab->KingSq[tab->side],1-tab->side,tab)==TRUE) return GANAN_NEGRAS + 2 * tab->side;
 		else return TABLAS;
 	}
