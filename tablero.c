@@ -222,7 +222,6 @@ int LeerFen(char *fen, TABLERO *pos) {
         }
 		fen++;
 	}
-	
 	ASSERT(*fen == 'w' || *fen == 'b');
 	
 	if(*fen == 'w') pos->side = WHITE;
@@ -233,13 +232,12 @@ int LeerFen(char *fen, TABLERO *pos) {
 	for (i = 0, flag = 1; i < 4 && flag == 1; i++) {
         //if (*fen == ' ') flag = 0;	
 		switch(*fen) {
-			case 'K': pos->enroque += WKCA; break;
-			case 'Q': pos->enroque += WQCA; break;
-			case 'k': pos->enroque += BKCA; break;
-			case 'q': pos->enroque += BQCA; break;
+			case 'K': pos->enroque += WKCA; fen++; break;
+			case 'Q': pos->enroque += WQCA; fen++; break;
+			case 'k': pos->enroque += BKCA; fen++; break;
+			case 'q': pos->enroque += BQCA; fen++; break;
 			default: flag = 0;
         }
-		fen++;
 	}
 	fen++;
 	
