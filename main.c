@@ -15,7 +15,7 @@
 #define PERFTFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
 #define FENAUX2 "2k5/7Q/R7/2p5/8/8/1PPP1PBP/2B1K2R w K - 0 1"
 #define FENAUX "r3k2r/ppp2pQp/2n5/3n4/8/8/RPPP1PBP/2B1K2R w Kkq - 0 1"
-#define FENAB "8/8/4k3/2r5/Q7/7P/5K2/8 w  - - 0 1"
+#define FENAB "6k1/R4p2/2r4p/3r2P1/5P2/3P4/6P1/3R2K1 w  - - 0 1"
 int main() {	
 
 	TABLERO *tab=NULL;
@@ -31,7 +31,8 @@ int main() {
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FENAB, tab);
+	LeerFen(START_FEN, tab);
+
 	Menu_juego(tab);
 
 
@@ -47,7 +48,6 @@ int main() {
 
 */
 	
-	PrintBoard(tab);
 
 	
 /*

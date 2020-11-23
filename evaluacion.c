@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "definiciones.h"
 #define SQOFFBOARD(sq) (FILAsBrd[sq]==OFFBOARD)
+#define MATERIALFINAL (PieceVal[wR] + 2 * PieceVal[wN] + 2 * PieceVal[wP] + PieceVal[wK])
+int PAREJAALFILES = 30;
 int puntpeones[64]={
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,
 10	,	10	,	0	,	-10	,	-10	,	0	,	10	,	10	,
@@ -56,6 +58,27 @@ int puntdama[64]={
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0   
 };
 
+int reynormal[64]={	
+	0	,	5	,	5	,	-10	,	-10	,	0	,	10	,	5	,
+	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,
+	-50	,	-50	,	-50	,	-50	,	-50	,	-50	,	-50	,	-50	,
+	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,
+	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,
+	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,
+	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,
+	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70		
+};
+
+int reyendgame[64]={	
+	-50	,	-10	,	0	,	0	,	0	,	0	,	-10	,	-50	,
+	-10,	0	,	10	,	10	,	10	,	10	,	0	,	-10	,
+	0	,	10	,	20	,	20	,	20	,	20	,	10	,	0	,
+	0	,	10	,	20	,	40	,	40	,	20	,	10	,	0	,
+	0	,	10	,	20	,	40	,	40	,	20	,	10	,	0	,
+	0	,	10	,	20	,	20	,	20	,	20	,	10	,	0	,
+	-10,	0	,	10	,	10	,	10	,	10	,	0	,	-10	,
+	-50	,	-10	,	0	,	0	,	0	,	0	,	-10	,	-50	
+};
 int Mirror64(int sq64){
     return 63-sq64;
 }
@@ -144,8 +167,29 @@ int EvalPosition(const TABLERO *pos) {
 		ASSERT(!SQOFFBOARD(casilla));
         casilla64=C120a64(casilla);
 		punt -= puntdama[Mirror64(casilla64)];
-	}	
-	
+	}
+
+	pce = wK;
+	casilla = pos->pList[pce][0];
+	if( (pos->material[BLACK] <= MATERIALFINAL) ) {
+		casilla64=C120a64(casilla);
+		punt += reyendgame[(casilla64)];
+	} else {
+		punt += reynormal[(casilla64)];
+	}
+
+	pce=bK;
+	casilla = pos->pList[pce][0];
+	if( (pos->material[WHITE] <= MATERIALFINAL) ) {
+		casilla64=C120a64(casilla);
+		punt -= reyendgame[Mirror64(casilla64)];
+	} else {
+		punt -= reynormal[Mirror64(casilla64)];
+	}
+
+	if(pos->pceNum[wB] >= 2) punt += PAREJAALFILES;
+	if(pos->pceNum[bB] >= 2) punt -= PAREJAALFILES;
+
 	if(pos->side == WHITE) {
 		return punt;
 	} else {

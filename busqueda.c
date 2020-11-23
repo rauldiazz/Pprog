@@ -53,7 +53,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		}
 		if(Score > alpha) {
 			alpha = Score;
-			if(depth == 5){
+			if(depth == PROFUNDIDAD){
 				free_move(*Best);
 				(*Best)=move_copy(movelist[index]);
 			}

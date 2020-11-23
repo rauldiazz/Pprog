@@ -24,9 +24,10 @@ exit(1);}
 #define CAMBIO_LADO 6 
 #define MAXFEN 128
 #define MAXGAMEMOVES 2048
+#define PROFUNDIDAD 4
 
 #define START_FEN  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-
+static int PieceVal[13]= { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
 enum { EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK  };
 enum { COL_A, COL_B, COL_C, COL_D, COL_E, COL_F, COL_G, COL_H, COL_NONE };
 enum { FILA_1, FILA_2, FILA_3, FILA_4, FILA_5, FILA_6, FILA_7, FILA_8, FILA_NONE };
