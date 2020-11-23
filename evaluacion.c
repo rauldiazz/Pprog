@@ -64,7 +64,7 @@ int EvalPosition(const TABLERO *pos) {
 
 	int casilla, pce, npiezas, casilla64;
 	int punt = pos->material[WHITE] - pos->material[BLACK];
-	printf("%d\n", punt);
+	
 	pce = wP;	
 	for(npiezas = 0; npiezas < pos->pceNum[pce]; npiezas++) {
 		casilla = pos->pList[pce][npiezas];

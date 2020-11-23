@@ -55,9 +55,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 			alpha = Score;
 		
 		
-			if((*Best)!=NULL){
-				free_move((*Best));
-			}
+			
 			(*Best) = movelist[index];
 		
 		}	
