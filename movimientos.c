@@ -760,9 +760,12 @@ int HacerJugada(TABLERO *t,MOVE *m){
                 t->pieces[m->paso -10 +20*(t->side)] = EMPTY;
             }
             if(SqAttacked(ksq ,1 - t->side,t)){
-                if (m->paso!= EMPTY && m->paso!= NO_SQ) t->pieces[m->to -10 +20*t->side]=bP - (CAMBIO_LADO)*(t->side);
                 t->pieces[m->from] = t->pieces[m->to];
                 t->pieces[m->to] = m->piezas[1];
+                if (m->paso!= EMPTY && m->paso!= NO_SQ){
+                    t->pieces[m->to -10 +20*t->side]=bP - (CAMBIO_LADO)*(t->side);
+                    t->pieces[m->to] = EMPTY;
+                } 
                 free_UNDO(u);
                 return FALSE;
             }
