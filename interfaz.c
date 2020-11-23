@@ -4,7 +4,7 @@
 
 
 #define MAXSTRJUGADA 16
-#define PROFUNDIDAD 4
+#define PROFUNDIDAD 1
 
 int is_Valid(MOVE *m,TABLERO *t){
     int count = 0,i,flag = FALSE;
@@ -127,6 +127,7 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
 
 }
 
+
 int Menu_juego(TABLERO *tab){
     int flag = OK;
     int flag1;
@@ -204,6 +205,7 @@ int Menu_juego(TABLERO *tab){
 	            free_move(jugada);
             }
         }
+        PrintBoard(tab);
         acabar = FinPartida(tab);
         if(acabar != FALSE){
             switch (acabar){
