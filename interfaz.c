@@ -220,10 +220,11 @@ int Menu_juego(TABLERO *tab){
                     if(!jugada) printf("Jugada inválida.\n");
                     else{
                         if(HacerJugada(tab, jugada) == FALSE){
-                            printf("jugada inválida.\n");
+                            
                             free_move(jugada);
                             jugada = NULL;
                         }
+                        printf("%d\n", tab->fiftyMove);
                     }
                 }
 

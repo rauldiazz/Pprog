@@ -878,7 +878,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
         t->AlPaso = NO_SQ;
     }
 
-    if(m->piezas[1] != EMPTY && m->piezas[0] != wP + CAMBIO_LADO*t->side){
+    if(m->piezas[1] == EMPTY && m->piezas[0] != wP + CAMBIO_LADO*t->side){
         t->fiftyMove++;
     }
     else{

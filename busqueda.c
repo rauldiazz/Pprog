@@ -6,7 +6,7 @@
 #define JAQUEMATE 30000
 #define PROFMAX 64
 #define NOMOV 0
-/*
+
 static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MOVE** Best) { 
 	int Legal = 0;
 	int Score = -INFINITO;
@@ -92,8 +92,8 @@ MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 	retorno=(*Best);
 	free(Best);
 	return retorno;
-}*/
-	
+}
+/*	
 int max(int *a , int *b){
     if (*a>*b)
     return *a;
@@ -196,3 +196,4 @@ MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
     free(movelistt);
 return Best;
 }	
+*/
