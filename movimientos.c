@@ -756,8 +756,11 @@ int HacerJugada(TABLERO *t,MOVE *m){
             t->pieces[m->to] = m->piezas[0];
             if(m->piezas[0]==wK || m->piezas[0]== bK) ksq = m->to;
             else ksq = t->KingSq[t->side];
+            if(m->paso != EMPTY && m->paso != NO_SQ && m->paso!= OFFBOARD){
+                t->pieces[m->paso -10 +20*(t->side)] = EMPTY;
+            }
             if(SqAttacked(ksq ,1 - t->side,t)){
-
+                if (m->paso!= EMPTY && m->paso!= NO_SQ) t->pieces[m->to -10 +20*t->side]=bP - (CAMBIO_LADO)*(t->side);
                 t->pieces[m->from] = t->pieces[m->to];
                 t->pieces[m->to] = m->piezas[1];
                 free_UNDO(u);
@@ -765,7 +768,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
             }
 
             if (m->piezas[2] != EMPTY) t->pieces[m->to] = m->piezas[2];
-            if (m->paso!= EMPTY) t->pieces[m->to -10 +20*t->side]=EMPTY;
+            //if (m->paso!= EMPTY && m->paso!= NO_SQ) t->pieces[m->to -10 +20*t->side]=EMPTY;
     } 
 
     UpdateListsMaterial(t);
