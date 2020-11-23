@@ -24,7 +24,7 @@ int is_Valid(MOVE *m,TABLERO *t){
         free_move(array[i]);
     }
     free(array);
-    printf("Antes de return isvalid\n");
+    //printf("Antes de return isvalid\n");
     return flag;
 
 }
@@ -40,14 +40,15 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
 
 
     if(*aux == '0'){
-        if(strcmp("0-0",aux) == 0 || strcmp("0-0\n",aux) == 0){
-            m=insert_move(BKCA - t->side*3, EMPTY,EMPTY,EMPTY, EMPTY,EMPTY, EMPTY);
+        if(strncmp("0-0-0",aux,5) == 0){
+            m=insert_move(WQCA + t->side*6, EMPTY,EMPTY,EMPTY, EMPTY,EMPTY, EMPTY);
             if(is_Valid(m,t)) return m;
             free_move(m);
             return NULL;
         }
-        else if(strcmp("0-0-0",aux) == 0 || strcmp("0-0-0\n",aux) == 0){
-            m=insert_move(BQCA - t->side*6, EMPTY,EMPTY,EMPTY, EMPTY,EMPTY, EMPTY);
+        else if(strncmp("0-0",aux,3) == 0){
+            //printf("Esoty en enroque\n");
+            m=insert_move(WKCA + t->side*3, EMPTY,EMPTY,EMPTY, EMPTY,EMPTY, EMPTY);
             if(is_Valid(m,t)) return m;
             free_move(m);
             return NULL;
@@ -70,7 +71,7 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
             break;
     }
 
-  //  printf("random printf,pieza es %d\n",pieza);
+    //printf("random printf,pieza es %d\n",pieza);
     if(pieza == EMPTY) return NULL;
     if ((*aux) < 'a' || (*aux) > 'h') return NULL;
     if(*(aux+1) < '1' || *(aux+1) > '8') return NULL;
@@ -82,21 +83,24 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
     if(from < 0 || from >= 120) return NULL;
     if(t->pieces[from] == OFFBOARD) return NULL;
     aux++;
-   // printf("Ha pasado from\n");
+    //printf("Ha pasado from\n");
     if(*aux == 'x'){
         captura = 1;
         aux++;
     }
-  //  printf("    %d      \n", *aux);
+    //printf(" aux1   %d      \n", *aux);
     if ((*aux) < 'a' || (*aux) > 'h') return NULL;
-   // printf("    %d      \n", *aux);
+    //printf("aux2    %d      \n", *aux);
     
-    if(*(aux+1) <= '1' || *(aux+1) >= '8') return NULL;
+    if(*(aux+1) < '1' || *(aux+1) > '8') return NULL;
+    //printf("antes de FCCAS\n");
     to = FCCAS(*aux-'a', *(aux+1) -'1');
     aux++;
     if(to < 0 || to >= 120) return NULL;
+    //printf("Ha pasdo to\n");
     if(t->pieces[to] == OFFBOARD) return NULL;
     aux++;
+    //printf("Antes de switch\n");
     if(*aux == '=' && pieza ==  wP +t->side*(CAMBIO_LADO)){
         aux++;
         switch (*aux){
@@ -114,11 +118,11 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
             paso = to;
         }
     }
-   // printf("Antes de insertmove\n");
+    //printf("Antes de insertmove\n");
     m = insert_move(EMPTY, from,to,pieza, captura,corona, paso);
     PrintMove(m);
     if(is_Valid(m,t)){
-   //     printf("Valid es %d\n", is_Valid(m,t));
+    //    printf("Valid es %d\n", is_Valid(m,t));
         
         return m;
     }
@@ -133,7 +137,7 @@ int Menu_juego(TABLERO *tab){
     int flag1;
     INFO info;
     char bando='\0';
-    char entradajugada[MAXSTRJUGADA];
+    char entradajugada[MAXSTRJUGADA]="\0";
     MOVE *jugada=NULL;
     int acabar = FALSE;
 
@@ -144,8 +148,8 @@ int Menu_juego(TABLERO *tab){
         printf("Seleccione el bando con el que quiera jugar (w,b):\n");
         fflush(stdin);
         flag1 = scanf("%c",&bando);
+        getchar();
         if(flag1 == EOF) return ERR;
-        fflush(stdin);
         if(bando != 'w' && bando != 'b') printf("Error al introducir el bando.\n");
     }while(bando != 'w'&& bando != 'b'&&flag == OK);
     if (flag == ERR) return ERR;
@@ -159,15 +163,30 @@ int Menu_juego(TABLERO *tab){
             printf("Introduzca su jugada:\n");
             fflush(stdin);
             if(fgets(entradajugada, sizeof(entradajugada),stdin) == NULL) flag = ERR;
+            //printf("Tu jugada ha sido:%s;\n",entradajugada);
             if(flag != ERR){
                 jugada = LeerMovimiento(entradajugada,tab);
                 if(!jugada) printf("Jugada inválida.\n");
+                else{
+                    if(HacerJugada(tab, jugada) == FALSE){
+                    printf("jugada inválida.\n");
+                    free_move(jugada);
+                    }
+                }
             }
+
         }while(flag == OK && !jugada);
 
-        if(flag == OK){
-            HacerJugada(tab, jugada);
-	        free_move(jugada);
+        free_move(jugada);
+    }
+
+    acabar = FinPartida(tab);
+    if(acabar != FALSE){
+        switch (acabar){
+            case GANAN_NEGRAS: printf("Las negras han ganado esta partida. Bien jugado\n"); break;
+            case TABLAS: printf("Esta partida ha sido tablas. Bien jugado\n"); break;
+            case GANAN_BLANCAS: printf("Las blancas han ganando esta partida. Bien jugado\n"); break;
+            default:break;
         }
     }
 
@@ -190,21 +209,25 @@ int Menu_juego(TABLERO *tab){
         }
         else{
             do{
-            printf("Introduzca su jugada:\n");
-            fflush(stdin);
-            if(fgets(entradajugada, sizeof(entradajugada),stdin) == NULL) flag = ERR;
-            if(flag != ERR){
-                jugada = LeerMovimiento(entradajugada,tab);
-                if(!jugada) printf("Jugada inválida.\n");
-            }
+                printf("Introduzca su jugada:\n");
+                fflush(stdin);
+                if(fgets(entradajugada, sizeof(entradajugada),stdin) == NULL) flag = ERR;
+                //printf("Tu jugada ha sido:%s;\n",entradajugada);
+                if(flag != ERR){
+                    jugada = LeerMovimiento(entradajugada,tab);
+                    if(!jugada) printf("Jugada inválida.\n");
+                    else{
+                        if(HacerJugada(tab, jugada) == FALSE){
+                            printf("jugada inválida.\n");
+                            free_move(jugada);
+                        }
+                    }
+                }
 
             }while(flag == OK && !jugada);
 
-            if(flag == OK){
-                HacerJugada(tab, jugada);
-	            free_move(jugada);
+            free_move(jugada);
             }
-        }
         PrintBoard(tab);
         acabar = FinPartida(tab);
         if(acabar != FALSE){
@@ -217,6 +240,7 @@ int Menu_juego(TABLERO *tab){
         }
         
     }
+    return OK;
 
 }
 
