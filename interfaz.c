@@ -66,6 +66,7 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
         case 'B': pieza = wB + t->side*(CAMBIO_LADO);aux++; break;
         case 'R': pieza = wR + t->side*(CAMBIO_LADO);aux++; break;
         case 'Q': pieza = wQ + t->side*(CAMBIO_LADO);aux++; break;
+        case 'K': pieza = wK + t->side*(CAMBIO_LADO);aux++; break;
         
         default:
             break;
