@@ -40,11 +40,12 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
     
 	for(index= 1; index< count; index++) {	
        
-        if ( !HacerJugada(pos,movelist[index]))  {
+        if ( HacerJugada(pos,movelist[index])==FALSE)  {
             continue;
         }
         
 		Legal++;
+		
 		Score = -AlphaBeta( -beta, -alpha, depth-1, pos, info, Best);		
         DeshacerJugada(pos);
 		
@@ -53,20 +54,25 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 				return beta;
 			}
 			alpha = Score;
+			(*Best)=movelist[index];
 		
-		
-			
-			(*Best) = movelist[index];
+	
 		
 		}	
     }
+	if (depth==2){
 	for(index=0; index<(count);index++){
-	
+	PrintMove(movelist[index]);
+	printf(" ");
 		if((*Best)!=movelist[index]){
 			free_move(movelist[index]);
 		}
+	
 		
 	}
+	printf("\t");
+	}
+	
 
 	
 	if(Legal == 0) {
@@ -77,7 +83,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		}
 	}
 	free(movelist);
-	
+
 	return alpha;
 } 
 
