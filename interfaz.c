@@ -172,6 +172,7 @@ int Menu_juego(TABLERO *tab){
                     if(HacerJugada(tab, jugada) == FALSE){
                     printf("jugada inválida.\n");
                     free_move(jugada);
+                    jugada = NULL;
                     }
                 }
             }
@@ -221,6 +222,7 @@ int Menu_juego(TABLERO *tab){
                         if(HacerJugada(tab, jugada) == FALSE){
                             printf("jugada inválida.\n");
                             free_move(jugada);
+                            jugada = NULL;
                         }
                     }
                 }
