@@ -11,7 +11,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 	int Legal = 0;
 	int Score = -INFINITO;
 	MOVE ** movelist;
-	int count;
+	int count,c;
 	int index=0;
 
 
@@ -33,7 +33,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 
 		return EvalPosition(pos); // hacer evalucacion
 	}
-	
+	Score = -INFINITO;
 	
     movelist = Generador_Movimientos(pos,&count); 
       
@@ -56,6 +56,11 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 			if(depth == PROFUNDIDAD){
 				free_move(*Best);
 				(*Best)=move_copy(movelist[index]);
+                PrintMove(*Best);
+              
+                printf("   %d\n",Score);
+                
+
 			}
 		}	
     }
