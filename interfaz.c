@@ -180,6 +180,7 @@ int Menu_juego(TABLERO *tab){
         }while(flag == OK && !jugada);
 
         free_move(jugada);
+        jugada=NULL;
     }
 
     acabar = FinPartida(tab);
@@ -200,6 +201,7 @@ int Menu_juego(TABLERO *tab){
         PrintMove(jugada);
         printf("\n\n");
         free_move(jugada);
+        jugada=NULL;
         acabar = FinPartida(tab);
         if(acabar != FALSE){
             switch (acabar){
@@ -231,6 +233,7 @@ int Menu_juego(TABLERO *tab){
             }while(flag == OK && !jugada);
 
             free_move(jugada);
+            jugada=NULL;
             }
         PrintBoard(tab);
         acabar = FinPartida(tab);
