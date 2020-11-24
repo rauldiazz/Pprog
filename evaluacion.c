@@ -47,17 +47,6 @@ int punttorre[64] = {
 0	,	0	,	5	,	10	,	10	,	5	,	0	,	0		
 };
 
-int puntdama[64]={
--3	,	-3	,	-3	,	-3	,	-3	,	-3	,	-3	,	-3	,
-0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,
-0	,	0	,	2	,	2	,	2	,	2	,	0	,	0	,
-0	,	0	,	2	,	5	,	5	,	2	,	0	,	0	,
-0	,	0	,	2	,	5	,	5	,	2	,	0	,	0	,
-0	,	0	,	2	,	2	,	2	,	2	,	0	,	0	,
-0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,
-0	,	0	,	0	,	0	,	0	,	0	,	0	,	0   
-};
-
 int reynormal[64]={	
 	0	,	5	,	5	,	-10	,	-10	,	0	,	10	,	5	,
 	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,
@@ -87,6 +76,10 @@ int EvalPosition(const TABLERO *pos) {
 
 	int casilla, pce, npiezas, casilla64;
 	int punt = pos->material[WHITE] - pos->material[BLACK];
+
+	if(!pos->pceNum[wP] && !pos->pceNum[bP] && punt==0) {
+		return 0;
+	}
 	
 	pce = wP;	
 	for(npiezas = 0; npiezas < pos->pceNum[pce]; npiezas++) {
@@ -151,22 +144,6 @@ int EvalPosition(const TABLERO *pos) {
 		ASSERT(!SQOFFBOARD(casilla));
         casilla64=C120a64(casilla);
 		punt -= punttorre[Mirror64(casilla64)];
-	}
-
-    pce = wQ;	
-	for(npiezas = 0; npiezas < pos->pceNum[pce]; npiezas++) {
-		casilla = pos->pList[pce][npiezas];
-		ASSERT(!SQOFFBOARD(casilla));
-        casilla64=C120a64(casilla);
-		punt += puntdama[casilla64];
-	}	
-
-	pce = bQ;	
-	for(npiezas = 0; npiezas < pos->pceNum[pce]; npiezas++) {
-		casilla = pos->pList[pce][npiezas];
-		ASSERT(!SQOFFBOARD(casilla));
-        casilla64=C120a64(casilla);
-		punt -= puntdama[Mirror64(casilla64)];
 	}
 
 	pce = wK;

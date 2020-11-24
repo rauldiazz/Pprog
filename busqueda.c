@@ -29,10 +29,6 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		return 0;
 	}
 	
-	if(pos->j_real > PROFMAX - 1) { 
-
-		return EvalPosition(pos); // hacer evalucacion
-	}
 	Score = -INFINITO;
 	
     movelist = Generador_Movimientos(pos,&count); 
