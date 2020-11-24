@@ -4,14 +4,14 @@
 
 #define FEN1 "7k/6pp/8/8/8/8/3R1K2/8 w  - - 0 1"
 #define FEN2 "5rk1/4bppp/4p3/8/p3PP2/3K3R/8/8 w  - - 0 1"
-#define FEN3 "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
-#define FEN4 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R b KQkq - 0 1"
+#define FEN3 "8/8/2k5/7R/8/8/8/2K3R1 w  - - 0 1"
+#define FEN4 "8/8/2k3b1/8/8/8/8/2K5 w  - - 0 1"
 #define FEN5 "rnbqkb1r/pp1p1pPp/8/2p1pP2/1P1P4/3P3P/P1P5/RNBQKBNR w KQkq e6 0 1"
 #define FEN6 "2n3q1/PPK5/1N3P2/2R5/1p2bNk1/2PB3p/7n/8 b - - 0 1"
 #define FEN7 "rn1qkbnr/p2b1ppp/1pp5/3pp3/QP2PP2/B1PP1NP1/P2N3P/R3KB1R w KQkq - 0 1"
 #define FEN8 "rn2kb1r/ppp1p2p/3p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R w KQkq - 0 1"
 #define FEN9 "r3kb1r/ppp1p2p/n2p1N1n/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R w KQkq - 0 1"
-#define FEN10 "r3kb1r/ppp1p2p/n2p3N/2qP1bBp/4P3/3Q1P1N/PPP1B1PP/R3K2R b KQkq - 0 1"
+#define FEN10 "rq2r2k/pp4p1/3n1pBp/2pP4/2P2RP1/P5Q1/2P2R2/6K1 b  - - 0 1"
 #define PERFTFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
 #define FENAUX2 "2k5/7Q/R7/2p5/8/8/1PPP1PBP/2B1K2R w K - 0 1"
 #define FENAUX "r3k2r/ppp2pQp/2n5/3n4/8/8/RPPP1PBP/2B1K2R w Kkq - 0 1"
@@ -32,7 +32,7 @@ int main() {
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FEN1, tab);
+	LeerFen(FEN10, tab);
 
 	Menu_juego(tab);
 	Free_tablero(tab);
