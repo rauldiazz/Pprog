@@ -103,12 +103,14 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
     aux++;
     //printf("Antes de switch\n");
     if(*aux == '=' && pieza ==  wP +t->side*(CAMBIO_LADO)){
+        //printf("Hay una coronacion\n");
         aux++;
+        //printf("corono a: %c ",*aux);
         switch (*aux){
-            case 'N': corona = bN - CAMBIO_LADO*(t->side); break;
-            case 'B': corona = bB - CAMBIO_LADO*(t->side); break;
-            case 'R': corona = bR - CAMBIO_LADO*(t->side); break;
-            case 'Q': corona = bQ - CAMBIO_LADO*(t->side); break;
+            case 'N': corona = wN + CAMBIO_LADO*(t->side); break;
+            case 'B': corona = wB + CAMBIO_LADO*(t->side); break;
+            case 'R': corona = wR + CAMBIO_LADO*(t->side); break;
+            case 'Q': corona = wQ + CAMBIO_LADO*(t->side); break;
             default: return NULL;
         }
     }
