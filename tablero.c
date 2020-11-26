@@ -1,6 +1,9 @@
 
 #include "stdio.h"
 #include "definiciones.h"
+#define BLANCO "\e[0;30m\e[47m"
+#define NEGRO "\e[0;40m\e[37m"
+#define RESET "\e[0m"
 
 //char PceChar[] = ".♙♘♗♖♕♔♟♞♝♜♛♚";
 char PceChar[] = ".PNBRQKpnbrqk";
@@ -327,47 +330,62 @@ void ResetBoard(TABLERO *pos) {
 void PrintBoard(const TABLERO *pos) {
 	
 	int pieza,fila,col,piezan;
+	int cont=0;
+	
 
 	printf("\nGame Board:\n\n");
 	
 	for(fila = FILA_8; fila >= FILA_1; fila--) {
 		printf("%d  ",fila+1);
-		for(col = COL_A; col <= COL_H; col++) {
+		for(col = COL_A; col <= COL_H; col++ ,cont ++) {
 			pieza = FCCAS(col,fila);
-			piezan = pos->pieces[pieza];    
-            if(piezan==0)
-			printf(". ");
-			if(piezan==1)
-			printf("♟ ");
-			if(piezan==2)
-			printf("♞ ");
-			if(piezan==3)
-			printf("♝ ");
-			if(piezan==4)
-			printf("♜ ");
-			if(piezan==5)
-			printf("♛ ");
-			if(piezan==6)
-			printf("♚ ");
-			if(piezan==7)
-			printf("♙ ");
-			if(piezan==8)
-			printf("♘ ");
-			if(piezan==9)
-			printf("♗ ");
-			if(piezan==10)
-			printf("♖ ");
-			if(piezan==11)
-			printf("♕ ");
-			if(piezan==12)
-			printf("♔ ");
-		
+			piezan = pos->pieces[pieza];
+			if(cont%2==0)  printf("\e[1;33m\e[47m");
+			if(cont%2==1) 	printf("\e[1;33m\e[45m");
 			printf(" ");
+            if(piezan==0 )
+			printf(" ");
+			if(piezan==1)
+			printf("♟");
+			if(piezan==2)
+			printf("♞");
+			if(piezan==3)
+			printf("♝");
+			if(piezan==4)
+			printf("♜");
+			if(piezan==5)
+			printf("♛");
+			if(piezan==6)
+			printf("♚");
+			printf("\e[0m");
+			if(cont%2==0)  printf("\e[1;30m\e[47m");
+			if(cont%2==1) 	printf("\e[1;30m\e[45m");
+			
+			if(piezan==7)
+			printf("♟");
+			if(piezan==8)
+			printf("♞");
+			if(piezan==9)
+			printf("♝");
+			if(piezan==10)
+			printf("♜");
+			if(piezan==11)
+			printf("♛");
+			if(piezan==12)
+			printf("♚");
+			printf(" ");
+			/*if(cont%2==1)  printf("\e[0;30m\e[47m");
+			if(cont%2==0) 	printf("\e[0;40m\e[37m");
+			printf(" ");*/
+			printf("\e[0m");
+
 		}
+		cont+=1;
 		printf("\n");
 	}
-	
+	printf("\e[0m");
 	printf("\n ");
+	printf(" ");
 	for(col = COL_A; col <= COL_H; col++) {
 		printf("%3c",'a'+col);	
 	}
