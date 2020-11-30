@@ -228,7 +228,7 @@ int Menu_juego(TABLERO *tab){
                             free_move(jugada);
                             jugada = NULL;
                         }
-                        printf("%d\n", tab->fiftyMove);
+                       
                     }
                 }
 
