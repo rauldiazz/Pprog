@@ -8,7 +8,25 @@ const int RkDir[4] = { -1, -10,	1, 10 };
 const int BiDir[4] = { -9, -11, 11, 9 };
 const int KiDir[8] = { -1, -10,	1, 10, -9, -11, 11, 9 };
 
-
+/***********************************************************/
+/* Funcion: SqAttacked                           
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parametros de entrada:                                               
+/* sq: entero que indica una casilla del tablero
+/* side: bando que se quiere ver si ataca la casilla
+/* pos: puntero al tablero
+/*
+/* Retorno:
+/* TRUE en caso de que la casilla esté atacada por el bando en cuestión y FALSE en caso contrario
+/*
+/* Descripción:
+/* Esta función mira una por una cada pieza del bando side para ver si atacan a la casilla en cuestión
+/*
+/* Más en detalle: Mediante e uso de los arrays definididos al comienzo que determinan las direcciones de cada pieza, 
+/* Mediante el array pieces del tablero se accede a cada una de las piezas de cada tipo y se va mirando, sumando las direcciones a las casillas
+/* en las que estas se encuentran si están o no atacando la casilla en cuestión.
+/***********************************************************/
 
 
 int SqAttacked(const int sq, const int side, const TABLERO *pos) {

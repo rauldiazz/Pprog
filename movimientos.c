@@ -5,14 +5,50 @@
 
 char PceChar2[] = ".PNBRQKPNBRQK";
 
+/***********************************************************/
+/* Funcion: create_move                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Retorno:
+/* Puntero a estructura movimiento
+/*
+/* Descripción:
+/* Reserva memoria para una estructura movimiento
+/***********************************************************/
+
 MOVE *create_move(){
     return (MOVE*)malloc(sizeof(MOVE));
 }
+
+/***********************************************************/
+/* Función: free_move                          
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* Puntero a estructura movimiento
+/*
+/* Descripción:
+/* Libera memoria para una estructura movimiento
+/***********************************************************/
 
 void free_move(MOVE *m){
     if(m)free(m);
     return;
 }
+
+/***********************************************************/
+/* Función: move_copy                        
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* Puntero a estructura movimiento
+/* 
+/* Retorno:
+/* copy=puntero a estructura movimiento
+/*
+/* Descripción:
+/* Hace una copia de un movimiento
+/***********************************************************/
 
 MOVE *move_copy(MOVE*m){
     MOVE *copy;
@@ -28,6 +64,17 @@ MOVE *move_copy(MOVE*m){
     return copy;
 }
 
+/***********************************************************/
+/* Función: free_UNDO                       
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* Puntero a estructura S_UNDO
+/*
+/* Descripción:
+/* Libera memoria para una estructura S_UNDO
+/***********************************************************/
+
 void free_UNDO(S_UNDO * u){
     if(u){
         if(u->jugada) free_move(u->jugada);
@@ -36,6 +83,20 @@ void free_UNDO(S_UNDO * u){
     } 
     return;
 }
+
+/***********************************************************/
+/* Función: create_UNDO                     
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* Puntero a estructura movimiento
+/* 
+/* Retorno:
+/* u=puntero a estructura S_UNDO
+/*
+/* Descripción:
+/* Crea una estructura de tipo S_UNDO
+/***********************************************************/
 
 S_UNDO *create_UNDO (MOVE *jugada){
     S_UNDO *u;
@@ -46,6 +107,26 @@ S_UNDO *create_UNDO (MOVE *jugada){
     }
     return u;
 }
+
+/***********************************************************/
+/* Función: insert_move                     
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* castle: entero que indica el permiso de enroque
+/* from: entero que indica casilla de salida
+/* to: entero que indica casilla de salida
+/* pieza: entero que indica la pieza de la que se trata
+/* captura: entero indica si se trata de una captura 
+/* corona: entero que indica en que pieza se corona
+/* paso: entero que indica si se captura al paso
+/*
+/* Retorno:
+/* u=puntero a estructura movimento
+/*
+/* Descripción:
+/* Crea un movimiento e inserta sobre él la información que se le aporta
+/***********************************************************/
 
 MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int corona, int paso){
     MOVE  *m;
@@ -65,6 +146,21 @@ MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int coro
     return m;
 }
 
+/***********************************************************/
+/* Función: move_cmp                
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* m1=Puntero a estructura movimiento
+/* m2=Puntero a estructura movimiento
+/*
+/* Retorno:
+/* TRUE si son iguales y FALSE si son distintos
+/*
+/* Descripción:
+/* Compara dos movimientos para ver si estos son iguales
+/***********************************************************/
+
 int move_cmp(MOVE *m1, MOVE *m2){
     if(!m1||!m2) return FALSE;
     if(m1->castle!=m2->castle) return FALSE;
@@ -76,6 +172,22 @@ int move_cmp(MOVE *m1, MOVE *m2){
     if(m1->paso!=m2->paso) return FALSE;
     return TRUE;
 }
+
+/***********************************************************/
+/* Función: Generador_Movimientos                
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* t=puntero a un tablero
+/* count=puntero a un entero que cuenta el numero de movimientos
+/*
+/* Retorno:
+/* Array de movimientos con todos los movimientos posibles para una posición dada
+/*
+/* Descripción:
+/* Inicializa un array de movimientos y llama a todos los generadores de movimientos para cada pieza
+/***********************************************************/
+
 
 MOVE **Generador_Movimientos(TABLERO *t, int *count){
     MOVE **m;
@@ -97,6 +209,8 @@ MOVE **Generador_Movimientos(TABLERO *t, int *count){
     return m;
     
 } 
+
+
 
 MOVE ** AddMovePeon (MOVE **m,  int *count, int cas, int to, int to2, int captura, int side, int paso){
     if (!m) return NULL;
@@ -188,6 +302,24 @@ MOVE ** Generador_Peones(TABLERO *t, MOVE **m, int *count ){
     return m;
 }
 
+/***********************************************************/
+/* Función: Generador_RC               
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* t=puntero a un tablero
+/* count=puntero a un entero que cuenta el numero de movimientos
+/* m=array que contiene los movimientos anteriores y al que se irán añadiendo los nuevos
+/*
+/* Retorno:
+/* Array de movimientos con todos los movimientos posibles de caballo y rey, más los que éste contuviese, para una posición dada
+/*
+/* Descripción:
+/* Utilizando arrays de direcciones, mira todos los movimientos para todos los caballos que haya y para el rey
+/*
+/* Más en detalle: Mediante el uso de la piece List y del array de pieces, partiendo de la casilla en la que se sitúa cada uno de los caballos y el rey,
+/* mira sumando las direcciones a la casilla de salida y mira los todos los movimientos posibles, tomando solo los legales (rey no queda en jaque tras el movimiento)
+/***********************************************************/
 
 MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
     int i,j;
@@ -321,10 +453,26 @@ MOVE** Generador_RC(TABLERO *t, MOVE **m, int *count){
 		}
          }
 			
-		
-		
 return m;
 }
+
+/***********************************************************/
+/* Función: Generador_Enroques              
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* t=puntero a un tablero
+/* count=puntero a un entero que cuenta el numero de movimientos
+/* m=array que contiene los movimientos anteriores y al que se irán añadiendo los nuevos
+/*
+/* Retorno:
+/* Array de movimientos con todos los movimientos posibles de enroque, más los que éste contuviese, para una posición dada
+/*
+/* Descripción:
+/* Utilizando el permiso de enroque de la estructura tablero, busca a ver si son legales los movimientos de enroque y si esto es así los añade a la lista
+/*
+/***********************************************************/
+
 
 MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
 
@@ -440,10 +588,26 @@ MOVE ** Generador_Enroques(TABLERO *t, MOVE **m, int *count ){
     }
 
     return m;
-
-
 }
 
+/***********************************************************/
+/* Función: Generador_Slide              
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* t=puntero a un tablero
+/* count=puntero a un entero que cuenta el numero de movimientos
+/* m=array que contiene los movimientos anteriores y al que se irán añadiendo los nuevos
+/*
+/* Retorno:
+/* Array de movimientos con todos los movimientos posibles de torre, alfil y dama, más los que éste contuviese, para una posición dada
+/*
+/* Descripción:
+/* Utilizando arrays de direcciones, mira todos los movimientos para los alfiles, torres y damas
+/*
+/* Más en detalle: Mediante el uso de la piece List y del array de pieces, partiendo de la casilla en la que se sitúa cada uno de los alfiles, torres y damas,
+/* mira sumando las direcciones a la casilla de salida y mira los todos los movimientos posibles, tomando solo los legales (rey no queda en jaque tras el movimiento)
+/***********************************************************/
 
 
 MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
@@ -519,11 +683,33 @@ MOVE ** Generador_Slide(TABLERO *t, MOVE **m, int *count ){
 
 }
 
+/***********************************************************/
+/* Función: PrintMove            
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* 
+/* mt=puntero a un movimiento
+/*
+/* Retorno:
+/* -1 en caso de error o OK en caso de que todo haya ido de manera correcta
+/*
+/* Descripción:
+/* Imprime por pantalla un movimiento mediante la sintaxis: 
+/* (P)from(x)to(=C) donde se da que:
+/*  - P corresponde a la pieza que se omite si se mueve un peón (en mayúsculas)
+/*  - from corresponde a la casilla desde la que se mueve la pieza (en minúsculas)
+/*  - x indica si hay captura. Si no hay captura se omite
+/*  - to corresponde a la casilla a la que va la pieza (en minúsculas)
+/*  - =C se escribe si hay una coronación y en C se escribe la pieza en la que se corona (en mayúsculas)
+/*  - En el caso de que el movimiento sea un enroque se escribirá WKCA, WQCA, BKCA o BQCA dependiendo del tipo de enroque y del bando
+/*
+/***********************************************************/
+
+
 int PrintMove(MOVE *mt){
     
     int col, fila;
-
-    
 
     if (!mt) return -1;
     
@@ -589,7 +775,31 @@ int PrintMove(MOVE *mt){
             }
             
         }
+        return OK;
     }
+
+/***********************************************************/
+/* Función: print_moves            
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* 
+/* m=array de movimientos
+/* count= numero de movimientos que contiene el array
+/* Retorno:
+/* -1 en caso de error o OK en caso de que todo haya ido de manera correcta
+/*
+/* Descripción:
+/* Imprime por pantalla todos los movimientos del array mediante la siguiente la sintaxis: 
+/* (P)from(x)to(=C) donde se da que:
+/*  - P corresponde a la pieza que se omite si se mueve un peón (en mayúsculas)
+/*  - from corresponde a la casilla desde la que se mueve la pieza (en minúsculas)
+/*  - x indica si hay captura. Si no hay captura se omite
+/*  - to corresponde a la casilla a la que va la pieza (en minúsculas)
+/*  - =C se escribe si hay una coronación y en C se escribe la pieza en la que se corona (en mayúsculas)
+/*  - En el caso de que el movimiento sea un enroque se escribirá WKCA, WQCA, BKCA o BQCA dependiendo del tipo de enroque y del bando
+/*
+/***********************************************************/
 
 
 int print_moves(MOVE **m, int count){
@@ -666,7 +876,33 @@ int print_moves(MOVE **m, int count){
         }
         printf("\n");
     }
+    return OK;
 }
+
+/***********************************************************/
+/* Función: HacerJugada           
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* 
+/* m=puntero a un movimiento
+/* t=puntero al tablero
+/*
+/* Retorno:
+/* FALSE si algo falla o TRUE si todo va correctamente
+/*
+/* Descripción:
+/* Imprime por pantalla un movimiento mediante la sintaxis: 
+/* (P)from(x)to(=C) donde se da que:
+/*  - P corresponde a la pieza que se omite si se mueve un peón (en mayúsculas)
+/*  - from corresponde a la casilla desde la que se mueve la pieza (en minúsculas)
+/*  - x indica si hay captura. Si no hay captura se omite
+/*  - to corresponde a la casilla a la que va la pieza (en minúsculas)
+/*  - =C se escribe si hay una coronación y en C se escribe la pieza en la que se corona (en mayúsculas)
+/*  - En el caso de que el movimiento sea un enroque se escribirá WKCA, WQCA, BKCA o BQCA dependiendo del tipo de enroque y del bando
+/*
+/***********************************************************/
+
 
 /*Introducir una jugada que sea válida o jaque*/
 int HacerJugada(TABLERO *t,MOVE *m){

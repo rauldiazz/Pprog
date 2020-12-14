@@ -3,6 +3,9 @@
 #define SQOFFBOARD(sq) (FILAsBrd[sq]==OFFBOARD)
 #define MATERIALFINAL (PieceVal[wR] + 2 * PieceVal[wN] + 2 * PieceVal[wP] + PieceVal[wK])
 int PAREJAALFILES = 30;
+
+/*puntpeones: Array que contiene las puntuaciones para las posiciones de los peones en el tablero*/
+
 int puntpeones[64]={
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	,
 10	,	10	,	0	,	-10	,	-10	,	0	,	10	,	10	,
@@ -13,6 +16,8 @@ int puntpeones[64]={
 20	,	20	,	20	,	30	,	30	,	20	,	20	,	20	,
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	
 };
+
+/*puntcaballo: Array que contiene las puntuaciones para las posiciones de los caballos en el tablero*/
 
 int puntcaballo[64] = {
 0	,	-10	,	0	,	0	,	0	,	0	,	-10	,	0	,
@@ -25,6 +30,8 @@ int puntcaballo[64] = {
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0		
 };
 
+/*puntalfil: Array que contiene las puntuaciones para las posiciones de los alfiles en el tablero*/
+
 int puntalfil[64] = {
 0	,	0	,	-10	,	0	,	0	,	-10	,	0	,	0	,
 0	,	0	,	0	,	10	,	10	,	0	,	0	,	0	,
@@ -35,6 +42,8 @@ int puntalfil[64] = {
 0	,	0	,	0	,	10	,	10	,	0	,	0	,	0	,
 0	,	0	,	0	,	0	,	0	,	0	,	0	,	0	
 };
+
+/*punttorre: Array que contiene las puntuaciones para las posiciones de las torres en el tablero*/
 
 int punttorre[64] = {
 0	,	0	,	5	,	10	,	10	,	5	,	0	,	0	,
@@ -47,6 +56,9 @@ int punttorre[64] = {
 0	,	0	,	5	,	10	,	10	,	5	,	0	,	0		
 };
 
+/*reynormal: Array que contiene las puntuaciones para las posiciones del rey en el tablero, en un estado 'early-game' o 'mid-game'*/
+
+
 int reynormal[64]={	
 	0	,	5	,	5	,	-10	,	-10	,	0	,	10	,	5	,
 	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,	-30	,
@@ -58,6 +70,9 @@ int reynormal[64]={
 	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70	,	-70		
 };
 
+/*reyendgame: Array que contiene las puntuaciones para las posiciones del rey en el tablero, en un estado 'late-game'*/
+
+
 int reyendgame[64]={	
 	-50	,	-10	,	0	,	0	,	0	,	0	,	-10	,	-50	,
 	-10,	0	,	10	,	10	,	10	,	10	,	0	,	-10	,
@@ -68,9 +83,47 @@ int reyendgame[64]={
 	-10,	0	,	10	,	10	,	10	,	10	,	0	,	-10	,
 	-50	,	-10	,	0	,	0	,	0	,	0	,	-10	,	-50	
 };
+
+
+
+/***********************************************************/
+/* Funcion: Mirror64                           
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parametros de entrada:                                               
+/* sq64: entero que indica una casilla del tablero
+/* 
+/* Retorno:
+/* casilla 'opuesta'
+/*
+/* Descripción:
+/* Esta función devuelve la casilla contraria, utilizada para
+/* cambiar de blancas a negras en los arrays posicionales
+/***********************************************************/
+
 int Mirror64(int sq64){
     return 63-sq64;
 }
+
+/***********************************************************/
+/* Funcion: EvalPosition                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parametros de entrada:                                               
+/* pos: puntero a un tablero
+/* 
+/* Retorno:
+/* Valor de la puntuación evaluacion
+/*
+/* Descripción:
+/* Devuelve la evaluación posicional del bando que indique el tablero
+/* 
+/* Más en detalle: Esta función se basa en contar el material que tiene cada uno de los
+/* bandos y hacer la resta para ver la diferencia, además usando arrays posicionales
+/* para cada tipo de pieza, que determinan en qué casilla del tablero es más fuerte cada pieza.
+/* Además valora otros factores como la conservación de las parejas de alfiles como algo positivo 
+/* o diferencia entre las casillas en las que debe de estar el rey dependiendo del momento de la partida
+/***********************************************************/
 
 int EvalPosition(const TABLERO *pos) {
 
