@@ -597,7 +597,7 @@ int Repetida(TABLERO *tab, int *times){
 
 	ASSERT(tab!=NULL);
 
-	(*times)=0;
+	(*times)=1;
 
 	if(tab->histcont==0)return FALSE;
 
@@ -641,7 +641,7 @@ int esTablas(TABLERO *tab){
 
 	if(flag==FALSE||(flag==TRUE && cont<3)) return FALSE;
 	
-	printf("HE VISTO TABLAS\n");
+	
 	return TRUE;
 
 }
