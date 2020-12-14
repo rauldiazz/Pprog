@@ -583,7 +583,7 @@ int Repetida(TABLERO *tab, int *times){
 
 	ASSERT(tab!=NULL);
 
-	(*times)=1;
+	(*times)=0;
 
 	if(tab->histcont==0)return FALSE;
 
@@ -618,6 +618,7 @@ int esTablas(TABLERO *tab){
 	
 	flag=Repetida(tab, &cont);
 	
+	
 
 	flag1=InsufMat(tab);
 
@@ -626,6 +627,7 @@ int esTablas(TABLERO *tab){
 
 	if(flag==FALSE||(flag==TRUE && cont<3)) return FALSE;
 	
+	printf("HE VISTO TABLAS\n");
 	return TRUE;
 
 }
