@@ -20,6 +20,26 @@ int PieceCol[13] = { BOTH, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, BLACK, BLAC
 
 int FILAsBrd[NUM_CASILLAS];
 int COLsBrd[NUM_CASILLAS];
+
+
+
+
+
+
+/***********************************************************/
+/* Función: InitFILAsCOLsBrd                
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* No recibe ningun parametro de entrada
+/* 
+/* Retorno:
+/* void
+/*
+/* Descripción:
+/* Inicializa los arrays globales
+/***********************************************************/
+
 void InitFILAsCOLsBrd() {
 	
 	int index = 0;
@@ -42,16 +62,46 @@ void InitFILAsCOLsBrd() {
 	}
 }
 
+/***********************************************************/
+/* Función: Cas_Fila              
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* cas: casilla del tablero
+/* 
+/* Retorno:
+/* Fila en la que esta la casilla
+/***********************************************************/
 int Cas_Fila (int cas){
 	return FILAsBrd[cas];
 }
 
+
+/***********************************************************/
+/* Función: InitFILAsCOLsBrd                
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* cas: casilla del tablero
+/* 
+/* Retorno:
+/* Columna en la que esta la casilla
+/***********************************************************/
 int Cas_Col (int cas){
 	return COLsBrd[cas];
 }
 
 
-
+/***********************************************************/
+/* Función: pieceColour            
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* pce: pieza
+/* 
+/* Retorno:
+/* Devuelve el color de una pieza
+/***********************************************************/
 int pieceColour(int pce){
 
     if(pce == wP || pce == wR || pce == wB || pce == wN || pce == wQ || pce == wK) return WHITE;
@@ -60,6 +110,16 @@ int pieceColour(int pce){
 
     return BOTH;
 }
+/***********************************************************/
+/* Función: C64a120                
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* c64: índice en el tablero de 64 casillas
+/* 
+/* Retorno:
+/* retorna el indice en el tablero de 120 casillas
+/***********************************************************/
 
 int C64a120 (int c64){
 	int resto;
@@ -71,6 +131,17 @@ int C64a120 (int c64){
 }
 
 
+/***********************************************************/
+/* Función: C120a64               
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* c64: índice en el tablero de 120 casillas
+/* 
+/* Retorno:
+/* retorna el índice en el tablero de 64 casillas
+/***********************************************************/
+
 int C120a64 (int c120){
 	int resta, resto, cociente;
 	resta = c120- 21;
@@ -80,9 +151,27 @@ int C120a64 (int c120){
 	return cociente*8 + resto;
 }
 
-/*Función para dada una posicion en el tablero, mediante el uso de una serie de arrays y variables internas, crea una posición "espejo" para 
-luego comprobar que coincide con la dada y que así se la informacion almacenada en cada una de las martes de estructura 
-tablero que es redundante es crrecta*/
+
+/***********************************************************/
+/* Función: CheckBoard                     
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* pos: puntero a un tablero
+/* 
+/* Retorno:
+/* TRUE : Si la posicion es correcta
+/* FALSE: Si la posición es incorrecta
+/*
+/* Descripción:
+/* Comprueba un tablero
+/*
+/* Mas en detalle:
+/* Función para dada una posicion en el tablero, mediante el uso de una serie de arrays y variables internas, crea una posición "espejo" para 
+/* luego comprobar que coincide con la dada y que así se la informacion almacenada en cada una de las martes de estructura 
+/* tablero que es redundante es crrecta
+/***********************************************************/
+
 int CheckBoard(const TABLERO *pos) {   
 	
  
@@ -129,6 +218,23 @@ int CheckBoard(const TABLERO *pos) {
 	return TRUE;	
 }
 
+/***********************************************************/
+/* Función: UpdateListsMaterial                       
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* pos: puntero a un tablero
+/* 
+/* Retorno:
+/* void
+/*
+/* Descripción:
+/* Actualiza el material 
+/*
+/* Mas en detalle:
+/* Recorre el array de piezas para ir almacenando el material en los distintos campos de la estructura tablero
+/***********************************************************/
+
 
 
 void UpdateListsMaterial(TABLERO *pos) {	
@@ -162,6 +268,24 @@ void UpdateListsMaterial(TABLERO *pos) {
 		}
 	}
 }
+/***********************************************************/
+/* Función: LeerFen                          
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:    
+/* fen: cadena de caracteres con el fen de una posicion guardado
+/* pos: puntero a un tablero
+/* 
+/* Retorno:
+/* retorna OK o ERR si ha fallado algo
+/*
+/* Descripción:
+/* Recibe una cadena guardada en un fen y la carga en el tablero
+/*
+/*Mas en Detalle:
+/* Recibe una cadena guardada en un fen y la carga en el tablero. Para ello se resetea el tablero y se va almacenando la informacion del fen en el array de piezas
+/* y en los distintos campos de ña estructura tablero. Finalmente se actualiza el material del tablero para que la posición quede completamente cargada.
+/***********************************************************/
 
 
 int LeerFen(char *fen, TABLERO *pos) {
@@ -285,6 +409,21 @@ int LeerFen(char *fen, TABLERO *pos) {
 	return 0;
 }
 
+
+/***********************************************************/
+/* Función: ResetBoard                         
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* pos: puntero a un tablero
+/* 
+/* Retorno:
+/* void
+/*
+/* Descripción:
+/* Devuelve un tablero sin piezas con todas las estructuras inicializadas
+/***********************************************************/
+
 void ResetBoard(TABLERO *pos) {
 
 	int i = 0;
@@ -328,10 +467,10 @@ void ResetBoard(TABLERO *pos) {
 }
 
 /***********************************************************/
-/* Funcion: PrintBoard                           
+/* Función: PrintBoard                           
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*                                                         
-/* Parametros de entrada:                                                 
+/* Parámetros de entrada:                                                 
 /* pos: puntero a un tablero
 /* 
 /* Retorno:
@@ -339,6 +478,10 @@ void ResetBoard(TABLERO *pos) {
 /*
 /* Descripción:
 /* Imprime el tablero contenido en pos
+/*
+/*Mas en Detalle: 
+/* Recorre el array de piezas e imprime la numeración de las filas y las casillas junto con las piezas almacenadas en este
+/* usando los codigos de Ascii para cambiar los colores de la fuente y el fondo en la terminal.
 /***********************************************************/
 
 void PrintBoard(const TABLERO *pos) {
@@ -415,6 +558,19 @@ void PrintBoard(const TABLERO *pos) {
 			);
 	
 }
+/***********************************************************/
+/* Función: Create_tablero                         
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* No recibe Parámetros de entrada
+/* 
+/* Retorno:
+/* Estructura tablero creada
+/*
+/* Descripción:
+/* Crea una estructura tablero
+/***********************************************************/
 
 TABLERO* Create_tablero(){
 
@@ -467,6 +623,20 @@ TABLERO* Create_tablero(){
 	return tab;
 }
 
+/***********************************************************/
+/* Función: Free_tablero                          
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* tab: puntero a un tablero
+/* 
+/* Retorno:
+/* void
+/*
+/* Descripción:
+/* Libera una estructura de datos tablero
+/***********************************************************/
+
 void Free_tablero(TABLERO *tab){
 	int i;
 	if(tab){
@@ -498,6 +668,20 @@ void Free_tablero(TABLERO *tab){
 	return;
 
 }
+
+/***********************************************************/
+/* Función: EscribirFen                      
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* t: puntero a un tablero
+/* 
+/* Retorno:
+/* cadena de caracteres con el fen de la posicion del tablero
+/*
+/* Descripción:
+/* Dado un tablero guarda en una cadena el fen asociado a la posicion
+/***********************************************************/
 
 
 char * EscribirFen(TABLERO *t){
@@ -621,6 +805,19 @@ int Repetida(TABLERO *tab, int *times){
 	return FALSE;
 
 }
+/***********************************************************/
+/* Función: esTablas                    
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* tab: puntero a un tablero
+/* 
+/* Retorno:
+/* valor TRUE/FALSE 
+/*
+/* Descripción:
+/* Determina si la posicion de un tablero es tablas o no
+/***********************************************************/
 
 int esTablas(TABLERO *tab){
 
@@ -646,6 +843,20 @@ int esTablas(TABLERO *tab){
 
 }
 
+/***********************************************************/
+/* Función: InsufMat                          
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* tab: puntero a un tablero
+/* 
+/* Retorno:
+/* valor TRUE/FALSE
+/*
+/* Descripción:
+/* Comprueba si hay material suficiente para seguir jugando
+/***********************************************************/
+
 int InsufMat(TABLERO *tab){
 
 	ASSERT(tab!=NULL);
@@ -658,6 +869,22 @@ int InsufMat(TABLERO *tab){
 
 }
 
+/***********************************************************/
+/* Función: InsufMat                          
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* tab: puntero a un tablero
+/* 
+/* Retorno:
+/* valor TRUE/FALSE/TABLA
+/*
+/* Descripción:
+/* Decide si se puede continuar la partida o ya se ha acabado.
+/*
+/* Mas en Detalle:
+/* Para determinar si se acaba la partida se comprueba si es Tablas, o si no hay jugadas posibles y ademas el rey está atacado por lo que seria jaque mate
+/***********************************************************/
 
 int FinPartida(TABLERO *tab){
 	MOVE **m;

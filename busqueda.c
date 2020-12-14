@@ -8,10 +8,10 @@
 #define NOMOV 0
 
 /***********************************************************/
-/* Funcion: Alphabeta                             
+/* Función: Alphabeta                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*                                                         
-/* Parametros de entrada:
+/* Parámetros de entrada:
 /* alpha: mejor opcion para el maximizador
 /* beta: mejor opcion para el minimizador
 /* depth: profundidad del algoritmo                                                  
@@ -24,6 +24,10 @@
 /*
 /* Descripción:
 /* Algoritmo de busqueda del mejor movimiento a realizar a una cierta profundidad seleccionada
+/*
+/* Mas en Detalle:
+/* Implementa el algoritmo de poda alfabeta, cuyo proposito es encontrar el mejor movimiento. 
+/* Descarta las ramas del arbol que en función de los valores de alfa y beta no hace falta explorar
 /***********************************************************/
 
 static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MOVE** Best) { 
@@ -98,10 +102,10 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 
 
 /***********************************************************/
-/* Funcion: SearchPosition                             
+/* Función: SearchPosition                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*                                                         
-/* Parametros de entrada:                                            
+/* Parámetros de entrada:                                            
 /* pos: puntero a un tablero
 /* info: puntero a tipo de dato info con los datos de la busqueda
 /* 
