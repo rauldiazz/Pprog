@@ -632,6 +632,7 @@ int esTablas(TABLERO *tab){
 	
 	flag=Repetida(tab, &cont);
 	
+	
 
 	flag1=InsufMat(tab);
 
@@ -639,6 +640,7 @@ int esTablas(TABLERO *tab){
 	if(flag1==TRUE)return TRUE;
 
 	if(flag==FALSE||(flag==TRUE && cont<3)) return FALSE;
+	
 	
 	return TRUE;
 
