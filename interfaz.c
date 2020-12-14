@@ -6,10 +6,10 @@
 #define MAXSTRJUGADA 16
 
 /***********************************************************/
-/* Funcion: is_Valid                             
+/* Función: is_Valid                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*                                                         
-/* Parametros de entrada:
+/* Parámetros de entrada:
 /* m: puntero al movimiento que queremos ver si es válido
 /* t: puntero al tablero con la posición en la que queremos hacer el movimiento
 /* 
@@ -46,10 +46,10 @@ int is_Valid(MOVE *m,TABLERO *t){
 }
 
 /***********************************************************/
-/* Funcion: LeerMovimiento                             
+/* Función: LeerMovimiento                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*                                                         
-/* Parametros de entrada:
+/* Parámetros de entrada:
 /* entrada: string que contiene la jugada introducida por teclado en formato: 
 /*  (P)from(x)to(=C) donde se da que:
 /*  - P corresponde a la pieza que se omite si se mueve un peón (en mayúsculas)
@@ -180,10 +180,10 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
 }
 
 /***********************************************************/
-/* Funcion: Menu_juego                             
+/* Función: Menu_juego                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*                                                         
-/* Parametros de entrada:
+/* Parámetros de entrada:
 /* t: puntero al tablero con el que se va a jugar
 /* 
 /* Retorno:
