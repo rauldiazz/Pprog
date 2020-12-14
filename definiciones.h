@@ -26,8 +26,41 @@ exit(1);}
 #define MAXGAMEMOVES 2048
 #define PROFUNDIDAD 4
 
+/***********************************************************/
+/* MACRO: START_FEN                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*
+/* Descripción:
+/* FEN a la posición inicial del tablero. Esencial para empezar una partida
+/***********************************************************/
+
 #define START_FEN  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
+/***********************************************************/
+/* Array: PieceVal                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*
+/* Descripción:
+/* Array que le da un valor material a cada pieza. Cada posición corresponde a PieceVal[pieza]
+/***********************************************************/
+
 static int PieceVal[13]= { 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  };
+
+/***********************************************************/
+/* Enumeraciones                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*
+/* Descripción:
+/* Declaramos varias enumeraciones que nos serán útiles en el desarrollo del módulo. La primera enumeración es una
+/* forma de codificar las distintas piezas en el ajedrez (white or black, Pawn, Knight (N), Bishop, Rook, Queen, King).
+/* Los dos siguientes son una forma de codificar las distintas columnas (de A a H) y filas (de 1 a 8) que hay en el tablero.
+/* Además tenemos una enumeración para codificar el lado al que le toca. Además, tenemos otra enumeración que codifica las casillas 
+/* que hay en el tablero.(Las casillas tienen los números de los índices de la estructura Tablero).
+/* Además, hay otras enumeraciones de utilidad en las fnciones como OK, ERR, TRUE , FALSE o GANAN_NEGRAS, TABLAS, GANAN_BLANCAS.
+/* Por últimos tenemos la forma de codificar los distintos enroques para llevar cuenta del permiso de enroque.
+/***********************************************************/
+
+
 enum { EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK  };
 enum { COL_A, COL_B, COL_C, COL_D, COL_E, COL_F, COL_G, COL_H, COL_NONE };
 enum { FILA_1, FILA_2, FILA_3, FILA_4, FILA_5, FILA_6, FILA_7, FILA_8, FILA_NONE };
@@ -52,6 +85,18 @@ enum {GANAN_NEGRAS = 2, TABLAS, GANAN_BLANCAS};
 
 enum { WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8 };
 
+
+/***********************************************************/
+/* Estructura: MOVE                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*
+/* Descripción:
+/* Estructura que guarda los distintos movimientos que se hacen. Tiene los parámetros castle (para controlar si el movimiento ha 
+/* sido de enroque), from que muestra la casilla de salida, to, que muestra la casilla a la que se mueve la pieza, una array de piezas
+/* y, por último, si se ha hecho una captura al paso
+/***********************************************************/
+
+
 typedef struct{
 	int castle;
 	int from;
@@ -60,6 +105,15 @@ typedef struct{
 	int piezas[3];
 	int paso;
 }MOVE;
+
+/***********************************************************/
+/* Estructura: S_UNDO                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*
+/* Descripción:
+/* Estructura que guarda la información necesaria para volver atrás jugadas. Guarda la jugada que se ha hecho, como estaban los permisos de enroque,
+/* La casilla en la que se puede comer al paso, el número de 50 jugadas, y una fen que guarda el estasdo de la posición.
+/***********************************************************/
 
 typedef struct {
 
@@ -70,6 +124,40 @@ typedef struct {
 	char *fen;
 
 } S_UNDO;
+
+/***********************************************************/
+/* Estructura: S_UNDO                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*
+/* Descripción:
+/* Estructura que guarda la información del tablero. En ella podemos ver varias partes. La primera parte consta de
+/* el array pieces, un array de tamaño 120 que guarda un tablero como vemos en la figura:
+/*		________________________________________
+/*		|_0_|_1_|___|___|___|___|___|___|___|_9_|
+/*		|_10|___|___|___|___|___|___|___|___|___|
+/*		|_20|_A1|_B1|_C1|_D1|_E1|_F1|_G1|_H1|___|
+/*		|_30|_A2|_B2|___|_._|_._|_._|___|_H2|___|
+/*		|_40|_A3|_B3|___|___|___|___|___|_H3|___|
+/*		|_50|_A4|_B4|___|_._|_._|_._|___|_H4|___|
+/*		|_60|_A5|_B5|___|___|___|___|___|_H5|___|
+/*		|_70|_A6|_B6|___|_._|_._|_._|___|_H6|___|
+/*		|_80|_A7|_B7|___|___|___|___|___|_H7|___|
+/*		|_90|_A8|_B8|_C8|_D8|_E8|_F8|_G8|_H8|___|
+/*		|100|101|___|___|___|___|___|___|___|109|
+/*		|110|111|___|___|___|___|___|___|___|119|
+/*
+/*El array guarda enteros que son las codificaciones de las piezas. Como el tablero de ajedrez en realidad tiene 64 casillas,
+/*las casillas que están fuera del tablero se rellenan como OFFBOARD. EL array de 120 nos permite un desarrollo más sencillo de la
+/* función de generar movimientos.
+/*
+/*Además de la estructura de pieces, tenemos un array donde guardamos las casillas de los reyes, que nos permiten controlar fácilmente cuando una 
+/* jugada es jaque. Tenemos un entero sobre a quién el toca jugar (WHITE o BLACK), un entero que guarda la casilla por la que se podría comer al paso
+/* (o EMPTY/NO_SQ) si no hay ninguna. Tenemos también un contador de la regla de las 50 jugada, para controlar los casos de tablas, un entero que muestra el
+/* número de jugadas (se incrementan en uno cada vez que alguien juega, no exactamente como en el juego normal) y un entero en el que están codificados los permisos de enroque.
+/* Hay también un array que guarda el número de piezas de cada tipo que hay en el tablero (pieces), Un array que guarda el material de la posición (definido en pieceVal),
+/* un array de estructuras UNDO que nos permite volver atrás en las jugadas junto a un entero histcont que muestra el número de elementos en S_UNDO.
+/***********************************************************/
+
 
 typedef struct {
 
