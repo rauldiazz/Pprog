@@ -126,7 +126,7 @@ typedef struct {
 } S_UNDO;
 
 /***********************************************************/
-/* Estructura: S_UNDO                             
+/* Estructura: TABLERO                           
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*
 /* Descripción:
@@ -155,7 +155,8 @@ typedef struct {
 /* (o EMPTY/NO_SQ) si no hay ninguna. Tenemos también un contador de la regla de las 50 jugada, para controlar los casos de tablas, un entero que muestra el
 /* número de jugadas (se incrementan en uno cada vez que alguien juega, no exactamente como en el juego normal) y un entero en el que están codificados los permisos de enroque.
 /* Hay también un array que guarda el número de piezas de cada tipo que hay en el tablero (pieces), Un array que guarda el material de la posición (definido en pieceVal),
-/* un array de estructuras UNDO que nos permite volver atrás en las jugadas junto a un entero histcont que muestra el número de elementos en S_UNDO.
+/* un array de estructuras UNDO que nos permite volver atrás en las jugadas junto a un entero histcont que muestra el número de elementos en S_UNDO. Finalmente
+/* tenemos un array bidimensional que guarda las casillas en las que se encuentran cada una de las piezas que hay de cada tipo.
 /***********************************************************/
 
 
@@ -187,10 +188,21 @@ typedef struct {
 	
 } TABLERO;
 
+/***********************************************************/
+/* Estructura: TABLERO                           
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*
+/* Descripción:
+/* Esta estructura es utilizada para la busqueda, en la función AlphaBeta. Contiene un entero, visited que indica el número
+/* de nodos visitados, otro entero, bestScore, que contiene la puntuación del mejor movimiento encontrado, y un último entero, depth,
+/* que indica hasta la profundidad hasta la que se debe de llegar
+/*
+/***********************************************************/
+
 typedef struct{
-	int visited;
+	int visited;//numero de nodos vis
 	int bestScore;
-	int depth;
+	int depth;//profundidad a la que
 
 }INFO;
 
