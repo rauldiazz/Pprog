@@ -211,6 +211,29 @@ MOVE **Generador_Movimientos(TABLERO *t, int *count){
 } 
 
 
+/***********************************************************/
+/* Función: AddMovePeon                
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:
+/* m = array de punteros a movimiento
+/* count = puntero al numero de elementos de m
+/* cas = casilla de salida del peón
+/* to = casilla a la que se mueve el peón
+/* to2 = casilla donde está la pieza a la que se comería al paso 
+/* captura = la pieza que se captura si no se captura ninugna EMPTY
+/* side = El lado al que le toca
+/* paso= la casilla a la que se come al paso si no se come EMPTY
+/*
+/* Retorno:
+/* Array de punteros a movimientos actualizado
+/*
+/* Descripción:
+/* Actualiza el array de punteros a movimientos añadiendole jugadas de peón que salen de una misma casilla
+/*
+/* Más en Datalle: Se mira si están en la penúltima fila para la coronación, si es una captura, si es al paso, etc.
+/***********************************************************/
+
 
 MOVE ** AddMovePeon (MOVE **m,  int *count, int cas, int to, int to2, int captura, int side, int paso){
     if (!m) return NULL;
@@ -250,6 +273,24 @@ MOVE ** AddMovePeon (MOVE **m,  int *count, int cas, int to, int to2, int captur
     }
     return m;
 }
+
+/***********************************************************/
+/* Función:Generador_Peones                
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:
+/* t = puntero al tablero en el que se está trabajando
+/* m = array de punteros a movimiento
+/* count = puntero al numero de elementos de m
+/*
+/* Retorno:
+/* Array de punteros a movimientos actualizado
+/*
+/* Descripción:
+/* Actualiza el array de punteros a movimientos añadiendole todas las jugadas de peón que se pueden hacer en una posición
+/*
+/* Más en Datalle: Para cada peón, mira las jugadas de avance, las jugadas de captura y las jugadas de captura al paso.
+/***********************************************************/
 
 
 MOVE ** Generador_Peones(TABLERO *t, MOVE **m, int *count ){
@@ -889,18 +930,17 @@ int print_moves(MOVE **m, int count){
 /* t=puntero al tablero
 /*
 /* Retorno:
-/* FALSE si algo falla o TRUE si todo va correctamente
+/* FALSE si algo falla o la jugada introducida es jaque y TRUE si todo va correctamente
 /*
 /* Descripción:
-/* Imprime por pantalla un movimiento mediante la sintaxis: 
-/* (P)from(x)to(=C) donde se da que:
-/*  - P corresponde a la pieza que se omite si se mueve un peón (en mayúsculas)
-/*  - from corresponde a la casilla desde la que se mueve la pieza (en minúsculas)
-/*  - x indica si hay captura. Si no hay captura se omite
-/*  - to corresponde a la casilla a la que va la pieza (en minúsculas)
-/*  - =C se escribe si hay una coronación y en C se escribe la pieza en la que se corona (en mayúsculas)
-/*  - En el caso de que el movimiento sea un enroque se escribirá WKCA, WQCA, BKCA o BQCA dependiendo del tipo de enroque y del bando
+/* Dada una jugada válida, la mueve en el tablero y actualiza sus parámetros.
 /*
+/* Más en detalle: La entrada debe de ser una jugada válida o una jugada de jaque. Si no se introduce una de estas jugadas,
+/* la función dará error y puede llevar a cambios irreparables en el tablero. La función separa en casos en función de la juagada intoducida
+/* Si la función es un enroque se presume que es válido y se mueven las piezas necesarias. En caso contrario, se comprueba si la jugada es jaque utilizando
+/* la función SqAttacked para ver si la casilla del rey está atacada. Si no está atacada, sustituye las pieza  from a to eliminando o añadiendo las piezas corresondientes.
+/* Se llama a la función Update list Material para actualizar el estado de las informaciones de los parámetros de tablero. Por último,
+/* además se incrementan los contadores de jugadas y se crea una estructura UNDO que se guarda para poder deshacer el movimiento. 
 /***********************************************************/
 
 
@@ -1130,7 +1170,25 @@ int HacerJugada(TABLERO *t,MOVE *m){
 
 }
 
-
+/***********************************************************/
+/* Función: DeshacerJugada           
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada: 
+/* 
+/* t=puntero al tablero
+/*
+/* Retorno:
+/* ninguno
+/*
+/* Descripción:
+/* Dado un tablero, deshace la última juga hecha.
+/*
+/* Más en detalle: Para deshacer la jugada se utiliza la estructura de S_UNDO que tiene el tablero. Se escoge su último elemento y
+/* se guardan sus parámetros en los parámetros del tablero. Gracias a su información se puede recuperar de donde vino la pieza que 
+/* se movió en la última jugada, si capturo una pieza cuál fue, si se comió al paso... El proceso simplemente es el de sobreescribir la información guardada en 
+/* la del tablero y liberar este último elemento de el array de S_UNDO
+/***********************************************************/
 
 
 void DeshacerJugada(TABLERO *t) {
