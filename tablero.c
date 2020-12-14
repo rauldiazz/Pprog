@@ -774,6 +774,21 @@ char * EscribirFen(TABLERO *t){
 	return fen;
 } 
 
+/***********************************************************/
+/* Función: Repetida                    
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* tab: puntero a un tablero
+/* times: número de veces que se repite la última jugada
+/*
+/* Retorno:
+/* valor TRUE/FALSE si la jugada está repetida o no
+/*
+/* Descripción:
+/* Determina una jugada está repetida o no y cuenta el número de veces que esta está repetida
+/***********************************************************/
+
 int Repetida(TABLERO *tab, int *times){
 
 	int i=0;
