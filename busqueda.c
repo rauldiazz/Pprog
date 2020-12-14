@@ -109,7 +109,7 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 /* Puntero al movimiento que se ha seleccionado tras la busqueda
 /* 
 /* Descripcion:
-/* Almacena los datos de labusqueda de alphabeta en info y devuelve el mejor movimiento para una posicion
+/* Almacena los datos de la busqueda de alphabeta en info y devuelve el mejor movimiento para una posicion
 /* 
 /***********************************************************/
 

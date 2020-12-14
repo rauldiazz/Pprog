@@ -327,6 +327,20 @@ void ResetBoard(TABLERO *pos) {
 	
 }
 
+/***********************************************************/
+/* Funcion: PrintBoard                           
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parametros de entrada:                                                 
+/* pos: puntero a un tablero
+/* 
+/* Retorno:
+/* void
+/*
+/* Descripción:
+/* Imprime el tablero contenido en pos
+/***********************************************************/
+
 void PrintBoard(const TABLERO *pos) {
 	
 	int pieza,fila,col,piezan;
