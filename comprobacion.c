@@ -5,6 +5,23 @@
 
 long nHojas;
 
+
+
+/***********************************************************/
+/* Función: Comprobación                       
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:  
+/* prof: profundidad del test                                               
+/* tab: puntero a un tablero
+/* 
+/* Retorno:
+/* void
+/*
+/* Descripción:
+/* Test que muestra todas las posiciones posibles para una determianda profundidad. (Función recursiva)
+/***********************************************************/
+
 void Comprobacion(int prof, TABLERO *pos) {
 
     int count=0;
@@ -39,6 +56,21 @@ void Comprobacion(int prof, TABLERO *pos) {
 
     return;
 }
+
+/***********************************************************/
+/* Función: Comprobacióntest                    
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:                                                 
+/* prof: profundidad del test
+/* pos: puntero a un tablero
+/*
+/* Retorno:
+/* void
+/*
+/* Descripción:
+/* Test que muestra todas las posiciones posibles para una determianda profundidad. (Función envolvente)
+/***********************************************************/
 
 
 void Comprobaciontest(int prof, TABLERO *pos) {
