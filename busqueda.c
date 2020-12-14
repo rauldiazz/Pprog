@@ -27,7 +27,7 @@
 /*
 /* Mas en Detalle:
 /* Implementa el algoritmo de poda alfabeta, cuyo proposito es encontrar el mejor movimiento. 
-/* Descarta las ramas del arbol que en función de los valores de alfa y beta que no hace falta explorar
+/* Descarta las ramas del arbol que en función de los valores de alfa y beta no hace falta explorar
 /***********************************************************/
 
 static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MOVE** Best) { 
