@@ -5,6 +5,22 @@
 
 #define MAXSTRJUGADA 16
 
+/***********************************************************/
+/* Función: is_Valid                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:
+/* m: puntero al movimiento que queremos ver si es válido
+/* t: puntero al tablero con la posición en la que queremos hacer el movimiento
+/* 
+/* Retorno:
+/* flag: La función devuelve FALSE si el movimiento no es válido y hay algún error y OK si el movimiento es válido
+/*
+/* Descripción:
+/* Función que comprueba si un movimiento es válido en una posición.
+/*
+/* Más en detalle: La función genera todos los movimientos posibles para la posición del tablero t y compara si el movimiento está entre ellos.
+/***********************************************************/
 
 int is_Valid(MOVE *m,TABLERO *t){
     int count = 0,i,flag = FALSE;
@@ -24,10 +40,39 @@ int is_Valid(MOVE *m,TABLERO *t){
         free_move(array[i]);
     }
     free(array);
-    //printf("Antes de return isvalid\n");
+
     return flag;
 
 }
+
+/***********************************************************/
+/* Función: LeerMovimiento                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:
+/* entrada: string que contiene la jugada introducida por teclado en formato: 
+/*  (P)from(x)to(=C) donde se da que:
+/*  - P corresponde a la pieza que se omite si se mueve un peón (en mayúsculas)
+/*  - from corresponde a la casilla desde la que se mueve la pieza (en minúsculas)
+/*  - x indica si hay captura. Si no hay captura se omite
+/*  - to corresponde a la casilla a la que va la pieza (en minúsculas)
+/*  - =C se escribe si hay una coronación y en C se escribe la pieza en la que se corona (en mayúsculas)
+/*  - En el caso de que el movimiento sea un enroque se escribirá 0-0 para el enroque en el ala de rey y 0-0-0 para el enroque en el ala de dama
+/*
+/* t: puntero al tablero con la posición en la que queremos hacer el movimiento
+/* 
+/* Retorno:
+/* La función devuelve un puntero a una estructura de movimiento si el movimiento es correcto y NULL si el movimiento es incorrecto 
+/*
+/* Descripción:
+/* Función que toma una cadena de caracteres con un movimiento (que generalmente vendrá de una entrada del teclado) y la transforma en una esturctura de movimiento.
+/* Es una función que sirve de traductor entre el humano y el módulo.
+/*
+/* Más en detalle: La función va separando entre los distintos casos descritos en el formato de entrada.Primero vemos si hay enroque, 
+/* después la primera pieza, la casilla from (vemos si es válida), si hay captura, la casilla from (vemos si es válida), la coronación 
+/* y el caso en el que se de una captura al paso. Con estos datos podemos crear un movimiento mediante move_insert y llamar a la función 
+/* is_Valid para ver si es correcto. En ese caso se devuelve el movimiento en cuestión.
+/***********************************************************/
 
 MOVE *LeerMovimiento(char *entrada, TABLERO *t){
     MOVE *m;
@@ -133,6 +178,26 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
     return NULL;
 
 }
+
+/***********************************************************/
+/* Función: Menu_juego                             
+/* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
+/*                                                         
+/* Parámetros de entrada:
+/* t: puntero al tablero con el que se va a jugar
+/* 
+/* Retorno:
+/* La función devuelve ERR si se ha producido algún error en el menú y OK si todo ha ido de manera correcta
+/*
+/* Descripción:
+/* Función que ejecuta un menú básico de juego
+/*
+/* Más en detalle: La función pregunta al usuario en que bando quiere jugar. Una vez que lo decide dependiendo de quien sea el turno,
+/* llama al módulo para que haga una jugada o al usuario a que introduzca una jugada por teclado. Cuando la introduce el usuario,
+/* llama a la función LeerMovimiento para comprobar si es correcta. Cuando le toca al módulo, llama a la función SearchPosition
+/* que devuelve la jugada que hace el módulo. Una vez tenemos una jugada correcta, llamamos a HacerJugada para moverla y cambiamos a 
+/* quien le toca. Se saldrá de la función cuando se llegue a una posición de tablas, o mate de una de las dos partes.
+/***********************************************************/
 
 
 int Menu_juego(TABLERO *tab){
