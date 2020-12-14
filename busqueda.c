@@ -8,10 +8,10 @@
 #define NOMOV 0
 
 /***********************************************************/
-/* Funcion: Alphabeta                             
+/* Función: Alphabeta                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*                                                         
-/* Parametros de entrada:
+/* Parámetros de entrada:
 /* alpha: mejor opcion para el maximizador
 /* beta: mejor opcion para el minimizador
 /* depth: profundidad del algoritmo                                                  
@@ -98,10 +98,10 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 
 
 /***********************************************************/
-/* Funcion: SearchPosition                             
+/* Función: SearchPosition                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
 /*                                                         
-/* Parametros de entrada:                                            
+/* Parámetros de entrada:                                            
 /* pos: puntero a un tablero
 /* info: puntero a tipo de dato info con los datos de la busqueda
 /* 
