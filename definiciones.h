@@ -24,7 +24,7 @@ exit(1);}
 #define CAMBIO_LADO 6 
 #define MAXFEN 128
 #define MAXGAMEMOVES 2048
-#define PROFUNDIDAD 4
+#define PROFUNDIDAD 8
 
 /***********************************************************/
 /* MACRO: START_FEN                             
@@ -200,9 +200,13 @@ typedef struct {
 /***********************************************************/
 
 typedef struct{
-	int visited;//numero de nodos vis
+	int visited;//numero de nodos visitados 
 	int bestScore;
-	int depth;//profundidad a la que
+	int depth;//profundidad a la que se enceuntra
+	double tiempo;
+	double maxtemp;
+	int stop;
+	
 
 }INFO;
 
