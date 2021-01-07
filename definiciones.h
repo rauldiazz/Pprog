@@ -80,7 +80,7 @@ enum {
 
 enum { FALSE, TRUE };
 enum {ERR=-1,OK=1};
-enum {GANAN_NEGRAS = 2, TABLAS, GANAN_BLANCAS};
+enum {GANAN_NEGRAS = 2, TABLAS, GANAN_BLANCAS,EXIT,MOD};
 
 
 enum { WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8 };
