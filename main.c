@@ -2,7 +2,10 @@
 #include "definiciones.h"
 #include "stdlib.h"
 
-#define FEN1 "7k/6pp/8/8/8/8/3R1K2/8 w  - - 0 1"
+//Posiciones para probar la partida empezada desde una determinada posición, en caso de querer usarse simplemente en la llamada
+//a LeerFen, en vez de START_FEN se pone FEN1 o la que se quiera usar.
+
+#define FEN1 "8/2k5/1p6/8/p7/3K3P/6P1/8 w  - - 0 1"
 #define FEN2 "5rk1/4bppp/4p3/8/p3PP2/3K3R/8/8 w  - - 0 1"
 #define FEN3 "8/8/2k5/7R/8/8/8/2K3R1 w  - - 0 1"
 #define FEN4 "8/8/2k3b1/8/8/8/8/2K5 w  - - 0 1"
@@ -17,6 +20,7 @@
 #define FENAUX "r3k2r/ppp2pQp/2n5/3n4/8/8/RPPP1PBP/2B1K2R w Kkq - 0 1"
 #define FENAB "6k1/R4p2/2r4p/3r2P1/5P2/3P4/6P1/3R2K1 w  - - 0 1"
 
+
 int main() {	
 
 	TABLERO *tab=NULL;
@@ -24,80 +28,14 @@ int main() {
 	char *fen,jugadachar[512];
 	int i, valor;
 	INFO *info;
-	//info=(INFO*)malloc(sizeof(INFO));
-	//if(!info)return -1;
 
-	//info->depth=1;
-	//printf("holaaa\n");
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(START_FEN, tab);
+	LeerFen(FEN1, tab);
 
 	Menu_juego(tab);
 	Free_tablero(tab);
-
-	/*PrintBoard(tab);
-
-	
-
-	jugada=SearchPosition(tab, info);
-	printf("\n\n\n");
-	PrintMove(jugada);
-
-	HacerJugada(tab, jugada);
-
-*/
-	
-
-	
-/*
-	
-
-	jugada = insert_move(EMPTY,A4,E8,wQ,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,E6,D6,bK,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,E8,D8,wQ,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,D6,E6,bK,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,D8,E8,wQ,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,E6,D6,bK,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,E8,D8,wQ,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,D6,E6,bK,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,D8,E8,wQ,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	if(esTablas(tab)==TRUE)printf("POR TABLAS1\n");
-	if(FinPartida(tab)==TRUE)printf("ESTO SE ACABO1\n");
-	jugada = insert_move(EMPTY,E6,D6,bK,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	if(esTablas(tab)==TRUE)printf("POR TABLAS1\n");
-	if(FinPartida(tab)==TRUE)printf("ESTO SE ACABO2\n");
-	jugada = insert_move(EMPTY,E8,D8,wQ,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	if(esTablas(tab)==TRUE)printf("POR TABLAS1\n");
-	if(FinPartida(tab)==TRUE)printf("ESTO SE ACABO2\n");
-	jugada = insert_move(EMPTY,D6,E6,bK,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	
-	jugada = insert_move(EMPTY,D8,E8,wQ,EMPTY,EMPTY,EMPTY);
-	HacerJugada(tab,jugada);
-	*/
-
-	/*Comprobaciontest(7, tab);*/
 
 	return 0;
 }

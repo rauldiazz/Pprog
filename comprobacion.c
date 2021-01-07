@@ -1,11 +1,7 @@
-
-
 #include "definiciones.h"
 #include "stdio.h"
 
 long nHojas;
-
-
 
 /***********************************************************/
 /* Función: Comprobación                       
@@ -46,7 +42,6 @@ void Comprobacion(int prof, TABLERO *pos) {
             free_move(m[MoveNum]);
             continue;
         }
-        //PrintBoard(pos);
         Comprobacion(prof - 1, pos);
         DeshacerJugada(pos);
         free_move(m[MoveNum]);
@@ -86,9 +81,6 @@ void Comprobaciontest(int prof, TABLERO *pos) {
     MOVE **m=NULL;
     m=Generador_Movimientos(pos, &count);
     if(!m)return;
-    //print_moves(m,count);
-
-
 
     int MoveNum = 0;
 	for(MoveNum = 1; MoveNum < count; ++MoveNum) {
@@ -97,10 +89,9 @@ void Comprobaciontest(int prof, TABLERO *pos) {
             continue;
         }
         long alcanzados = nHojas;
-        //PrintBoard(pos);
+
         Comprobacion(prof - 1, pos);
         DeshacerJugada(pos);
-        //PrintBoard(pos);
                 
         long nAnt = nHojas - alcanzados;
         printf("move %d : ",MoveNum);

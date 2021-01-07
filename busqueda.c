@@ -104,6 +104,12 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		Score = -AlphaBeta( -beta, -alpha, depth-1, pos, info, Best);		
         DeshacerJugada(pos);
 		if(Score >= beta) {
+			for(index=0; index<(count);index++){
+			free_move(movelist[index]);
+			}
+
+			free(movelist);
+
 			return beta;
 		}
 		if(Score > alpha) {
@@ -111,10 +117,6 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 			if(depth == info->depth && info->stop==FALSE){  /* IMPORTANTE*/
 				free_move(*Best);
 				(*Best)=move_copy(movelist[index]);
-                /*PrintMove(*Best);
-              
-                printf("   %d\n",Score);*/
-                
 
 			}
 		}	
@@ -123,15 +125,15 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		free_move(movelist[index]);
 		
 	}
-	
+	free(movelist);
 	if(Legal == 0) {
 		if(SqAttacked(pos->KingSq[pos->side],pos->side^1,pos)) {
+			
 			return -JAQUEMATE+ pos->j_real;
 		} else {
 			return 0;
 		}
 	}
-	free(movelist);
 
 	return alpha;
 } 
@@ -165,7 +167,7 @@ MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
     /*Inicializacion de campos de info*/
 
 	info->tiempo=0;
-	info->maxtemp=1000000;
+	info->maxtemp=TIEMPO_MAX;
 	info->visited=0;
 	info->stop=FALSE;
 
@@ -176,7 +178,6 @@ MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 	
 	retorno=move_copy(*Best);
 	free(*Best);
-	PrintMove(retorno);
 
 
 	for(depth=2; depth<PROFUNDIDAD; depth++){
@@ -184,7 +185,6 @@ MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 		info->depth=depth;
 		bestScore = AlphaBeta(-INFINITO, INFINITO, depth, pos, info,Best);
 		
-		printf(" INFOO= %d \n",info->stop);
 		if (info->stop== FALSE){
 			info->bestScore=bestScore;
 		
@@ -195,17 +195,10 @@ MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 		}else {
 			break;
 		}
-		printf("Depth: %d\n", depth);
+		printf("	Depth: %d\n", depth);
 	}
-	
-	
-	
-	
 
-	/*retorno=(*Best);*/
-	/*free(Best);*/
 	free(Best);
-	printf("HOLAAAA= \n");
-	PrintMove(retorno);
+
 	return retorno;
 }

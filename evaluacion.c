@@ -194,7 +194,6 @@ int ** GeneratePawnArrays(const TABLERO *pos){
 	for (i=0;i<nWhite;i++){
 
 		casilla = pos->pList[wP][i];
-		//casilla64 = C120a64(casilla);
 		array[0][casilla]=1;
 
 	}
@@ -202,7 +201,6 @@ int ** GeneratePawnArrays(const TABLERO *pos){
 	for (i=0;i<nBlack;i++){
 
 		casilla = pos->pList[bP][i];
-		//casilla64 = C120a64(casilla);
 		array[1][casilla]=1;
 
 	}
@@ -214,12 +212,10 @@ int PassedPawn(int ** pArray, int casilla120, int side){
 	int columna=Cas_Col(casilla120), fila=Cas_Fila(casilla120);
 	int casilla;
 	int contr=side^1, i, j;
-	//printf("%d	%d	%d\n\n", columna, fila, contr);
+
 	for(i=columna-1;i<=columna+1;i++){
 		for(j=fila+1;j<8;j++){
 			casilla=((FCCAS(i,j)));
-			//printf("\n%d	%d	%d\n", casilla, i, j);
-			//printf("OK hasta el PUTO ARRAY\n");
 			if(pArray[contr][casilla]==1)return FALSE;
 		}
 	}
@@ -267,8 +263,6 @@ int OpenSemiOpenCol(int ** pArray, int casilla120, int side){
 
 	}
 	return flag;
-
-
 }
 
 int EvalPosition(const TABLERO *pos)
@@ -284,8 +278,6 @@ int EvalPosition(const TABLERO *pos)
 	}
 
 	array=GeneratePawnArrays(pos);
-
-	//printf("%d\n", array[0][10]);
 
 	pce = wP;
 	for (npiezas = 0; npiezas < pos->pceNum[pce]; npiezas++)
