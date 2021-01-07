@@ -6,7 +6,7 @@
 //a LeerFen, en vez de START_FEN se pone FEN1 o la que se quiera usar.
 
 #define FEN1 "8/2k5/1p6/8/p7/3K3P/6P1/8 w  - - 0 1"
-#define FEN2 "5rk1/4bppp/4p3/8/p3PP2/3K3R/8/8 w  - - 0 1"
+#define FEN2 "1k6/8/8/8/8/8/8/K5QR w  - - 0 1"
 #define FEN3 "8/8/2k5/7R/8/8/8/2K3R1 w  - - 0 1"
 #define FEN4 "8/8/2k3b1/8/8/8/8/2K5 w  - - 0 1"
 #define FEN5 "rnbqkb1r/pp1p1pPp/8/2p1pP2/1P1P4/3P3P/P1P5/RNBQKBNR w KQkq e6 0 1"
@@ -32,7 +32,7 @@ int main() {
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FEN1, tab);
+	LeerFen(FEN2, tab);
 
 	Menu_juego(tab);
 	Free_tablero(tab);

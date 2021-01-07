@@ -354,7 +354,7 @@ int LeerFen(char *fen, TABLERO *pos) {
 	
 	pos->enroque = 0;
 	for (i = 0, flag = 1; i < 4 && flag == 1; i++) {
-        //if (*fen == ' ') flag = 0;	
+
 		switch(*fen) {
 			case 'K': pos->enroque += WKCA; fen++; break;
 			case 'Q': pos->enroque += WQCA; fen++; break;
@@ -529,9 +529,7 @@ void PrintBoard(const TABLERO *pos) {
 			if(piezan==12)
 			printf("♚");
 			printf(" ");
-			/*if(cont%2==1)  printf("\e[0;30m\e[47m");
-			if(cont%2==0) 	printf("\e[0;40m\e[37m");
-			printf(" ");*/
+
 			printf("\e[0m");
 
 		}
@@ -695,7 +693,7 @@ char * EscribirFen(TABLERO *t){
 	if(!(fen = (char*)malloc(MAXFEN*sizeof(char)))) return NULL;
 
 	for(i=64;i>0 && flag == TRUE;i--){
-		/*printf("ln es %d\n",ln);*/
+
 		a = i + 6 -2*((i-1) %8);
 		pieza = t->pieces[C64a120(a)];
 		if(i!= 64 && i%8 ==0){
@@ -713,7 +711,7 @@ char * EscribirFen(TABLERO *t){
 			cont++;
 			break;
 		case OFFBOARD: 
-			/*printf("la casilla %d es OFFBOARD, i es %d\n", C64a120(i-1), i);*/
+
 			flag = FALSE;
 			break;
 

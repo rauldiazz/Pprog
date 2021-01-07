@@ -131,18 +131,15 @@ S_UNDO *create_UNDO (MOVE *jugada){
 MOVE* insert_move(int castle, int from, int to, int pieza, int captura, int corona, int paso){
     MOVE  *m;
     m = create_move();
-    //printf("Después de create move\n");
+
     if (!m) return NULL;        
     m->castle = castle;
     m->from = from;
     m->to =to;
-    /*printf("antes de piezas\n");*/
     m->piezas[0] = pieza;
     m->piezas[1] = captura;
     m->piezas[2] = corona;
-    /*printf("Despues de piezass\n");*/
     m->paso = paso;
-    /*printf("ANtes de return \n");*/
     return m;
 }
 
@@ -237,7 +234,7 @@ MOVE **Generador_Movimientos(TABLERO *t, int *count){
 
 MOVE ** AddMovePeon (MOVE **m,  int *count, int cas, int to, int to2, int captura, int side, int paso){
     if (!m) return NULL;
-    //printf("Empezamos Add Move\n");
+
     if(Cas_Fila(cas) == FILA_7 - side*5){
         
         m = realloc(m,(*count + 4)*sizeof(MOVE*));
@@ -250,26 +247,23 @@ MOVE ** AddMovePeon (MOVE **m,  int *count, int cas, int to, int to2, int captur
         (*count) ++;
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, CAMBIO_LADO*side + wQ, paso);
         (*count) ++;
-        //printf("primer if\n");
+ 
     }
     else if (Cas_Fila(cas) == FILA_2 +side*5 && captura == EMPTY && to2 == EMPTY){
-       // printf("Antes de realloc\n");
+
         m = realloc(m, (*count + 2)*sizeof(MOVE*));
         if (!m) return NULL;
-        //printf("después de realloc\n");
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, EMPTY, paso);
-        //printf("Después de insertmove");
         (*count)++;
         m[*count] = insert_move(EMPTY,cas, to + 10 - 20*side,CAMBIO_LADO*side + wP, captura, EMPTY, paso);
         (*count)++;
-        //printf("segundo if\n");
+
     }
     else{
         m = realloc(m, (*count +1)*sizeof(MOVE*));
         if (!m) return NULL;
         m[*count] = insert_move(EMPTY,cas, to,CAMBIO_LADO*side + wP, captura, EMPTY, paso);
         (*count)++;
-        //printf("else\n");
     }
     return m;
 }
@@ -1047,7 +1041,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
             }
 
             if (m->piezas[2] != EMPTY) t->pieces[m->to] = m->piezas[2];
-            //if (m->paso!= EMPTY && m->paso!= NO_SQ) t->pieces[m->to -10 +20*t->side]=EMPTY;
+
     } 
 
     UpdateListsMaterial(t);
@@ -1112,7 +1106,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
             }
         aux = t->enroque;
         if(t->pieces[m->to]==bK){
-            //printf("Se ha movido el negro\n");
+
             aux-=BQCA;
             if(aux>=0){
                 t->enroque-=8;
@@ -1124,10 +1118,10 @@ int HacerJugada(TABLERO *t,MOVE *m){
         }
 
         else if(t->pieces[m->to]==bR){
-            //printf("Se ha movido el rey negro\n");
+
             aux-=BQCA;
             if(m->from==A8){
-                //printf("Se ha movido la torre de A8\n");
+
                 if(aux>=0){                   
                     t->enroque-=8;
                 }
@@ -1137,7 +1131,7 @@ int HacerJugada(TABLERO *t,MOVE *m){
             }
             else if(m->from==H8){
                 if(aux<0)aux=t->enroque;
-                //printf("Se ha movido la torre de H8\n");
+
                 aux-=BKCA;
                 if(aux>=0)t->enroque-=4;
             }
