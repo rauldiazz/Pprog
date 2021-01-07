@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "definiciones.h"
+#include <time.h>
 
 
 #define INFINITO 50000
@@ -36,14 +37,29 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 	MOVE ** movelist;
 	int count,c;
 	int index=0;
+	double tiempo;
+	clock_t c1, c2,c3,c4;
 
 
 	ASSERT(CheckBoard(pos)); 
+
+	if(info->stop==TRUE){
+		return 0;
+	}
 	
+
+	if(info->tiempo >=info->maxtemp){
+			info->stop=TRUE;
+			return 0;
+	}
+
+
+	c1 = clock();         /*Clock 1*/
+
 	if(depth == 0) {
 		info->visited++;
 		
-		return EvalPosition(pos);// hacer evalucacion
+		return EvalPosition(pos);
 	}
 	info->visited++;
 	
@@ -57,14 +73,34 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
     movelist = Generador_Movimientos(pos,&count); 
       
     
+	c2 = clock();      /* clock 2*/
+
+   
+	/*Actualizacion del tiempo*/
+	tiempo = (double)(c2-c1);    
+	info->tiempo+= tiempo;
+
+	
+	
 	for(index= 1; index< count; index++) {	
+
+
+		c3=clock();
        
         if ( HacerJugada(pos,movelist[index])==FALSE)  {
             continue;
         }
         
 		Legal++;
+
+
+		c4=clock();
+
+		/*Actualizacion del tiempo*/
+		tiempo = (double)(c4-c3); 
+		info->tiempo+= tiempo;
 		
+
 		Score = -AlphaBeta( -beta, -alpha, depth-1, pos, info, Best);		
         DeshacerJugada(pos);
 		if(Score >= beta) {
@@ -72,12 +108,12 @@ static int AlphaBeta(int alpha, int beta, int depth, TABLERO *pos, INFO *info,MO
 		}
 		if(Score > alpha) {
 			alpha = Score;
-			if(depth == PROFUNDIDAD){
+			if(depth == info->depth && info->stop==FALSE){  /* IMPORTANTE*/
 				free_move(*Best);
 				(*Best)=move_copy(movelist[index]);
-                PrintMove(*Best);
+                /*PrintMove(*Best);
               
-                printf("   %d\n",Score);
+                printf("   %d\n",Score);*/
                 
 
 			}
@@ -123,13 +159,53 @@ MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 	MOVE *retorno;
 	Best=(MOVE**)malloc(sizeof(MOVE*));
 	int bestScore = -INFINITO;
-	int actualDepth = info->depth;
+	int depth;
 	*Best=NULL;
 
-		bestScore = AlphaBeta(-INFINITO, INFINITO, actualDepth, pos, info,Best);
-		info->bestScore=bestScore;
-		PrintMove((*Best));
-	retorno=(*Best);
+    /*Inicializacion de campos de info*/
+
+	info->tiempo=0;
+	info->maxtemp=1000000;
+	info->visited=0;
+	info->stop=FALSE;
+
+
+	info->depth=1;
+	bestScore = AlphaBeta(-INFINITO, INFINITO, 1, pos, info,Best);
+	info->bestScore=bestScore;
+	
+	retorno=move_copy(*Best);
+	free(*Best);
+	PrintMove(retorno);
+
+
+	for(depth=2; depth<PROFUNDIDAD; depth++){
+		*Best=NULL;
+		info->depth=depth;
+		bestScore = AlphaBeta(-INFINITO, INFINITO, depth, pos, info,Best);
+		
+		printf(" INFOO= %d \n",info->stop);
+		if (info->stop== FALSE){
+			info->bestScore=bestScore;
+		
+			free(retorno);
+			retorno=move_copy(*Best);
+			free(*Best);
+			PrintMove(retorno);
+		}else {
+			break;
+		}
+		printf("Depth: %d\n", depth);
+	}
+	
+	
+	
+	
+
+	/*retorno=(*Best);*/
+	/*free(Best);*/
 	free(Best);
+	printf("HOLAAAA= \n");
+	PrintMove(retorno);
 	return retorno;
 }
