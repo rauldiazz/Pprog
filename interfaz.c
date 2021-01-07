@@ -210,8 +210,8 @@ int ObtenerJugada(TABLERO *tab){
             }
             if(strncmp(entradajugada,"mod",3)==0){
                 JuegaModulo(tab);
+                if (FinPartida(tab) != FALSE)break;
                 flag = ObtenerJugada(tab);
-                if (flag == OK) flag = MOD;
                 break;
             }
             jugada = LeerMovimiento(entradajugada,tab);
@@ -227,6 +227,7 @@ int ObtenerJugada(TABLERO *tab){
 
     }while(flag == OK && !jugada);
 
+    printf("Al final de obtener jugada\n");
     free_move(jugada);
     return flag;
 }
@@ -256,13 +257,12 @@ int ObtenerJugada(TABLERO *tab){
 int Menu_juego(TABLERO *tab){
     int flag = OK;
     int flag1;
-    INFO info;
+
     char bando='\0';
     char entradajugada[MAXSTRJUGADA]="\0";
-    MOVE *jugada=NULL;
+
     int acabar = FALSE;
 
-    info.depth = PROFUNDIDAD;
     printf("¡¡¡Bienvenido a nuestro modulo de ajedrez!!!\n\n");
 
     do{
@@ -309,7 +309,7 @@ int Menu_juego(TABLERO *tab){
         }
         else{
             if((flag = ObtenerJugada(tab))==EXIT) acabar =EXIT;
-            if (flag == MOD)flag = OK;
+
             }
 
         PrintBoard(tab);
