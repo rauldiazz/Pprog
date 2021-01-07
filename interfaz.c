@@ -179,6 +179,59 @@ MOVE *LeerMovimiento(char *entrada, TABLERO *t){
 
 }
 
+void JuegaModulo(TABLERO *tab){
+    MOVE *jugada=NULL;
+    INFO info;
+    info.depth = PROFUNDIDAD;
+    jugada = SearchPosition(tab,&info);
+    HacerJugada(tab,jugada);
+    PrintBoard(tab);
+    printf("El módulo ha jugado ");
+    PrintMove(jugada);
+    printf("\n\n");
+    free_move(jugada);
+}
+
+
+int ObtenerJugada(TABLERO *tab){
+    int flag = OK;
+    char entradajugada[MAXSTRJUGADA]="\0";
+    MOVE *jugada=NULL;
+
+    do{
+        printf("Introduzca su jugada:\n");
+        fflush(stdin);
+        if(fgets(entradajugada, sizeof(entradajugada),stdin) == NULL) flag = ERR;
+        //printf("Tu jugada ha sido:%s;\n",entradajugada);
+        if(flag != ERR){
+            if(strncmp(entradajugada,"exit",4)==0){
+                flag = EXIT;
+                break;
+            }
+            if(strncmp(entradajugada,"mod",3)==0){
+                JuegaModulo(tab);
+                flag = ObtenerJugada(tab);
+                if (flag == OK) flag = MOD;
+                break;
+            }
+            jugada = LeerMovimiento(entradajugada,tab);
+            if(!jugada) printf("Jugada inválida.\n");
+            else{
+                if(HacerJugada(tab, jugada) == FALSE){
+                printf("jugada inválida.\n");
+                free_move(jugada);
+                jugada = NULL;
+                }
+            }
+        }
+
+    }while(flag == OK && !jugada);
+
+    free_move(jugada);
+    return flag;
+}
+
+
 /***********************************************************/
 /* Función: Menu_juego                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
@@ -227,88 +280,46 @@ int Menu_juego(TABLERO *tab){
     if(bando == 'w'){
         PrintBoard(tab);
 
-        do{
-            printf("Introduzca su jugada:\n");
-            fflush(stdin);
-            if(fgets(entradajugada, sizeof(entradajugada),stdin) == NULL) flag = ERR;
-            //printf("Tu jugada ha sido:%s;\n",entradajugada);
-            if(flag != ERR){
-                jugada = LeerMovimiento(entradajugada,tab);
-                if(!jugada) printf("Jugada inválida.\n");
-                else{
-                    if(HacerJugada(tab, jugada) == FALSE){
-                    printf("jugada inválida.\n");
-                    free_move(jugada);
-                    jugada = NULL;
-                    }
-                }
-            }
-
-        }while(flag == OK && !jugada);
-
-        free_move(jugada);
-        jugada=NULL;
+        if((flag = ObtenerJugada(tab))==EXIT) acabar =EXIT;
     }
-
-    acabar = FinPartida(tab);
+    
+    if(acabar != EXIT) acabar = FinPartida(tab);
     if(acabar != FALSE){
         switch (acabar){
             case GANAN_NEGRAS: printf("Las negras han ganado esta partida. Bien jugado\n"); break;
             case TABLAS: printf("Esta partida ha sido tablas. Bien jugado\n"); break;
             case GANAN_BLANCAS: printf("Las blancas han ganando esta partida. Bien jugado\n"); break;
+            case EXIT: printf("Se ha cancelado la partida. Hasta luego\n"); break;
             default:break;
         }
     }
     PrintBoard(tab);
     while(flag == OK && acabar == FALSE){
-        jugada = SearchPosition(tab,&info);
-        HacerJugada(tab,jugada);
-        PrintBoard(tab);
-        printf("El módulo ha jugado ");
-        PrintMove(jugada);
-        printf("\n\n");
-        free_move(jugada);
-        jugada=NULL;
+        JuegaModulo(tab);
+
         acabar = FinPartida(tab);
         if(acabar != FALSE){
             switch (acabar){
                 case GANAN_NEGRAS: printf("Las negras han ganado esta partida. Bien jugado\n"); break;
                 case TABLAS: printf("Esta partida ha sido tablas. Bien jugado\n"); break;
                 case GANAN_BLANCAS: printf("Las blancas han ganando esta partida. Bien jugado\n"); break;
+                case EXIT: printf("Se ha cancelado la partida. Hasta luego\n"); break;
                 default:break;
             }
         }
         else{
-            do{
-                printf("Introduzca su jugada:\n");
-                fflush(stdin);
-                if(fgets(entradajugada, sizeof(entradajugada),stdin) == NULL) flag = ERR;
-                //printf("Tu jugada ha sido:%s;\n",entradajugada);
-                if(flag != ERR){
-                    jugada = LeerMovimiento(entradajugada,tab);
-                    if(!jugada) printf("Jugada inválida.\n");
-                    else{
-                        if(HacerJugada(tab, jugada) == FALSE){
-                            
-                            free_move(jugada);
-                            jugada = NULL;
-                        }
-                       
-                    }
-                }
-
-            }while(flag == OK && !jugada);
-
-            free_move(jugada);
-            jugada=NULL;
+            if((flag = ObtenerJugada(tab))==EXIT) acabar =EXIT;
+            if (flag == MOD)flag = OK;
             }
+
         PrintBoard(tab);
-        acabar = FinPartida(tab);
+        if(acabar != EXIT) acabar = FinPartida(tab);
         if(acabar != FALSE){
             switch (acabar){
                 case GANAN_NEGRAS: printf("Las negras han ganado esta partida. Bien jugado\n"); break;
                 case TABLAS: printf("Esta partida ha sido tablas. Bien jugado\n"); break;
                 case GANAN_BLANCAS: printf("Las blancas han ganando esta partida. Bien jugado\n"); break;
+                case EXIT: printf("Se ha cancelado la partida. Hasta luego\n"); break;
                 default:break;
             }
         }
