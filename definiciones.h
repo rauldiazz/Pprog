@@ -24,8 +24,8 @@ exit(1);}
 #define CAMBIO_LADO 6 
 #define MAXFEN 128
 #define MAXGAMEMOVES 2048
-#define PROFUNDIDAD 16
-#define TIEMPO_MAX 2000000
+#define PROFUNDIDAD 100
+#define TIEMPO_MAX 2500000
 /***********************************************************/
 /* MACRO: START_FEN                             
 /* Autores: Omicron: Pablo Soto, Sergio Leal, Raúl Díaz                                  
