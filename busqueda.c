@@ -17,8 +17,8 @@
 /* beta: mejor opcion para el minimizador
 /* depth: profundidad del algoritmo                                                  
 /* pos: puntero a un tablero
-/* info: puntero a tipo de dato info con los datosm de la busqueda
-/* best: puntero donde se almacenara el movimiento seleccioando
+/* info: puntero a tipo de dato info con los datos de la busqueda
+/* best: puntero donde se almacenara el movimiento seleccionado
 /* 
 /* Retorno:
 /* alfa: alfa/beta en cada caso
@@ -193,6 +193,7 @@ MOVE* SearchPosition(TABLERO *pos, INFO  *info) {
 			free(*Best);
 			PrintMove(retorno);
 		}else {
+			free(*Best);
 			break;
 		}
 		printf("	Depth: %d\n", depth);
