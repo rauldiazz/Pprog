@@ -227,7 +227,7 @@ int ObtenerJugada(TABLERO *tab){
 
     }while(flag == OK && !jugada);
 
-    printf("Al final de obtener jugada\n");
+    
     free_move(jugada);
     return flag;
 }

@@ -24,7 +24,7 @@ exit(1);}
 #define CAMBIO_LADO 6 
 #define MAXFEN 128
 #define MAXGAMEMOVES 2048
-#define PROFUNDIDAD 8
+#define PROFUNDIDAD 16
 #define TIEMPO_MAX 2000000
 /***********************************************************/
 /* MACRO: START_FEN                             
