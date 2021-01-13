@@ -32,7 +32,7 @@ int main() {
 	tab=Create_tablero();
 	InitFILAsCOLsBrd();
 
-	LeerFen(FEN8, tab);
+	LeerFen(START_FEN, tab);
 
 	Menu_juego(tab);
 	Free_tablero(tab);
